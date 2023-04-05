@@ -42,7 +42,7 @@
 
 		<dependency>
 			<groupId>org.jeecgframework.boot</groupId>
-			<artifactId>jeecg-boot-module-demo</artifactId>
+			<artifactId>jeecg-boot-module-wms</artifactId>
 			<version>${jeecgboot.version}</version>
 		</dependency>
 		<dependency>
