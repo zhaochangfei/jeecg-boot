@@ -1,15 +1,15 @@
 <template>
   <div class="main">
     <a-form-model class="user-layout-login" @keyup.enter.native="handleSubmit">
-      <a-tabs :activeKey="customActiveKey" :tabBarStyle="{ textAlign: 'center', borderBottom: 'unset' }"  @change="handleTabClick">
-        <a-tab-pane key="tab1" tab="账号密码登录">
+<!--      <a-tabs :activeKey="customActiveKey" :tabBarStyle="{ textAlign: 'center', borderBottom: 'unset' }"  @change="handleTabClick">-->
+<!--        <a-tab-pane key="tab1" tab="账号密码登录">-->
           <login-account ref="alogin" @validateFail="validateFail" @success="requestSuccess" @fail="requestFailed"></login-account>
-        </a-tab-pane>
+<!--        </a-tab-pane>-->
 
-        <a-tab-pane key="tab2" tab="手机号登录">
-          <login-phone ref="plogin" @validateFail="validateFail" @success="requestSuccess" @fail="requestFailed"></login-phone>
-        </a-tab-pane>
-      </a-tabs>
+<!--        <a-tab-pane key="tab2" tab="手机号登录">-->
+<!--          <login-phone ref="plogin" @validateFail="validateFail" @success="requestSuccess" @fail="requestFailed"></login-phone>-->
+<!--        </a-tab-pane>-->
+<!--      </a-tabs>-->
 
       <a-form-model-item>
         <a-checkbox @change="handleRememberMeChange" default-checked>自动登录</a-checkbox>
@@ -163,6 +163,7 @@
 </script>
 <style lang="less" scoped>
   .user-layout-login {
+    margin-top: 40px;
     label {
       font-size: 14px;
     }
