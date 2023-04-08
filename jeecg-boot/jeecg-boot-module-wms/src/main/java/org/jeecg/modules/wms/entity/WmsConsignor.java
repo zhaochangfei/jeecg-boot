@@ -20,7 +20,7 @@ import lombok.experimental.Accessors;
 /**
  * @Description: 发货人员信息表
  * @Author: jeecg-boot
- * @Date:   2023-04-05
+ * @Date:   2023-04-08
  * @Version: V1.0
  */
 @Data
@@ -70,6 +70,33 @@ public class WmsConsignor implements Serializable {
 	@Excel(name = "详细地址", width = 15)
     @ApiModelProperty(value = "详细地址")
     private java.lang.String address;
+	/**打卡*/
+	@Excel(name = "打卡", width = 15,dicCode = "is_zc")
+    @ApiModelProperty(value = "打卡")
+    @Dict(dicCode = "is_zc")
+    private java.lang.String clockIn;
+	/**月结*/
+	@Excel(name = "月结", width = 15,dicCode = "is_zc")
+    @ApiModelProperty(value = "月结")
+    @Dict(dicCode = "is_zc")
+    private java.lang.String monthlyStatement;
+	/**回单付*/
+	@Excel(name = "回单付", width = 15,dicCode = "is_zc")
+    @ApiModelProperty(value = "回单付")
+    @Dict(dicCode = "is_zc")
+    private java.lang.String hdf;
+	/**城市*/
+	@Excel(name = "城市", width = 15)
+    @ApiModelProperty(value = "城市")
+    private java.lang.String city;
+	/**银行*/
+	@Excel(name = "银行", width = 15)
+    @ApiModelProperty(value = "银行")
+    private java.lang.String bank;
+	/**银行卡*/
+	@Excel(name = "银行卡", width = 15)
+    @ApiModelProperty(value = "银行卡")
+    private java.lang.String bankCard;
 	/**备注*/
 	@Excel(name = "备注", width = 15)
     @ApiModelProperty(value = "备注")

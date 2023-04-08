@@ -142,6 +142,36 @@
             dataIndex: 'address'
           },
           {
+            title:'打卡',
+            align:"center",
+            dataIndex: 'clockIn'
+          },
+          {
+            title:'月结',
+            align:"center",
+            dataIndex: 'monthlyStatement'
+          },
+          {
+            title:'回单付',
+            align:"center",
+            dataIndex: 'hdf'
+          },
+          {
+            title:'城市',
+            align:"center",
+            dataIndex: 'city'
+          },
+          {
+            title:'银行',
+            align:"center",
+            dataIndex: 'bank'
+          },
+          {
+            title:'银行卡',
+            align:"center",
+            dataIndex: 'bankCard'
+          },
+          {
             title:'备注',
             align:"center",
             dataIndex: 'remark'
@@ -184,6 +214,12 @@
         fieldList.push({type:'string',value:'iphone',text:'手机号'})
         fieldList.push({type:'string',value:'idcard',text:'身份证号'})
         fieldList.push({type:'string',value:'address',text:'详细地址'})
+        fieldList.push({type:'string',value:'clockIn',text:'打卡'})
+        fieldList.push({type:'string',value:'monthlyStatement',text:'月结'})
+        fieldList.push({type:'string',value:'hdf',text:'回单付'})
+        fieldList.push({type:'string',value:'city',text:'城市'})
+        fieldList.push({type:'string',value:'bank',text:'银行'})
+        fieldList.push({type:'string',value:'bankCard',text:'银行卡'})
         fieldList.push({type:'string',value:'remark',text:'备注'})
         this.superFieldList = fieldList
       }

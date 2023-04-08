@@ -39,7 +39,7 @@ import org.jeecg.common.aspect.annotation.AutoLog;
  /**
  * @Description: 发货人员信息表
  * @Author: jeecg-boot
- * @Date:   2023-04-05
+ * @Date:   2023-04-08
  * @Version: V1.0
  */
 @Api(tags="发货人员信息表")

@@ -24,6 +24,36 @@
             </a-form-model-item>
           </a-col>
           <a-col :span="24">
+            <a-form-model-item label="打卡" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="clockIn">
+              <a-input v-model="model.clockIn" placeholder="请输入打卡"  ></a-input>
+            </a-form-model-item>
+          </a-col>
+          <a-col :span="24">
+            <a-form-model-item label="月结" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="monthlyStatement">
+              <a-input v-model="model.monthlyStatement" placeholder="请输入月结"  ></a-input>
+            </a-form-model-item>
+          </a-col>
+          <a-col :span="24">
+            <a-form-model-item label="回单付" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="hdf">
+              <a-input v-model="model.hdf" placeholder="请输入回单付"  ></a-input>
+            </a-form-model-item>
+          </a-col>
+          <a-col :span="24">
+            <a-form-model-item label="城市" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="city">
+              <a-input v-model="model.city" placeholder="请输入城市"  ></a-input>
+            </a-form-model-item>
+          </a-col>
+          <a-col :span="24">
+            <a-form-model-item label="银行" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="bank">
+              <a-input v-model="model.bank" placeholder="请输入银行"  ></a-input>
+            </a-form-model-item>
+          </a-col>
+          <a-col :span="24">
+            <a-form-model-item label="银行卡" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="bankCard">
+              <a-input v-model="model.bankCard" placeholder="请输入银行卡"  ></a-input>
+            </a-form-model-item>
+          </a-col>
+          <a-col :span="24">
             <a-form-model-item label="备注" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="remark">
               <a-input v-model="model.remark" placeholder="请输入备注"  ></a-input>
             </a-form-model-item>

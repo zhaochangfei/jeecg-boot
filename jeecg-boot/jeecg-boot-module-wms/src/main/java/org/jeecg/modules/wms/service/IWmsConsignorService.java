@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 /**
  * @Description: 发货人员信息表
  * @Author: jeecg-boot
- * @Date:   2023-04-05
+ * @Date:   2023-04-08
  * @Version: V1.0
  */
 public interface IWmsConsignorService extends IService<WmsConsignor> {

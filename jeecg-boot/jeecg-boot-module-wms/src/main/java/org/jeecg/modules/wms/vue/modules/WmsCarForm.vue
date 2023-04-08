@@ -9,13 +9,63 @@
             </a-form-model-item>
           </a-col>
           <a-col :span="24">
+            <a-form-model-item label="电话" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="iphone">
+              <a-input v-model="model.iphone" placeholder="请输入电话"  ></a-input>
+            </a-form-model-item>
+          </a-col>
+          <a-col :span="24">
             <a-form-model-item label="车牌号" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="licensePlateNumber">
               <a-input v-model="model.licensePlateNumber" placeholder="请输入车牌号"  ></a-input>
             </a-form-model-item>
           </a-col>
           <a-col :span="24">
-            <a-form-model-item label="启用" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="sstatus">
-              <j-dict-select-tag type="list" v-model="model.sstatus" dictCode="" placeholder="请选择启用" />
+            <a-form-model-item label="司机状态" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="sstatus">
+              <a-input v-model="model.sstatus" placeholder="请输入司机状态"  ></a-input>
+            </a-form-model-item>
+          </a-col>
+          <a-col :span="24">
+            <a-form-model-item label="车辆类型" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="carType">
+              <a-input v-model="model.carType" placeholder="请输入车辆类型"  ></a-input>
+            </a-form-model-item>
+          </a-col>
+          <a-col :span="24">
+            <a-form-model-item label="车牌颜色" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="carColor">
+              <a-input v-model="model.carColor" placeholder="请输入车牌颜色"  ></a-input>
+            </a-form-model-item>
+          </a-col>
+          <a-col :span="24">
+            <a-form-model-item label="身份证号码" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="idCard">
+              <a-input v-model="model.idCard" placeholder="请输入身份证号码"  ></a-input>
+            </a-form-model-item>
+          </a-col>
+          <a-col :span="24">
+            <a-form-model-item label="道路运输证号码" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="rsqas">
+              <a-input v-model="model.rsqas" placeholder="请输入道路运输证号码"  ></a-input>
+            </a-form-model-item>
+          </a-col>
+          <a-col :span="24">
+            <a-form-model-item label="驾驶证号" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="drivingLicence">
+              <a-input v-model="model.drivingLicence" placeholder="请输入驾驶证号"  ></a-input>
+            </a-form-model-item>
+          </a-col>
+          <a-col :span="24">
+            <a-form-model-item label="车辆状态" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="carStatus">
+              <a-input v-model="model.carStatus" placeholder="请输入车辆状态"  ></a-input>
+            </a-form-model-item>
+          </a-col>
+          <a-col :span="24">
+            <a-form-model-item label="开户行" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="openingBank">
+              <a-input v-model="model.openingBank" placeholder="请输入开户行"  ></a-input>
+            </a-form-model-item>
+          </a-col>
+          <a-col :span="24">
+            <a-form-model-item label="银行卡号" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="bankCard">
+              <a-input v-model="model.bankCard" placeholder="请输入银行卡号"  ></a-input>
+            </a-form-model-item>
+          </a-col>
+          <a-col :span="24">
+            <a-form-model-item label="是否绑定GPS" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="gps">
+              <a-input v-model="model.gps" placeholder="请输入是否绑定GPS"  ></a-input>
             </a-form-model-item>
           </a-col>
         </a-row>

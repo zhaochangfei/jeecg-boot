@@ -4,6 +4,22 @@
     <div class="table-page-search-wrapper">
       <a-form layout="inline" @keyup.enter.native="searchQuery">
         <a-row :gutter="24">
+          <a-col :xl="5" :lg="5" :md="6" :sm="24">
+            <a-form-item label="名字">
+              <j-input placeholder="请输入名字" v-model="queryParam.name"></j-input>
+            </a-form-item>
+          </a-col>
+          <a-col :xl="5" :lg="5" :md="6" :sm="24">
+            <a-form-item label="手机号">
+              <j-input placeholder="请输入手机号" v-model="queryParam.iphone"></j-input>
+            </a-form-item>
+          </a-col>
+          <a-col :xl="8" :lg="9" :md="10" :sm="24">
+            <span style="" class="table-page-search-submitButtons">
+              <a-button type="primary" @click="searchQuery" icon="search">查询</a-button>
+              <a-button type="primary" @click="searchReset" icon="reload" style="margin-left: 8px">重置</a-button>
+            </span>
+          </a-col>
         </a-row>
       </a-form>
     </div>
@@ -13,9 +29,9 @@
     <div class="table-operator">
       <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
       <a-button type="primary" icon="download" @click="handleExportXls('发货人员信息表')">导出</a-button>
-      <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
+      <!-- <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
         <a-button type="primary" icon="import">导入</a-button>
-      </a-upload>
+      </a-upload> -->
       <!-- 高级查询区域 -->
       <j-super-query :fieldList="superFieldList" ref="superQueryModal" @handleSuperQuery="handleSuperQuery"></j-super-query>
       <a-dropdown v-if="selectedRowKeys.length > 0">
@@ -112,7 +128,7 @@
         // 表头
         columns: [
           {
-            title: '#',
+            title: '序号',
             dataIndex: '',
             key:'rowIndex',
             width:60,
@@ -140,6 +156,36 @@
             title:'详细地址',
             align:"center",
             dataIndex: 'address'
+          },
+          {
+            title:'打卡',
+            align:"center",
+            dataIndex: 'clockIn_dictText'
+          },
+          {
+            title:'月结',
+            align:"center",
+            dataIndex: 'monthlyStatement_dictText'
+          },
+          {
+            title:'回单付',
+            align:"center",
+            dataIndex: 'hdf_dictText'
+          },
+          {
+            title:'城市',
+            align:"center",
+            dataIndex: 'city'
+          },
+          {
+            title:'银行',
+            align:"center",
+            dataIndex: 'bank'
+          },
+          {
+            title:'银行卡',
+            align:"center",
+            dataIndex: 'bankCard'
           },
           {
             title:'备注',
@@ -184,6 +230,12 @@
         fieldList.push({type:'string',value:'iphone',text:'手机号'})
         fieldList.push({type:'string',value:'idcard',text:'身份证号'})
         fieldList.push({type:'string',value:'address',text:'详细地址'})
+        fieldList.push({type:'string',value:'clockIn',text:'打卡'})
+        fieldList.push({type:'string',value:'monthlyStatement',text:'月结'})
+        fieldList.push({type:'string',value:'hdf',text:'回单付'})
+        fieldList.push({type:'string',value:'city',text:'城市'})
+        fieldList.push({type:'string',value:'bank',text:'银行'})
+        fieldList.push({type:'string',value:'bankCard',text:'银行卡'})
         fieldList.push({type:'string',value:'remark',text:'备注'})
         this.superFieldList = fieldList
       }

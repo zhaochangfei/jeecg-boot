@@ -4,6 +4,27 @@
     <div class="table-page-search-wrapper">
       <a-form layout="inline" @keyup.enter.native="searchQuery">
         <a-row :gutter="24">
+          <a-col :xl="5" :lg="5" :md="6" :sm="24">
+            <a-form-item label="驾驶员">
+              <j-input placeholder="请输入驾驶员" v-model="queryParam.driver"></j-input>
+            </a-form-item>
+          </a-col>
+          <a-col :xl="5" :lg="5" :md="6" :sm="24">
+            <a-form-item label="手机号">
+              <j-input placeholder="请输入手机号" v-model="queryParam.iphone"></j-input>
+            </a-form-item>
+          </a-col>
+          <a-col :xl="5" :lg="5" :md="6" :sm="24">
+            <a-form-item label="车牌号">
+              <j-input placeholder="请输入车牌号" v-model="queryParam.licensePlateNumber"></j-input>
+            </a-form-item>
+          </a-col>
+          <a-col :xl="8" :lg="9" :md="10" :sm="24">
+            <span style="" class="table-page-search-submitButtons">
+              <a-button type="primary" @click="searchQuery" icon="search">查询</a-button>
+              <a-button type="primary" @click="searchReset" icon="reload" style="margin-left: 8px">重置</a-button>
+            </span>
+          </a-col>
         </a-row>
       </a-form>
     </div>
@@ -12,10 +33,10 @@
     <!-- 操作按钮区域 -->
     <div class="table-operator">
       <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
-      <a-button type="primary" icon="download" @click="handleExportXls('车辆信息表')">导出</a-button>
-      <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
+      <a-button type="primary" icon="download" @click="handleExportXls('司机车辆表')">导出</a-button>
+      <!-- <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
         <a-button type="primary" icon="import">导入</a-button>
-      </a-upload>
+      </a-upload> -->
       <!-- 高级查询区域 -->
       <j-super-query :fieldList="superFieldList" ref="superQueryModal" @handleSuperQuery="handleSuperQuery"></j-super-query>
       <a-dropdown v-if="selectedRowKeys.length > 0">
@@ -108,11 +129,11 @@
     },
     data () {
       return {
-        description: '车辆信息表管理页面',
+        description: 'wms_car管理页面',
         // 表头
         columns: [
           {
-            title: '#',
+            title: '序号',
             dataIndex: '',
             key:'rowIndex',
             width:60,
@@ -127,19 +148,64 @@
             dataIndex: 'driver'
           },
           {
-            title:'车牌号',
-            align:"center",
-            dataIndex: 'licensePlateNumber'
-          },
-          {
             title:'电话',
             align:"center",
             dataIndex: 'iphone'
           },
           {
-            title:'启用',
+            title:'车牌号',
+            align:"center",
+            dataIndex: 'licensePlateNumber'
+          },
+          {
+            title:'司机状态',
             align:"center",
             dataIndex: 'sstatus_dictText'
+          },
+          {
+            title:'车辆类型',
+            align:"center",
+            dataIndex: 'carType_dictText'
+          },
+          {
+            title:'车牌颜色',
+            align:"center",
+            dataIndex: 'carColor_dictText'
+          },
+          {
+            title:'身份证号码',
+            align:"center",
+            dataIndex: 'idCard'
+          },
+          {
+            title:'道路运输证号码',
+            align:"center",
+            dataIndex: 'rsqas'
+          },
+          {
+            title:'驾驶证号',
+            align:"center",
+            dataIndex: 'drivingLicence'
+          },
+          {
+            title:'车辆状态',
+            align:"center",
+            dataIndex: 'carStatus_dictText'
+          },
+          {
+            title:'开户行',
+            align:"center",
+            dataIndex: 'openingBank'
+          },
+          {
+            title:'银行卡号',
+            align:"center",
+            dataIndex: 'bankCard'
+          },
+          {
+            title:'是否绑定GPS',
+            align:"center",
+            dataIndex: 'gps_dictText'
           },
           {
             title: '操作',
@@ -175,10 +241,19 @@
       },
       getSuperFieldList(){
         let fieldList=[];
-        fieldList.push({type:'string',value:'driver',text:'驾驶员',dictCode:''})
-        fieldList.push({type:'string',value:'licensePlateNumber',text:'车牌号',dictCode:''})
-        fieldList.push({type:'string',value:'iphone',text:'电话',dictCode:''})
-        fieldList.push({type:'string',value:'sstatus',text:'启用',dictCode:''})
+        fieldList.push({type:'string',value:'driver',text:'驾驶员'})
+        fieldList.push({type:'string',value:'iphone',text:'电话'})
+        fieldList.push({type:'string',value:'licensePlateNumber',text:'车牌号'})
+        fieldList.push({type:'string',value:'sstatus',text:'司机状态'})
+        fieldList.push({type:'string',value:'carType',text:'车辆类型'})
+        fieldList.push({type:'string',value:'carColor',text:'车牌颜色'})
+        fieldList.push({type:'string',value:'idCard',text:'身份证号码'})
+        fieldList.push({type:'string',value:'rsqas',text:'道路运输证号码'})
+        fieldList.push({type:'string',value:'drivingLicence',text:'驾驶证号'})
+        fieldList.push({type:'string',value:'carStatus',text:'车辆状态'})
+        fieldList.push({type:'string',value:'openingBank',text:'开户行'})
+        fieldList.push({type:'string',value:'bankCard',text:'银行卡号'})
+        fieldList.push({type:'string',value:'gps',text:'是否绑定GPS'})
         this.superFieldList = fieldList
       }
     }

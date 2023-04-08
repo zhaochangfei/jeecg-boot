@@ -7,9 +7,9 @@ import org.jeecg.modules.wms.entity.WmsCar;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
- * @Description: 车辆信息表
+ * @Description: wms_car
  * @Author: jeecg-boot
- * @Date:   2023-04-05
+ * @Date:   2023-04-08
  * @Version: V1.0
  */
 public interface WmsCarMapper extends BaseMapper<WmsCar> {

@@ -37,12 +37,12 @@ import io.swagger.annotations.ApiOperation;
 import org.jeecg.common.aspect.annotation.AutoLog;
 
  /**
- * @Description: 车辆信息表
+ * @Description: wms_car
  * @Author: jeecg-boot
- * @Date:   2023-04-05
+ * @Date:   2023-04-08
  * @Version: V1.0
  */
-@Api(tags="车辆信息表")
+@Api(tags="wms_car")
 @RestController
 @RequestMapping("/wms/wmsCar")
 @Slf4j
@@ -59,8 +59,8 @@ public class WmsCarController extends JeecgController<WmsCar, IWmsCarService> {
 	 * @param req
 	 * @return
 	 */
-	@AutoLog(value = "车辆信息表-分页列表查询")
-	@ApiOperation(value="车辆信息表-分页列表查询", notes="车辆信息表-分页列表查询")
+	@AutoLog(value = "wms_car-分页列表查询")
+	@ApiOperation(value="wms_car-分页列表查询", notes="wms_car-分页列表查询")
 	@GetMapping(value = "/list")
 	public Result<?> queryPageList(WmsCar wmsCar,
 								   @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
@@ -78,8 +78,8 @@ public class WmsCarController extends JeecgController<WmsCar, IWmsCarService> {
 	 * @param wmsCar
 	 * @return
 	 */
-	@AutoLog(value = "车辆信息表-添加")
-	@ApiOperation(value="车辆信息表-添加", notes="车辆信息表-添加")
+	@AutoLog(value = "wms_car-添加")
+	@ApiOperation(value="wms_car-添加", notes="wms_car-添加")
 	@PostMapping(value = "/add")
 	public Result<?> add(@RequestBody WmsCar wmsCar) {
 		wmsCarService.save(wmsCar);
@@ -92,8 +92,8 @@ public class WmsCarController extends JeecgController<WmsCar, IWmsCarService> {
 	 * @param wmsCar
 	 * @return
 	 */
-	@AutoLog(value = "车辆信息表-编辑")
-	@ApiOperation(value="车辆信息表-编辑", notes="车辆信息表-编辑")
+	@AutoLog(value = "wms_car-编辑")
+	@ApiOperation(value="wms_car-编辑", notes="wms_car-编辑")
 	@PutMapping(value = "/edit")
 	public Result<?> edit(@RequestBody WmsCar wmsCar) {
 		wmsCarService.updateById(wmsCar);
@@ -106,8 +106,8 @@ public class WmsCarController extends JeecgController<WmsCar, IWmsCarService> {
 	 * @param id
 	 * @return
 	 */
-	@AutoLog(value = "车辆信息表-通过id删除")
-	@ApiOperation(value="车辆信息表-通过id删除", notes="车辆信息表-通过id删除")
+	@AutoLog(value = "wms_car-通过id删除")
+	@ApiOperation(value="wms_car-通过id删除", notes="wms_car-通过id删除")
 	@DeleteMapping(value = "/delete")
 	public Result<?> delete(@RequestParam(name="id",required=true) String id) {
 		wmsCarService.removeById(id);
@@ -120,8 +120,8 @@ public class WmsCarController extends JeecgController<WmsCar, IWmsCarService> {
 	 * @param ids
 	 * @return
 	 */
-	@AutoLog(value = "车辆信息表-批量删除")
-	@ApiOperation(value="车辆信息表-批量删除", notes="车辆信息表-批量删除")
+	@AutoLog(value = "wms_car-批量删除")
+	@ApiOperation(value="wms_car-批量删除", notes="wms_car-批量删除")
 	@DeleteMapping(value = "/deleteBatch")
 	public Result<?> deleteBatch(@RequestParam(name="ids",required=true) String ids) {
 		this.wmsCarService.removeByIds(Arrays.asList(ids.split(",")));
@@ -134,8 +134,8 @@ public class WmsCarController extends JeecgController<WmsCar, IWmsCarService> {
 	 * @param id
 	 * @return
 	 */
-	@AutoLog(value = "车辆信息表-通过id查询")
-	@ApiOperation(value="车辆信息表-通过id查询", notes="车辆信息表-通过id查询")
+	@AutoLog(value = "wms_car-通过id查询")
+	@ApiOperation(value="wms_car-通过id查询", notes="wms_car-通过id查询")
 	@GetMapping(value = "/queryById")
 	public Result<?> queryById(@RequestParam(name="id",required=true) String id) {
 		WmsCar wmsCar = wmsCarService.getById(id);
@@ -153,7 +153,7 @@ public class WmsCarController extends JeecgController<WmsCar, IWmsCarService> {
     */
     @RequestMapping(value = "/exportXls")
     public ModelAndView exportXls(HttpServletRequest request, WmsCar wmsCar) {
-        return super.exportXls(request, wmsCar, WmsCar.class, "车辆信息表");
+        return super.exportXls(request, wmsCar, WmsCar.class, "wms_car");
     }
 
     /**
