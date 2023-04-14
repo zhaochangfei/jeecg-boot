@@ -70,6 +70,14 @@ public class WmsConsignee implements Serializable {
 	@Excel(name = "详细地址", width = 15)
     @ApiModelProperty(value = "详细地址")
     private java.lang.String address;
+    /**城市*/
+    @Excel(name = "城市", width = 15)
+    @ApiModelProperty(value = "城市")
+    private java.lang.String city;
+    /**经纬度*/
+    @Excel(name = "经纬度", width = 15)
+    @ApiModelProperty(value = "经纬度")
+    private java.lang.String longitudeAndLatitude;
 	/**备注*/
 	@Excel(name = "备注", width = 15)
     @ApiModelProperty(value = "备注")
