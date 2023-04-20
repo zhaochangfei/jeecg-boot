@@ -6,6 +6,7 @@ import java.util.Date;
 import java.math.BigDecimal;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -54,6 +55,11 @@ public class WmsConsignor implements Serializable {
 	/**所属部门*/
     @ApiModelProperty(value = "所属部门")
     private java.lang.String sysOrgCode;
+    /**逻辑删除标记*/
+    @Excel(name = "逻辑删除标记", width = 15)
+    @ApiModelProperty(value = "逻辑删除标记")
+    @TableLogic
+    private java.lang.String delFlag;
 	/**名字*/
 	@Excel(name = "名字", width = 15)
     @ApiModelProperty(value = "名字")

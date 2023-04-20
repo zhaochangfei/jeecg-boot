@@ -4,22 +4,6 @@
     <div class="table-page-search-wrapper">
       <a-form layout="inline" @keyup.enter.native="searchQuery">
         <a-row :gutter="24">
-          <a-col :xl="5" :lg="5" :md="6" :sm="24">
-            <a-form-item label="名字">
-              <j-input placeholder="请输入名字" v-model="queryParam.name"></j-input>
-            </a-form-item>
-          </a-col>
-          <a-col :xl="5" :lg="5" :md="6" :sm="24">
-            <a-form-item label="手机号">
-              <j-input placeholder="请输入手机号" v-model="queryParam.iphone"></j-input>
-            </a-form-item>
-          </a-col>
-          <a-col :xl="8" :lg="9" :md="10" :sm="24">
-            <span style="" class="table-page-search-submitButtons">
-              <a-button type="primary" @click="searchQuery" icon="search">查询</a-button>
-              <a-button type="primary" @click="searchReset" icon="reload" style="margin-left: 8px">重置</a-button>
-            </span>
-          </a-col>
         </a-row>
       </a-form>
     </div>
@@ -27,11 +11,11 @@
 
     <!-- 操作按钮区域 -->
     <div class="table-operator">
-     <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
-      <a-button type="primary" icon="download" @click="handleExportXls('收货人员信息表')">导出</a-button>
-      <!-- <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
+      <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
+      <a-button type="primary" icon="download" @click="handleExportXls('配送单明细表')">导出</a-button>
+      <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
         <a-button type="primary" icon="import">导入</a-button>
-      </a-upload> -->
+      </a-upload>
       <!-- 高级查询区域 -->
       <j-super-query :fieldList="superFieldList" ref="superQueryModal" @handleSuperQuery="handleSuperQuery"></j-super-query>
       <a-dropdown v-if="selectedRowKeys.length > 0">
@@ -105,7 +89,7 @@
       </a-table>
     </div>
 
-    <wms-consignee-modal ref="modalForm" @ok="modalFormOk"></wms-consignee-modal>
+    <wms-distribution-detail-modal ref="modalForm" @ok="modalFormOk"></wms-distribution-detail-modal>
   </a-card>
 </template>
 
@@ -114,21 +98,21 @@
   import '@/assets/less/TableExpand.less'
   import { mixinDevice } from '@/utils/mixin'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
-  import WmsConsigneeModal from './modules/WmsConsigneeModal'
+  import WmsDistributionDetailModal from './modules/WmsDistributionDetailModal'
 
   export default {
-    name: 'WmsConsigneeList',
+    name: 'WmsDistributionDetailList',
     mixins:[JeecgListMixin, mixinDevice],
     components: {
-      WmsConsigneeModal
+      WmsDistributionDetailModal
     },
     data () {
       return {
-        description: '收货人员信息表管理页面',
+        description: '配送单明细表管理页面',
         // 表头
         columns: [
           {
-            title: '序号',
+            title: '#',
             dataIndex: '',
             key:'rowIndex',
             width:60,
@@ -138,44 +122,62 @@
             }
           },
           {
-            title:'客户名称',
+            title:'单号',
             align:"center",
-            dataIndex: 'name'
+            dataIndex: 'code'
           },
           {
-            title:'手机号',
+            title:'单据日期',
             align:"center",
-            dataIndex: 'iphone'
+            dataIndex: 'billdate',
+            customRender:function (text) {
+              return !text?"":(text.length>10?text.substr(0,10):text)
+            }
           },
           {
-            title:'部门',
+            title:'货物名称',
             align:"center",
-            dataIndex: 'sysOrgCode_dictText'
+            dataIndex: 'goodsName'
           },
           {
-            title:'身份证号',
+            title:'配送单Id',
             align:"center",
-            dataIndex: 'idcard'
+            dataIndex: 'distributionId'
           },
           {
-            title:'城市',
+            title:'包装',
             align:"center",
-            dataIndex: 'city'
+            dataIndex: 'packaging'
           },
           {
-            title:'详细地址',
+            title:'件数',
             align:"center",
-            dataIndex: 'address'
+            dataIndex: 'number'
           },
           {
-            title:'经纬度',
+            title:'T/米',
             align:"center",
-            dataIndex: 'longitudeAndLatitude'
+            dataIndex: 'quantity'
           },
           {
-            title:'备注',
+            title:'保价',
             align:"center",
-            dataIndex: 'remark'
+            dataIndex: 'supportValue'
+          },
+          {
+            title:'保费',
+            align:"center",
+            dataIndex: 'premium'
+          },
+          {
+            title:'运费',
+            align:"center",
+            dataIndex: 'freight'
+          },
+          {
+            title:'合计',
+            align:"center",
+            dataIndex: 'totalMoney'
           },
           {
             title: '操作',
@@ -187,11 +189,11 @@
           }
         ],
         url: {
-          list: "/wms/wmsConsignee/list",
-          delete: "/wms/wmsConsignee/delete",
-          deleteBatch: "/wms/wmsConsignee/deleteBatch",
-          exportXlsUrl: "/wms/wmsConsignee/exportXls",
-          importExcelUrl: "wms/wmsConsignee/importExcel",
+          list: "/wms/wmsDistributionDetail/list",
+          delete: "/wms/wmsDistributionDetail/delete",
+          deleteBatch: "/wms/wmsDistributionDetail/deleteBatch",
+          exportXlsUrl: "/wms/wmsDistributionDetail/exportXls",
+          importExcelUrl: "wms/wmsDistributionDetail/importExcel",
           
         },
         dictOptions:{},
@@ -211,11 +213,17 @@
       },
       getSuperFieldList(){
         let fieldList=[];
-        fieldList.push({type:'string',value:'name',text:'名字'})
-        fieldList.push({type:'string',value:'iphone',text:'手机号'})
-        fieldList.push({type:'string',value:'idcard',text:'身份证号'})
-        fieldList.push({type:'string',value:'address',text:'详细地址'})
-        fieldList.push({type:'string',value:'remark',text:'备注'})
+        fieldList.push({type:'string',value:'code',text:'单号'})
+        fieldList.push({type:'date',value:'billdate',text:'单据日期'})
+        fieldList.push({type:'string',value:'goodsName',text:'货物名称'})
+        fieldList.push({type:'string',value:'distributionId',text:'配送单Id'})
+        fieldList.push({type:'string',value:'packaging',text:'包装'})
+        fieldList.push({type:'string',value:'number',text:'件数'})
+        fieldList.push({type:'string',value:'quantity',text:'T/米'})
+        fieldList.push({type:'string',value:'supportValue',text:'保价'})
+        fieldList.push({type:'string',value:'premium',text:'保费'})
+        fieldList.push({type:'string',value:'freight',text:'运费'})
+        fieldList.push({type:'string',value:'totalMoney',text:'合计'})
         this.superFieldList = fieldList
       }
     }

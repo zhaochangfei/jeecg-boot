@@ -3,32 +3,48 @@
     <j-form-container :disabled="formDisabled">
       <a-form-model ref="form" :model="model" :rules="validatorRules" slot="detail">
         <a-row>
-          <a-col :span="24">
+          <a-col :span="12">
             <a-form-model-item label="名字" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="name">
               <a-input v-model="model.name" placeholder="请输入名字"  ></a-input>
             </a-form-model-item>
           </a-col>
-          <a-col :span="24">
+          <a-col :span="12">
             <a-form-model-item label="手机号" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="iphone">
               <a-input v-model="model.iphone" placeholder="请输入手机号"  ></a-input>
             </a-form-model-item>
           </a-col>
-          <a-col :span="24">
+        </a-row>
+        <a-row> 
+           <a-col :span="12">
             <a-form-model-item label="身份证号" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="idcard">
               <a-input v-model="model.idcard" placeholder="请输入身份证号"  ></a-input>
             </a-form-model-item>
           </a-col>
-          <a-col :span="24">
+          <a-col :span="12">
             <a-form-model-item label="详细地址" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="address">
               <a-input v-model="model.address" placeholder="请输入详细地址"  ></a-input>
             </a-form-model-item>
           </a-col>
-          <a-col :span="24">
-            <a-form-model-item label="备注" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="remark">
-              <a-input v-model="model.remark" placeholder="请输入备注"  ></a-input>
+        </a-row>
+        <a-row> 
+          <a-col :span="12">
+            <a-form-model-item label="城市" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="city">
+              <a-input v-model="model.city" placeholder="请输入城市"  ></a-input>
+            </a-form-model-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-model-item label="经纬度" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="longitudeAndLatitude">
+              <a-input v-model="model.longitudeAndLatitude" placeholder="请输入经纬度"  ></a-input>
             </a-form-model-item>
           </a-col>
         </a-row>
+        <a-row>
+          <a-col :span="24">
+            <a-form-model-item label="备注" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="remark">
+              <a-input type="textarea" :rows="3" v-model="model.remark" placeholder="请输入备注"  ></a-input>
+            </a-form-model-item>
+          </a-col>
+           </a-row>
       </a-form-model>
     </j-form-container>
   </a-spin>

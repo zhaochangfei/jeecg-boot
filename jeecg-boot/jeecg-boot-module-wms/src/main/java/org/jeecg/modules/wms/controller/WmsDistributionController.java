@@ -9,14 +9,11 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.shiro.SecurityUtils;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.system.query.QueryGenerator;
-import org.jeecg.common.system.vo.LoginUser;
 import org.jeecg.common.util.oConvertUtils;
-import org.jeecg.modules.wms.entity.WmsConsignor;
-import org.jeecg.modules.wms.service.IWmsConsignorService;
+import org.jeecg.modules.wms.entity.WmsDistribution;
+import org.jeecg.modules.wms.service.IWmsDistributionService;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -40,125 +37,123 @@ import io.swagger.annotations.ApiOperation;
 import org.jeecg.common.aspect.annotation.AutoLog;
 
  /**
- * @Description: 发货人员信息表
+ * @Description: 配送单
  * @Author: jeecg-boot
- * @Date:   2023-04-08
+ * @Date:   2023-04-20
  * @Version: V1.0
  */
-@Api(tags="发货人员信息表")
+@Api(tags="配送单")
 @RestController
-@RequestMapping("/wms/wmsConsignor")
+@RequestMapping("/wms/wmsDistribution")
 @Slf4j
-public class WmsConsignorController extends JeecgController<WmsConsignor, IWmsConsignorService> {
+public class WmsDistributionController extends JeecgController<WmsDistribution, IWmsDistributionService> {
 	@Autowired
-	private IWmsConsignorService wmsConsignorService;
-
+	private IWmsDistributionService wmsDistributionService;
+	
 	/**
 	 * 分页列表查询
 	 *
-	 * @param wmsConsignor
+	 * @param wmsDistribution
 	 * @param pageNo
 	 * @param pageSize
 	 * @param req
 	 * @return
 	 */
-	@AutoLog(value = "发货人员信息表-分页列表查询")
-	@ApiOperation(value="发货人员信息表-分页列表查询", notes="发货人员信息表-分页列表查询")
+	@AutoLog(value = "配送单-分页列表查询")
+	@ApiOperation(value="配送单-分页列表查询", notes="配送单-分页列表查询")
 	@GetMapping(value = "/list")
-	public Result<?> queryPageList(WmsConsignor wmsConsignor,
+	public Result<?> queryPageList(WmsDistribution wmsDistribution,
 								   @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
 								   @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
 								   HttpServletRequest req) {
-		QueryWrapper<WmsConsignor> queryWrapper = QueryGenerator.initQueryWrapper(wmsConsignor, req.getParameterMap());
-		LoginUser sysUser = (LoginUser) SecurityUtils.getSubject().getPrincipal();
-		queryWrapper.eq("sys_org_code",sysUser.getOrgCode());
-		Page<WmsConsignor> page = new Page<WmsConsignor>(pageNo, pageSize);
-		IPage<WmsConsignor> pageList = wmsConsignorService.page(page, queryWrapper);
+		QueryWrapper<WmsDistribution> queryWrapper = QueryGenerator.initQueryWrapper(wmsDistribution, req.getParameterMap());
+		Page<WmsDistribution> page = new Page<WmsDistribution>(pageNo, pageSize);
+		IPage<WmsDistribution> pageList = wmsDistributionService.page(page, queryWrapper);
 		return Result.OK(pageList);
 	}
-
+	
 	/**
 	 *   添加
 	 *
-	 * @param wmsConsignor
+	 * @param wmsDistribution
 	 * @return
 	 */
-	@AutoLog(value = "发货人员信息表-添加")
-	@ApiOperation(value="发货人员信息表-添加", notes="发货人员信息表-添加")
+	@AutoLog(value = "配送单-添加")
+	@ApiOperation(value="配送单-添加", notes="配送单-添加")
 	@PostMapping(value = "/add")
-	public Result<?> add(@RequestBody WmsConsignor wmsConsignor) {
-		wmsConsignorService.save(wmsConsignor);
+	public Result<?> add(@RequestBody WmsDistribution wmsDistribution) {
+		wmsDistributionService.save(wmsDistribution);
 		return Result.OK("添加成功！");
 	}
-
+	
 	/**
 	 *  编辑
 	 *
-	 * @param wmsConsignor
+	 * @param wmsDistribution
 	 * @return
 	 */
-	@AutoLog(value = "发货人员信息表-编辑")
-	@ApiOperation(value="发货人员信息表-编辑", notes="发货人员信息表-编辑")
+	@AutoLog(value = "配送单-编辑")
+	@ApiOperation(value="配送单-编辑", notes="配送单-编辑")
 	@PutMapping(value = "/edit")
-	public Result<?> edit(@RequestBody WmsConsignor wmsConsignor) {
-		wmsConsignorService.updateById(wmsConsignor);
+	public Result<?> edit(@RequestBody WmsDistribution wmsDistribution) {
+		wmsDistributionService.updateById(wmsDistribution);
 		return Result.OK("编辑成功!");
 	}
-
+	
 	/**
 	 *   通过id删除
 	 *
 	 * @param id
 	 * @return
 	 */
-	@AutoLog(value = "发货人员信息表-通过id删除")
-	@ApiOperation(value="发货人员信息表-通过id删除", notes="发货人员信息表-通过id删除")
+	@AutoLog(value = "配送单-通过id删除")
+	@ApiOperation(value="配送单-通过id删除", notes="配送单-通过id删除")
 	@DeleteMapping(value = "/delete")
 	public Result<?> delete(@RequestParam(name="id",required=true) String id) {
-		wmsConsignorService.removeById(id);
+		wmsDistributionService.removeById(id);
 		return Result.OK("删除成功!");
 	}
-
+	
 	/**
 	 *  批量删除
 	 *
 	 * @param ids
 	 * @return
 	 */
-	@AutoLog(value = "发货人员信息表-批量删除")
-	@ApiOperation(value="发货人员信息表-批量删除", notes="发货人员信息表-批量删除")
+	@AutoLog(value = "配送单-批量删除")
+	@ApiOperation(value="配送单-批量删除", notes="配送单-批量删除")
 	@DeleteMapping(value = "/deleteBatch")
 	public Result<?> deleteBatch(@RequestParam(name="ids",required=true) String ids) {
-		this.wmsConsignorService.removeByIds(Arrays.asList(ids.split(",")));
+		this.wmsDistributionService.removeByIds(Arrays.asList(ids.split(",")));
 		return Result.OK("批量删除成功!");
 	}
-
+	
 	/**
 	 * 通过id查询
 	 *
 	 * @param id
 	 * @return
 	 */
-	@AutoLog(value = "发货人员信息表-通过id查询")
-	@ApiOperation(value="发货人员信息表-通过id查询", notes="发货人员信息表-通过id查询")
+	@AutoLog(value = "配送单-通过id查询")
+	@ApiOperation(value="配送单-通过id查询", notes="配送单-通过id查询")
 	@GetMapping(value = "/queryById")
 	public Result<?> queryById(@RequestParam(name="id",required=true) String id) {
-		WmsConsignor wmsConsignor = wmsConsignorService.getById(id);
-		if(wmsConsignor==null) {
+		WmsDistribution wmsDistribution = wmsDistributionService.getById(id);
+		if(wmsDistribution==null) {
 			return Result.error("未找到对应数据");
 		}
-		return Result.OK(wmsConsignor);
+		return Result.OK(wmsDistribution);
 	}
 
     /**
     * 导出excel
     *
     * @param request
-    * @param wmsConsignor
+    * @param wmsDistribution
     */
     @RequestMapping(value = "/exportXls")
-    public ModelAndView exportXls(HttpServletRequest request, WmsConsignor wmsConsignor) {
-        return super.exportXls(request, wmsConsignor, WmsConsignor.class, "发货人员信息表");
+    public ModelAndView exportXls(HttpServletRequest request, WmsDistribution wmsDistribution) {
+        return super.exportXls(request, wmsDistribution, WmsDistribution.class, "配送单");
     }
 
     /**
@@ -170,7 +165,7 @@ public class WmsConsignorController extends JeecgController<WmsConsignor, IWmsCo
     */
     @RequestMapping(value = "/importExcel", method = RequestMethod.POST)
     public Result<?> importExcel(HttpServletRequest request, HttpServletResponse response) {
-        return super.importExcel(request, response, WmsConsignor.class);
+        return super.importExcel(request, response, WmsDistribution.class);
     }
 
 }

@@ -9,8 +9,11 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.shiro.SecurityUtils;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.system.query.QueryGenerator;
+import org.jeecg.common.system.vo.LoginUser;
 import org.jeecg.common.util.oConvertUtils;
 import org.jeecg.modules.wms.entity.WmsConsignee;
 import org.jeecg.modules.wms.service.IWmsConsigneeService;
@@ -49,7 +52,7 @@ import org.jeecg.common.aspect.annotation.AutoLog;
 public class WmsConsigneeController extends JeecgController<WmsConsignee, IWmsConsigneeService> {
 	@Autowired
 	private IWmsConsigneeService wmsConsigneeService;
-	
+
 	/**
 	 * 分页列表查询
 	 *
@@ -67,11 +70,13 @@ public class WmsConsigneeController extends JeecgController<WmsConsignee, IWmsCo
 								   @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
 								   HttpServletRequest req) {
 		QueryWrapper<WmsConsignee> queryWrapper = QueryGenerator.initQueryWrapper(wmsConsignee, req.getParameterMap());
+		LoginUser sysUser = (LoginUser) SecurityUtils.getSubject().getPrincipal();
+		queryWrapper.eq("sys_org_code",sysUser.getOrgCode());
 		Page<WmsConsignee> page = new Page<WmsConsignee>(pageNo, pageSize);
 		IPage<WmsConsignee> pageList = wmsConsigneeService.page(page, queryWrapper);
 		return Result.OK(pageList);
 	}
-	
+
 	/**
 	 *   添加
 	 *
@@ -85,7 +90,7 @@ public class WmsConsigneeController extends JeecgController<WmsConsignee, IWmsCo
 		wmsConsigneeService.save(wmsConsignee);
 		return Result.OK("添加成功！");
 	}
-	
+
 	/**
 	 *  编辑
 	 *
@@ -99,7 +104,7 @@ public class WmsConsigneeController extends JeecgController<WmsConsignee, IWmsCo
 		wmsConsigneeService.updateById(wmsConsignee);
 		return Result.OK("编辑成功!");
 	}
-	
+
 	/**
 	 *   通过id删除
 	 *
@@ -113,7 +118,7 @@ public class WmsConsigneeController extends JeecgController<WmsConsignee, IWmsCo
 		wmsConsigneeService.removeById(id);
 		return Result.OK("删除成功!");
 	}
-	
+
 	/**
 	 *  批量删除
 	 *
@@ -127,7 +132,7 @@ public class WmsConsigneeController extends JeecgController<WmsConsignee, IWmsCo
 		this.wmsConsigneeService.removeByIds(Arrays.asList(ids.split(",")));
 		return Result.OK("批量删除成功!");
 	}
-	
+
 	/**
 	 * 通过id查询
 	 *
