@@ -20,7 +20,7 @@ import lombok.experimental.Accessors;
 /**
  * @Description: 配送单
  * @Author: jeecg-boot
- * @Date:   2023-04-20
+ * @Date:   2023-05-10
  * @Version: V1.0
  */
 @Data
@@ -72,6 +72,10 @@ public class WmsDistribution implements Serializable {
 	@Excel(name = "发货人id", width = 15)
     @ApiModelProperty(value = "发货人id")
     private java.lang.String consignorId;
+	/**发货人身份证号*/
+	@Excel(name = "发货人身份证号", width = 15)
+    @ApiModelProperty(value = "发货人身份证号")
+    private java.lang.String consignorIdcard;
 	/**发货人电话*/
 	@Excel(name = "发货人电话", width = 15)
     @ApiModelProperty(value = "发货人电话")
@@ -91,18 +95,18 @@ public class WmsDistribution implements Serializable {
 	/**现付*/
 	@Excel(name = "现付", width = 15)
     @ApiModelProperty(value = "现付")
-    private java.lang.String spotPayment;
-	/**预付*/
-	@Excel(name = "预付", width = 15)
-    @ApiModelProperty(value = "预付")
-    private java.lang.String prepay;
+    private java.math.BigDecimal spotPayment;
+	/**预付（代收货款）*/
+	@Excel(name = "预付（代收货款）", width = 15)
+    @ApiModelProperty(value = "预付（代收货款）")
+    private java.math.BigDecimal prepay;
 	/**提付*/
 	@Excel(name = "提付", width = 15)
     @ApiModelProperty(value = "提付")
-    private java.lang.String withdrawal;
-	/**总运费*/
-	@Excel(name = "总运费", width = 15)
-    @ApiModelProperty(value = "总运费")
+    private java.math.BigDecimal withdrawal;
+	/**总运费（费用合计）*/
+	@Excel(name = "总运费（费用合计）", width = 15)
+    @ApiModelProperty(value = "总运费（费用合计）")
     private java.lang.String sumMoney;
 	/**经办人*/
 	@Excel(name = "经办人", width = 15)
@@ -116,4 +120,72 @@ public class WmsDistribution implements Serializable {
 	@Excel(name = "车辆电话", width = 15)
     @ApiModelProperty(value = "车辆电话")
     private java.lang.String carIphone;
+	/**逻辑删除标记*/
+	@Excel(name = "逻辑删除标记", width = 15)
+    @ApiModelProperty(value = "逻辑删除标记")
+    private java.lang.String delFlag;
+	/**重量*/
+	@Excel(name = "重量", width = 15)
+    @ApiModelProperty(value = "重量")
+    private java.lang.Double weight;
+	/**件数*/
+	@Excel(name = "件数", width = 15)
+    @ApiModelProperty(value = "件数")
+    private java.lang.String piece;
+	/**是否中转 0否 1是*/
+	@Excel(name = "是否中转 0否 1是", width = 15)
+    @ApiModelProperty(value = "是否中转 0否 1是")
+    private java.lang.String transferIs;
+	/**中转费*/
+	@Excel(name = "中转费", width = 15)
+    @ApiModelProperty(value = "中转费")
+    private java.math.BigDecimal transferMoney;
+	/**保费*/
+	@Excel(name = "保费", width = 15)
+    @ApiModelProperty(value = "保费")
+    private java.math.BigDecimal premium;
+	/**倒车费*/
+	@Excel(name = "倒车费", width = 15)
+    @ApiModelProperty(value = "倒车费")
+    private java.math.BigDecimal backFare;
+	/**送货费*/
+	@Excel(name = "送货费", width = 15)
+    @ApiModelProperty(value = "送货费")
+    private java.math.BigDecimal deliveryExpense;
+	/**接货费*/
+	@Excel(name = "接货费", width = 15)
+    @ApiModelProperty(value = "接货费")
+    private java.math.BigDecimal pickUpCharge;
+	/**其他支出*/
+	@Excel(name = "其他支出", width = 15)
+    @ApiModelProperty(value = "其他支出")
+    private java.math.BigDecimal otherExpenses;
+	/**应收合计*/
+	@Excel(name = "应收合计", width = 15)
+    @ApiModelProperty(value = "应收合计")
+    private java.math.BigDecimal receivable;
+	/**运输类型*/
+	@Excel(name = "运输类型", width = 15)
+    @ApiModelProperty(value = "运输类型")
+    private java.lang.String type;
+	/**送货方式*/
+	@Excel(name = "送货方式", width = 15)
+    @ApiModelProperty(value = "送货方式")
+    private java.lang.String shippingMethod;
+	/**备注*/
+	@Excel(name = "备注", width = 15)
+    @ApiModelProperty(value = "备注")
+    private java.lang.String remark;
+	/**开票员*/
+	@Excel(name = "开票员", width = 15)
+    @ApiModelProperty(value = "开票员")
+    private java.lang.String drawer;
+	/**业务员*/
+	@Excel(name = "业务员", width = 15)
+    @ApiModelProperty(value = "业务员")
+    private java.lang.String salesman;
+	/**关联单号*/
+	@Excel(name = "关联单号", width = 15)
+    @ApiModelProperty(value = "关联单号")
+    private java.lang.String publicCode;
 }

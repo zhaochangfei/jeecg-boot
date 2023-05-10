@@ -145,6 +145,16 @@
             dataIndex: 'consignorId'
           },
           {
+            title:'发货人身份证号',
+            align:"center",
+            dataIndex: 'consignorIdcard'
+          },
+          {
+            title:'发货人电话',
+            align:"center",
+            dataIndex: 'consignorIphone'
+          },
+          {
             title:'到达站',
             align:"center",
             dataIndex: 'arrivalStation'
@@ -153,6 +163,26 @@
             title:'收货人id',
             align:"center",
             dataIndex: 'consigneeId'
+          },
+          {
+            title:'收货人电话',
+            align:"center",
+            dataIndex: 'consigneeIphone'
+          },
+          {
+            title:'现付',
+            align:"center",
+            dataIndex: 'spotPayment'
+          },
+          {
+            title:'预付（代收货款）',
+            align:"center",
+            dataIndex: 'prepay'
+          },
+          {
+            title:'提付',
+            align:"center",
+            dataIndex: 'withdrawal'
           },
           {
             title:'总运费（费用合计）',
@@ -169,7 +199,16 @@
             align:"center",
             dataIndex: 'carId'
           },
-          
+          {
+            title:'车辆电话',
+            align:"center",
+            dataIndex: 'carIphone'
+          },
+          {
+            title:'逻辑删除标记',
+            align:"center",
+            dataIndex: 'delFlag'
+          },
           {
             title:'重量',
             align:"center",
@@ -179,6 +218,46 @@
             title:'件数',
             align:"center",
             dataIndex: 'piece'
+          },
+          {
+            title:'是否中转 0否 1是',
+            align:"center",
+            dataIndex: 'transferIs'
+          },
+          {
+            title:'中转费',
+            align:"center",
+            dataIndex: 'transferMoney'
+          },
+          {
+            title:'保费',
+            align:"center",
+            dataIndex: 'premium'
+          },
+          {
+            title:'倒车费',
+            align:"center",
+            dataIndex: 'backFare'
+          },
+          {
+            title:'送货费',
+            align:"center",
+            dataIndex: 'deliveryExpense'
+          },
+          {
+            title:'接货费',
+            align:"center",
+            dataIndex: 'pickUpCharge'
+          },
+          {
+            title:'其他支出',
+            align:"center",
+            dataIndex: 'otherExpenses'
+          },
+          {
+            title:'应收合计',
+            align:"center",
+            dataIndex: 'receivable'
           },
           {
             title:'运输类型',
@@ -199,6 +278,16 @@
             title:'开票员',
             align:"center",
             dataIndex: 'drawer'
+          },
+          {
+            title:'业务员',
+            align:"center",
+            dataIndex: 'salesman'
+          },
+          {
+            title:'关联单号',
+            align:"center",
+            dataIndex: 'publicCode'
           },
           {
             title: '操作',

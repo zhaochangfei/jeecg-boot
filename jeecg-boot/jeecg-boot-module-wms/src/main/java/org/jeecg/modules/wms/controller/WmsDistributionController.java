@@ -39,7 +39,7 @@ import org.jeecg.common.aspect.annotation.AutoLog;
  /**
  * @Description: 配送单
  * @Author: jeecg-boot
- * @Date:   2023-04-20
+ * @Date:   2023-05-10
  * @Version: V1.0
  */
 @Api(tags="配送单")
