@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.common.util.oConvertUtils;
+import org.jeecg.modules.wms.dto.WmsDistributionDto;
 import org.jeecg.modules.wms.entity.WmsDistribution;
 import org.jeecg.modules.wms.service.IWmsDistributionService;
 
@@ -49,7 +50,7 @@ import org.jeecg.common.aspect.annotation.AutoLog;
 public class WmsDistributionController extends JeecgController<WmsDistribution, IWmsDistributionService> {
 	@Autowired
 	private IWmsDistributionService wmsDistributionService;
-	
+
 	/**
 	 * 分页列表查询
 	 *
@@ -71,35 +72,46 @@ public class WmsDistributionController extends JeecgController<WmsDistribution, 
 		IPage<WmsDistribution> pageList = wmsDistributionService.page(page, queryWrapper);
 		return Result.OK(pageList);
 	}
-	
+
 	/**
 	 *   添加
 	 *
-	 * @param wmsDistribution
+	 * @param wmsDistributionDto
 	 * @return
 	 */
 	@AutoLog(value = "配送单-添加")
 	@ApiOperation(value="配送单-添加", notes="配送单-添加")
 	@PostMapping(value = "/add")
-	public Result<?> add(@RequestBody WmsDistribution wmsDistribution) {
-		wmsDistributionService.save(wmsDistribution);
-		return Result.OK("添加成功！");
+	public Result<?> add(@RequestBody WmsDistributionDto wmsDistributionDto) {
+		try {
+			wmsDistributionService.addOrEdit(wmsDistributionDto);
+			return Result.OK("添加成功！");
+		}catch (Exception e){
+			e.printStackTrace();
+			return Result.error("添加失败！");
+		}
+
 	}
-	
+
 	/**
 	 *  编辑
 	 *
-	 * @param wmsDistribution
+	 * @param wmsDistributionDto
 	 * @return
 	 */
 	@AutoLog(value = "配送单-编辑")
 	@ApiOperation(value="配送单-编辑", notes="配送单-编辑")
 	@PutMapping(value = "/edit")
-	public Result<?> edit(@RequestBody WmsDistribution wmsDistribution) {
-		wmsDistributionService.updateById(wmsDistribution);
-		return Result.OK("编辑成功!");
+	public Result<?> edit(@RequestBody WmsDistributionDto wmsDistributionDto) {
+		try {
+			wmsDistributionService.addOrEdit(wmsDistributionDto);
+			return Result.OK("编辑成功！");
+		}catch (Exception e){
+			e.printStackTrace();
+			return Result.error("编辑失败！");
+		}
 	}
-	
+
 	/**
 	 *   通过id删除
 	 *
@@ -113,7 +125,7 @@ public class WmsDistributionController extends JeecgController<WmsDistribution, 
 		wmsDistributionService.removeById(id);
 		return Result.OK("删除成功!");
 	}
-	
+
 	/**
 	 *  批量删除
 	 *
@@ -127,7 +139,7 @@ public class WmsDistributionController extends JeecgController<WmsDistribution, 
 		this.wmsDistributionService.removeByIds(Arrays.asList(ids.split(",")));
 		return Result.OK("批量删除成功!");
 	}
-	
+
 	/**
 	 * 通过id查询
 	 *

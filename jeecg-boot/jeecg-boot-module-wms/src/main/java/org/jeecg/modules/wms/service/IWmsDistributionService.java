@@ -1,5 +1,6 @@
 package org.jeecg.modules.wms.service;
 
+import org.jeecg.modules.wms.dto.WmsDistributionDto;
 import org.jeecg.modules.wms.entity.WmsDistribution;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -11,4 +12,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IWmsDistributionService extends IService<WmsDistribution> {
 
+    void addOrEdit(WmsDistributionDto wmsDistributionDto);
 }

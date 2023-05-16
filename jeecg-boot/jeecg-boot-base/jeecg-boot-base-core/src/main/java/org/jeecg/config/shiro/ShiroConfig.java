@@ -111,6 +111,9 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/webjars/**", "anon");
         filterChainDefinitionMap.put("/v2/**", "anon");
 
+        //开放Api接口放行
+        filterChainDefinitionMap.put("/ms/api/**", "anon");
+
 
         // update-begin--Author:sunjianlei Date:20210510 for：排除消息通告查看详情页面（用于第三方APP）
         filterChainDefinitionMap.put("/sys/annountCement/show/**", "anon");
