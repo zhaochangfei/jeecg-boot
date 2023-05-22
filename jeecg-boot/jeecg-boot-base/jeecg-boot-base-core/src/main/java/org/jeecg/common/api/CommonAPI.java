@@ -94,4 +94,11 @@ public interface CommonAPI {
      */
     List<DictModel> queryTableDictItemsByCode(String table, String text, String code);
 
+    /**
+     * 14根据用户账号查询app用户信息
+     * @param username
+     * @return
+     */
+    public LoginUser getAppUserByName(String username);
+
 }

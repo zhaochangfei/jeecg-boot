@@ -88,6 +88,11 @@ public class SysBaseAPIFallback implements ISysBaseAPI {
     }
 
     @Override
+    public LoginUser getAppUserByName(String username) {
+        return null;
+    }
+
+    @Override
     public List<DictModel> queryAllDepartBackDictModel() {
         return null;
     }

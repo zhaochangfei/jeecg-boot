@@ -111,16 +111,27 @@ public class ShiroRealm extends AuthorizingRealm {
         if (username == null) {
             throw new AuthenticationException("token非法无效!");
         }
-
+        LoginUser loginUser = new LoginUser();
         // 查询用户信息
         log.debug("———校验token是否有效————checkUserTokenIsEffect——————— "+ token);
-        LoginUser loginUser = commonAPI.getUserByName(username);
-        if (loginUser == null) {
-            throw new AuthenticationException("用户不存在!");
-        }
-        // 判断用户状态
-        if (loginUser.getStatus() != 1) {
-            throw new AuthenticationException("账号已被锁定,请联系管理员!");
+        //截取username 确认是app还是客户端
+        String substring = username.substring(0, 3);
+        if ("app".equals(substring)){
+            String appUserName = username.substring(3);
+            username = appUserName;
+            loginUser = commonAPI.getAppUserByName(appUserName);
+            if (loginUser==null){
+                throw new AuthenticationException("用户不存在!");
+            }
+        }else {
+            loginUser = commonAPI.getUserByName(username);
+            if (loginUser == null) {
+                throw new AuthenticationException("用户不存在!");
+            }
+            // 判断用户状态
+            if (loginUser.getStatus() != 1) {
+                throw new AuthenticationException("账号已被锁定,请联系管理员!");
+            }
         }
         // 校验token是否超时失效 & 或者账号密码是否错误
         if (!jwtTokenRefresh(token, username, loginUser.getPassword())) {

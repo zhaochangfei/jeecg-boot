@@ -113,6 +113,8 @@ public class ShiroConfig {
 
         //开放Api接口放行
         filterChainDefinitionMap.put("/ms/api/**", "anon");
+        filterChainDefinitionMap.put("/wms/wmsAppUser/add", "anon"); //app注册
+        filterChainDefinitionMap.put("/wms/wmsAppUser/checkOnlyUser", "anon"); //app查验账号是否存在
 
 
         // update-begin--Author:sunjianlei Date:20210510 for：排除消息通告查看详情页面（用于第三方APP）

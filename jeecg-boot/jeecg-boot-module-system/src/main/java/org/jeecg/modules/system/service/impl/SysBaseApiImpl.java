@@ -1,4 +1,5 @@
 package org.jeecg.modules.system.service.impl;
+import cn.hutool.log.Log;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -33,6 +34,8 @@ import org.jeecg.modules.system.entity.*;
 import org.jeecg.modules.system.mapper.*;
 import org.jeecg.modules.system.service.*;
 import org.jeecg.modules.system.util.SecurityUtil;
+import org.jeecg.modules.wms.entity.WmsAppUser;
+import org.jeecg.modules.wms.service.IWmsAppUserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -50,7 +53,7 @@ import java.util.*;
 /**
  * @Description: 底层共通业务API，提供其他独立模块调用
  * @Author: scott
- * @Date:2019-4-20 
+ * @Date:2019-4-20
  * @Version:V1.0
  */
 @Slf4j
@@ -96,6 +99,8 @@ public class SysBaseApiImpl implements ISysBaseAPI {
 	private ThirdAppWechatEnterpriseServiceImpl wechatEnterpriseService;
 	@Autowired
 	private ThirdAppDingtalkServiceImpl dingtalkService;
+	@Resource
+	private IWmsAppUserService appUserService;
 
 	@Override
 	@Cacheable(cacheNames=CacheConstant.SYS_USERS_CACHE, key="#username")
@@ -284,6 +289,17 @@ public class SysBaseApiImpl implements ISysBaseAPI {
 		}
 		//update-end-author:taoyan date:20200820 for:【Online+系统】字典表加权限控制机制逻辑，想法不错 LOWCOD-799
 		return sysDictService.queryTableDictItemsByCode(table, text, code);
+	}
+
+	@Override
+	public LoginUser getAppUserByName(String username) {
+		WmsAppUser wmsAppUser = appUserService.getUserByName(username);
+		LoginUser loginUser = new LoginUser();
+		loginUser.setId(wmsAppUser.getId());
+		loginUser.setUsername(wmsAppUser.getUsername());
+		loginUser.setRealname(wmsAppUser.getDriver());
+		loginUser.setPassword(wmsAppUser.getPassword());
+		return loginUser;
 	}
 
 	@Override
