@@ -122,4 +122,8 @@ public class WmsAppUser implements Serializable {
     @Excel(name = "外部Id", width = 15)
     @ApiModelProperty(value = "外部Id")
     private java.lang.String publicId;
+    /**手机Id*/
+    @Excel(name = "手机Id", width = 15)
+    @ApiModelProperty(value = "手机Id")
+    private java.lang.String openId;
 }
