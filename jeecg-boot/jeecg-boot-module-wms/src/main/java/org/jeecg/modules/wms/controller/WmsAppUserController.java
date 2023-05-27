@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.jeecg.common.api.vo.Result;
+import org.jeecg.common.constant.CommonConstant;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.common.util.oConvertUtils;
 import org.jeecg.modules.wms.entity.WmsAppUser;
@@ -161,6 +162,7 @@ public class WmsAppUserController extends JeecgController<WmsAppUser, IWmsAppUse
 			 return result;
 		 }
 		 result.setSuccess(true);
+		 result.setCode(CommonConstant.SC_OK_200);
 		 return result;
 	 }
 
