@@ -43,7 +43,8 @@ import org.jeecg.common.aspect.annotation.AutoLog;
  * @Date:   2023-05-10
  * @Version: V1.0
  */
-@Api(tags="配送单")
+@Api(tags="配送" +
+		"单")
 @RestController
 @RequestMapping("/wms/wmsDistribution")
 @Slf4j

@@ -6,6 +6,7 @@ import java.util.Date;
 import java.math.BigDecimal;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -120,9 +121,25 @@ public class WmsDistribution implements Serializable {
 	@Excel(name = "车辆电话", width = 15)
     @ApiModelProperty(value = "车辆电话")
     private java.lang.String carIphone;
+    /**车辆司机*/
+    @Excel(name = "车辆司机", width = 15)
+    @ApiModelProperty(value = "车辆司机")
+    private java.lang.String carDerver;
+    @Excel(name = "中转车辆Id", width = 15)
+    @ApiModelProperty(value = "中转车辆Id")
+    private java.lang.String carIdTransfer;
+    /**车辆电话*/
+    @Excel(name = "中转车辆电话", width = 15)
+    @ApiModelProperty(value = "中转车辆电话")
+    private java.lang.String carIphoneTransfer;
+    /**车辆司机*/
+    @Excel(name = "中转车辆司机", width = 15)
+    @ApiModelProperty(value = "中转车辆司机")
+    private java.lang.String carDerverTransfer;
 	/**逻辑删除标记*/
 	@Excel(name = "逻辑删除标记", width = 15)
     @ApiModelProperty(value = "逻辑删除标记")
+    @TableLogic
     private java.lang.String delFlag;
 	/**重量*/
 	@Excel(name = "重量", width = 15)
@@ -135,6 +152,7 @@ public class WmsDistribution implements Serializable {
 	/**是否中转 0否 1是*/
 	@Excel(name = "是否中转 0否 1是", width = 15)
     @ApiModelProperty(value = "是否中转 0否 1是")
+    @Dict(dicCode = "transferIs")
     private java.lang.String transferIs;
 	/**中转费*/
 	@Excel(name = "中转费", width = 15)
@@ -167,10 +185,12 @@ public class WmsDistribution implements Serializable {
 	/**运输类型*/
 	@Excel(name = "运输类型", width = 15)
     @ApiModelProperty(value = "运输类型")
+    @Dict(dicCode = "di_type")
     private java.lang.String type;
 	/**送货方式*/
 	@Excel(name = "送货方式", width = 15)
     @ApiModelProperty(value = "送货方式")
+    @Dict(dicCode = "shippingMethod")
     private java.lang.String shippingMethod;
 	/**备注*/
 	@Excel(name = "备注", width = 15)

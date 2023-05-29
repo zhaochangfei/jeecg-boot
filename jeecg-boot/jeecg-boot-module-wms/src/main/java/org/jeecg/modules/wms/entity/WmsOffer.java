@@ -6,6 +6,7 @@ import java.util.Date;
 import java.math.BigDecimal;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -57,6 +58,7 @@ public class WmsOffer implements Serializable {
 	/**逻辑删除标记*/
 	@Excel(name = "逻辑删除标记", width = 15)
     @ApiModelProperty(value = "逻辑删除标记")
+    @TableLogic
     private java.lang.String delFlag;
 	/**单号*/
 	@Excel(name = "单号", width = 15)

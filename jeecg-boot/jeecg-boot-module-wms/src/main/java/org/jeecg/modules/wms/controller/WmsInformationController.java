@@ -153,7 +153,7 @@ public class WmsInformationController extends JeecgController<WmsInformation, IW
 	  */
 	 @AutoLog(value = "信息录入表-通过id受理")
 	 @ApiOperation(value="信息录入表-通过id受理", notes="信息录入表-通过id受理")
-	 @GetMapping(value = "/changeStatusById")
+	 @GetMapping(value = "/ ")
 	 public Result<?> changeStatusById(@RequestParam(name="id",required=true) String id) {
 		 WmsInformation wmsInformation = wmsInformationService.getById(id);
 		 if ("1".equals(wmsInformation.getSstatus())){

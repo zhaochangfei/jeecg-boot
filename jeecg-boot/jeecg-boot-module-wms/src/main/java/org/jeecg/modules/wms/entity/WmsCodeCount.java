@@ -2,6 +2,7 @@ package org.jeecg.modules.wms.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
@@ -66,6 +67,7 @@ public class WmsCodeCount implements Serializable {
 	/**逻辑删除标记*/
 	@Excel(name = "逻辑删除标记", width = 15)
     @ApiModelProperty(value = "逻辑删除标记")
+    @TableLogic
     private java.lang.String delFlag;
 	/**编号*/
 	@Excel(name = "编号", width = 15)

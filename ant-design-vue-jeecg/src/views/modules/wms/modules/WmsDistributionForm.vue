@@ -95,8 +95,17 @@
           </a-row>
           <a-row>
             <a-col :span="8">
-              <a-form-model-item label="车辆" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="carId">
-                <a-input v-model="model.carId" placeholder="请选择车辆"></a-input>
+              <a-form-model-item label="车辆" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="carId_dictText">
+                <a-input-group compact>
+                  <a-button @click="showCar('0')" icon="dash"></a-button>
+                  <a-input
+                    style="width: 290px"
+                    v-model="model.carId_dictText"
+                    onfocus="this.blur()"
+                    placeholder="请选择车辆"
+                    allow-clear
+                  />
+                </a-input-group>
               </a-form-model-item>
             </a-col>
             <a-col :span="8">
@@ -105,8 +114,8 @@
               </a-form-model-item>
             </a-col>
             <a-col :span="8">
-              <a-form-model-item label="司机" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="carIphone">
-                <a-input v-model="model.carIphone" placeholder="请输入司机"></a-input>
+              <a-form-model-item label="司机" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="carDriver">
+                <a-input v-model="model.carDriver" placeholder="请输入司机"></a-input>
               </a-form-model-item>
             </a-col>
           </a-row>
@@ -118,7 +127,7 @@
               </a-form-model-item>
             </a-col>
             <a-col :span="8">
-              <a-form-model-item label="预付（代收货款）" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="prepay">
+              <a-form-model-item label="预付" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="prepay">
                 <a-input-number v-model="model.prepay" placeholder="请输入预付（代收货款）" style="width: 100%" />
               </a-form-model-item>
             </a-col>
@@ -131,7 +140,7 @@
           <a-row>
             <a-col :span="8">
               <a-form-model-item
-                label="总运费（费用合计）"
+                label="总运费"
                 :labelCol="labelCol"
                 :wrapperCol="wrapperCol"
                 prop="sumMoney"
@@ -145,21 +154,21 @@
                 <a-input-number v-model="model.weight" placeholder="请输入重量" style="width: 100%" />
               </a-form-model-item>
             </a-col>
-          </a-row>
-          <a-row>
             <a-col :span="8">
               <a-form-model-item label="件数" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="piece">
                 <a-input v-model="model.piece" placeholder="请输入件数"></a-input>
               </a-form-model-item>
             </a-col>
+          </a-row>
+          <a-row>
             <a-col :span="8">
               <a-form-model-item
-                label="是否中转 0否 1是"
+                label="是否中转"
                 :labelCol="labelCol"
                 :wrapperCol="wrapperCol"
                 prop="transferIs"
               >
-                <a-input v-model="model.transferIs" placeholder="请输入是否中转 0否 1是"></a-input>
+              <j-dict-select-tag type="list" v-model="model.transferIs" dictCode="transferIs" placeholder="请选择是否中转" />
               </a-form-model-item>
             </a-col>
             <a-col :span="8">
@@ -167,30 +176,41 @@
                 <a-input-number v-model="model.transferMoney" placeholder="请输入中转费" style="width: 100%" />
               </a-form-model-item>
             </a-col>
-          </a-row>
-          <a-row>
             <a-col :span="8">
-              <a-form-model-item label="保费" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="premium">
-                <a-input-number v-model="model.premium" placeholder="请输入保费" style="width: 100%" />
-              </a-form-model-item>
-            </a-col>
-            <a-col :span="8">
-              <a-form-model-item label="倒车费" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="backFare">
-                <a-input-number v-model="model.backFare" placeholder="请输入倒车费" style="width: 100%" />
-              </a-form-model-item>
-            </a-col>
-            <a-col :span="8">
-              <a-form-model-item label="送货费" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="deliveryExpense">
-                <a-input-number v-model="model.deliveryExpense" placeholder="请输入送货费" style="width: 100%" />
+              <a-form-model-item label="送货方式" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="shippingMethod">
+                <j-dict-select-tag type="list" v-model="model.shippingMethod" dictCode="shippingMethod" placeholder="请选择送货方式" />
               </a-form-model-item>
             </a-col>
           </a-row>
           <a-row>
-            <a-col :span="8">
-              <a-form-model-item label="接货费" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="pickUpCharge">
-                <a-input-number v-model="model.pickUpCharge" placeholder="请输入接货费" style="width: 100%" />
+            <span v-if="this.model.transferIs=='1'">
+              <a-col :span="8">
+              <a-form-model-item label="中转车辆" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="carIdTransfer_dictText">
+                <a-input-group compact>
+                  <a-button @click="showCar('1')" icon="dash"></a-button>
+                  <a-input
+                    style="width: 290px"
+                    v-model="model.carIdTransfer_dictText"
+                    onfocus="this.blur()"
+                    placeholder="请选择中转车辆"
+                    allow-clear
+                  />
+                </a-input-group>
               </a-form-model-item>
             </a-col>
+            <a-col :span="8">
+              <a-form-model-item label="中转车辆电话" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="carIphoneTransfer">
+                <a-input v-model="model.carIphoneTransfer" placeholder="请输入中转车辆电话"></a-input>
+              </a-form-model-item>
+            </a-col>
+            <a-col :span="8">
+              <a-form-model-item label="中转司机" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="carDriverTransfer">
+                <a-input v-model="model.carDriverTransfer" placeholder="请输入中转司机"></a-input>
+              </a-form-model-item>
+            </a-col>
+            </span>
+          </a-row>
+          <a-row>
             <a-col :span="8">
               <a-form-model-item label="其他支出" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="otherExpenses">
                 <a-input-number v-model="model.otherExpenses" placeholder="请输入其他支出" style="width: 100%" />
@@ -201,44 +221,22 @@
                 <a-input-number v-model="model.receivable" placeholder="请输入应收合计" style="width: 100%" />
               </a-form-model-item>
             </a-col>
-          </a-row>
-          <a-row>
             <a-col :span="8">
               <a-form-model-item label="运输类型" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="type">
-                <a-input v-model="model.type" placeholder="请输入运输类型"></a-input>
-              </a-form-model-item>
-            </a-col>
-            <a-col :span="8">
-              <a-form-model-item label="送货方式" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="shippingMethod">
-                <a-input v-model="model.shippingMethod" placeholder="请输入送货方式"></a-input>
-              </a-form-model-item>
-            </a-col>
-            <a-col :span="8">
-              <a-form-model-item label="备注" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="remark">
-                <a-textarea v-model="model.remark" rows="4" placeholder="请输入备注" />
+                <j-dict-select-tag type="list" v-model="model.type" dictCode="di_type" placeholder="请输入运输类型" />
               </a-form-model-item>
             </a-col>
           </a-row>
           <a-row>
-            <a-col :span="8">
-              <a-form-model-item label="开票员" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="drawer">
-                <a-input v-model="model.drawer" placeholder="请输入开票员"></a-input>
-              </a-form-model-item>
-            </a-col>
-            <a-col :span="8">
-              <a-form-model-item label="业务员" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="salesman">
-                <a-input v-model="model.salesman" placeholder="请输入业务员"></a-input>
-              </a-form-model-item>
-            </a-col>
-            <a-col :span="8">
-              <a-form-model-item label="关联单号" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="publicCode">
-                <a-input v-model="model.publicCode" placeholder="请输入关联单号"></a-input>
+            <a-col :span="24">
+              <a-form-model-item label="备注" :labelCol="labelCol2" :wrapperCol="wrapperCol" prop="remark">
+                <a-textarea v-model="model.remark" rows="4" placeholder="请输入备注" />
               </a-form-model-item>
             </a-col>
           </a-row>
         </div>
         <div class="fx_list">
-          <h2>成交价格</h2>
+          <h2>货物明细</h2>
 
           <a-row :gutter="10">
             <a-col :span="24">
@@ -288,7 +286,7 @@
     <!-- 选择收货人员 -->
     <wmsConsigneeUp ref="wmsConsigneeUp" v-if="consigneeUp" @wmsConsigneeUp="wmsConsigneeUp"></wmsConsigneeUp>
     <!-- 选择车辆 -->
-    <wmsConsigneeUp ref="wmsConsigneeUp" v-if="consigneeUp" @wmsConsigneeUp="wmsConsigneeUp"></wmsConsigneeUp>
+    <wmsCarUp ref="wmsCarUp" v-if="carUp" @wmsCarUp="wmsCarUp"></wmsCarUp>
   </a-spin>
 </template>
 
@@ -297,12 +295,14 @@ import { httpAction, getAction } from '@/api/manage'
 import { validateDuplicateValue } from '@/utils/util'
 import  wmsConsignorUp from '../pup/WmsConsignorUp'
 import  wmsConsigneeUp from '../pup/WmsConsigneeUp'
+import  wmsCarUp from '../pup/WmsCarUp'
 
 export default {
   name: 'WmsDistributionForm',
   components: {
     wmsConsignorUp,
-    wmsConsigneeUp
+    wmsConsigneeUp,
+    wmsCarUp
   },
   props: {
     //表单禁用
@@ -320,10 +320,15 @@ export default {
         xs: { span: 24 },
         sm: { span: 5 },
       },
+      labelCol2: {
+        xs: { span: 24 },
+        sm: { span: 2 },
+      },
       wrapperCol: {
         xs: { span: 24 },
         sm: { span: 16 },
       },
+      
       loading: false,
       confirmLoading: false,
       validatorRules: {},
@@ -385,6 +390,8 @@ export default {
       ],
       consignorUp: false, //发货人弹窗
       consigneeUp: false, //收货人弹窗
+      carUp: false, //车辆弹窗
+      carFlag:'',//车辆弹窗标记
     }
   },
   computed: {
@@ -434,6 +441,29 @@ export default {
         this.$set(this.model, 'consigneeId', data[0].id)
         this.$set(this.model, 'consigneeIdcard', data[0].idcard)
         this.$set(this.model, 'consigneeIphone', data[0].iphone)
+      }
+    },
+    //打开司机车辆弹窗
+    showCar(flag) {
+      this.carFlag = flag
+      this.carUp = true
+      this.$nextTick(() => {
+        this.$refs.wmsCarUp.initpany()
+      })
+    },
+    //司机车辆回调接口
+    wmsCarUp(data) {
+      if (data&&this.carFlag=='0') {
+        this.$set(this.model, 'carId_dictText', data[0].licensePlateNumber)
+        this.$set(this.model, 'carId', data[0].id)
+        this.$set(this.model, 'carDriver', data[0].driver)
+        this.$set(this.model, 'carIphone', data[0].iphone)
+      }
+      if (data&&this.carFlag=='1') {
+        this.$set(this.model, 'carIdTransfer_dictText', data[0].licensePlateNumber)
+        this.$set(this.model, 'carIdTransfer', data[0].id)
+        this.$set(this.model, 'carDriverTransfer', data[0].driver)
+        this.$set(this.model, 'carIphoneTransfer', data[0].iphone)
       }
     },
     //新增
