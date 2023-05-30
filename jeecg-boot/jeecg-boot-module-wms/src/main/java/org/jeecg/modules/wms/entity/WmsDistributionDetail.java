@@ -100,4 +100,8 @@ public class WmsDistributionDetail implements Serializable {
 	@Excel(name = "合计", width = 15)
     @ApiModelProperty(value = "合计")
     private java.lang.String totalMoney;
+    /**备注*/
+    @Excel(name = "备注", width = 15)
+    @ApiModelProperty(value = "备注")
+    private java.lang.String remark;
 }

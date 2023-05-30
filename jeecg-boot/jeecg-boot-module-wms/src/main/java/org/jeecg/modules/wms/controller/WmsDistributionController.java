@@ -67,10 +67,13 @@ public class WmsDistributionController extends JeecgController<WmsDistribution, 
 	public Result<?> queryPageList(WmsDistribution wmsDistribution,
 								   @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
 								   @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
+								   @RequestParam(name="inputValue", required = false) String inputValue,
+								   @RequestParam(name="startTime", required = false) String startTime,
+								   @RequestParam(name="endTime", required = false) String endTime,
 								   HttpServletRequest req) {
-		QueryWrapper<WmsDistribution> queryWrapper = QueryGenerator.initQueryWrapper(wmsDistribution, req.getParameterMap());
+//		QueryWrapper<WmsDistribution> queryWrapper = QueryGenerator.initQueryWrapper(wmsDistribution, req.getParameterMap());
 		Page<WmsDistribution> page = new Page<WmsDistribution>(pageNo, pageSize);
-		IPage<WmsDistribution> pageList = wmsDistributionService.page(page, queryWrapper);
+		IPage<WmsDistribution> pageList = wmsDistributionService.pageList(page,inputValue,startTime,endTime);
 		return Result.OK(pageList);
 	}
 
@@ -126,6 +129,25 @@ public class WmsDistributionController extends JeecgController<WmsDistribution, 
 		wmsDistributionService.removeById(id);
 		return Result.OK("删除成功!");
 	}
+	 /**
+	  *   通过id改变状态
+	  *
+	  * @param id
+	  * @return
+	  */
+	 @AutoLog(value = "配送单-通过id改变状态")
+	 @ApiOperation(value="配送单-通过id改变状态", notes="配送单-通过id改变状态")
+	 @GetMapping(value = "/updateStatus")
+	 public Result<?> updateStatus(@RequestParam(name="id",required=true) String id,
+								   @RequestParam(name="status",required=true) String status) {
+		 try {
+			 wmsDistributionService.updateStatus(id,status);
+			 return Result.OK("更改成功!");
+		 }catch (Exception e){
+			 e.printStackTrace();
+			 return Result.error(e.getMessage());
+		 }
+	 }
 
 	/**
 	 *  批量删除

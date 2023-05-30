@@ -1,5 +1,7 @@
 package org.jeecg.modules.wms.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.jeecg.modules.wms.entity.WmsDistributionDetail;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -11,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IWmsDistributionDetailService extends IService<WmsDistributionDetail> {
 
+    IPage<WmsDistributionDetail> getCargoList(Page<WmsDistributionDetail> page, String carNo, String status);
 }

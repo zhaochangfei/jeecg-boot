@@ -1,5 +1,7 @@
 package org.jeecg.modules.wms.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.jeecg.modules.wms.dto.WmsDistributionDto;
 import org.jeecg.modules.wms.entity.WmsDistribution;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -13,4 +15,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface IWmsDistributionService extends IService<WmsDistribution> {
 
     void addOrEdit(WmsDistributionDto wmsDistributionDto);
+
+    IPage<WmsDistribution> pageList(Page<WmsDistribution> page, String inputValue, String startTime, String endTime);
+
+    void updateStatus(String id, String status);
 }

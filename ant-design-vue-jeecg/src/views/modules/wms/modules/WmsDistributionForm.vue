@@ -11,7 +11,7 @@
             </a-col>
             <a-col :span="8">
               <a-form-model-item label="手输单号" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="code">
-                <a-input v-model="model.code" placeholder="不填则自动生成"></a-input>
+                <a-input v-model="model.code" disabled placeholder="不填则自动生成"></a-input>
               </a-form-model-item>
             </a-col>
             <a-col :span="8">
@@ -255,17 +255,17 @@
                 rowKey="pibuItemName"
                 class="j-table-force-nowrap"
               >
-                <span slot="name" slot-scope="text, record">
-                  <a-input v-model="record.price" />
+                <span slot="goodsName" slot-scope="text, record">
+                  <a-input v-model="record.goodsName" />
                 </span>
-                <span slot="iphone" slot-scope="text, record">
-                  <a-input v-model="record.iphone" />
+                <span slot="packaging" slot-scope="text, record">
+                  <a-input v-model="record.packaging" />
                 </span>
-                <span slot="idcard" slot-scope="text, record">
-                  <a-input v-model="record.idcard" />
+                <span slot="number" slot-scope="text, record">
+                  <a-input v-model="record.number" />
                 </span>
-                <span slot="address" slot-scope="text, record">
-                  <a-input v-model="record.address" />
+                <span slot="quantity" slot-scope="text, record">
+                  <a-input v-model="record.quantity" />
                 </span>
                 <span slot="remark" slot-scope="text, record">
                   <a-input v-model="record.remark" />
@@ -292,6 +292,7 @@
 
 <script>
 import { httpAction, getAction } from '@/api/manage'
+import { queryWmsDistributionDetails } from '@/api/wmswarehouse'
 import { validateDuplicateValue } from '@/utils/util'
 import  wmsConsignorUp from '../pup/WmsConsignorUp'
 import  wmsConsigneeUp from '../pup/WmsConsigneeUp'
@@ -331,7 +332,24 @@ export default {
       
       loading: false,
       confirmLoading: false,
-      validatorRules: {},
+      validatorRules: {
+        billdate: { required: true, message: '请选择开票日期' },
+        consignorId_dictText: { required: true, message: '请选择发货人！' },
+        consigneeId_dictText: { required: true, message: '请选择收货人！' },
+        carId_dictText: { required: true, message: '请选择车辆！' },
+        transferIs: { required: true, message: '请选择是否中转！' },
+        carIdTransfer_dictText: { required: true, message: '请选择中转车辆!' },
+        // code: { required: true, message: '请输入输单号!' },
+        consignorIphone: { required: true, message: '请输入发货人电话!' },
+        originatingStation: { required: true, message: '请输入起运站!' },
+        consigneeIphone: { required: true, message: '请输入联系电话!' },
+        arrivalStation: { required: true, message: '请输入到达站!' },
+        carDriver: { required: true, message: '请输入司机!' },
+        carIphone: { required: true, message: '请输入车辆电话!' },
+        sumMoney: { required: true, message: '请输入总运费!' },
+        weight: { required: true, message: '请输入重量!' },
+        piece: { required: true, message: '请输入件数!' },
+      },
       url: {
         add: '/wms/wmsDistribution/add',
         edit: '/wms/wmsDistribution/edit',
@@ -351,29 +369,29 @@ export default {
         {
           title: '货物名称',
           align: 'center',
-          dataIndex: 'name',
-          scopedSlots: { customRender: 'name' },
+          dataIndex: 'goodsName',
+          scopedSlots: { customRender: 'goodsName' },
         },
         {
           title: '包装',
           align: 'center',
-          dataIndex: 'iphone',
-          scopedSlots: { customRender: 'iphone' },
+          dataIndex: 'packaging',
+          scopedSlots: { customRender: 'packaging' },
         },
 
         {
           title: '数量',
           align: 'center',
           width: 100,
-          dataIndex: 'idcard',
-          scopedSlots: { customRender: 'idcard' },
+          dataIndex: 'number',
+          scopedSlots: { customRender: 'number' },
         },
         {
           title: '重量',
           align: 'center',
           width: 100,
-          dataIndex: 'address',
-          scopedSlots: { customRender: 'address' },
+          dataIndex: 'quantity',
+          scopedSlots: { customRender: 'quantity' },
         },
         {
           title: '备注',
@@ -405,10 +423,15 @@ export default {
   },
   methods: {
     add() {
-      this.edit(this.modelDefault)
+      // this.edit(this.modelDefault)
     },
     edit(record) {
       this.model = Object.assign({}, record)
+      queryWmsDistributionDetails({ distributionId: record.id,pageSize:1000 }).then(res => {
+            if (res.result) {
+              this.details = res.result.records
+            }
+          })
       this.visible = true
     },
     //打开发货人员弹窗
@@ -484,6 +507,7 @@ export default {
       this.details.splice(i, 1)
     },
     submitForm() {
+      this.model.details=this.details
       const that = this
       // 触发表单验证
       this.$refs.form.validate((valid) => {

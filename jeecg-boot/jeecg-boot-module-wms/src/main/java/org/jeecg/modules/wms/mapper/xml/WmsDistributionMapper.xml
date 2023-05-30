@@ -2,4 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.jeecg.modules.wms.mapper.WmsDistributionMapper">
 
+    <select id="pageList" resultType="org.jeecg.modules.wms.entity.WmsDistribution">
+        select wd.* from wms_distribution wd
+        left join wms_consignor wc on wc.id = wd.consignor_id and wc.del_flag = '0'
+        left join wms_consignee wc2 on wc2.id = wd.consignee_id and wc2.del_flag = '0'
+        left join wms_car wc3 on wc3.id = wd.car_id and wc3.del_flag = '0'
+        where wd.del_flag = '0'
+         <if test="inputValue!= null and inputValue != ''">
+             and ((wd.code like concat('%',#{inputValue},'%'))or(wc.name like concat('%',#{inputValue},'%'))or
+             (wc2.name like concat('%',#{inputValue},'%'))or(wd.operator like concat('%',#{inputValue},'%'))or
+             (wc3.license_plate_number like concat('%',#{inputValue},'%'))or(wd.originating_station like concat('%',#{inputValue},'%'))or
+             (wd.arrival_station like concat('%',#{inputValue},'%')))
+         </if>
+        <if test="startTime!=null and startTime.trim() neq ''">
+            AND date_format(wd.billdate,'%Y-%m-%d') &gt;= date_format(#{startTime},'%Y-%m-%d')
+        </if>
+        <if test="endTime!=null and endTime.trim() neq ''">
+            AND date_format(wd.billdate,'%Y-%m-%d') &lt;= date_format(#{endTime},'%Y-%m-%d')
+        </if>
+        order by wd.billdate desc
+    </select>
 </mapper>

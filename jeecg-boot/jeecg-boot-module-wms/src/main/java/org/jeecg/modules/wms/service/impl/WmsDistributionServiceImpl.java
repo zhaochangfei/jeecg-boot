@@ -2,7 +2,10 @@ package org.jeecg.modules.wms.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang3.StringUtils;
+import org.jeecg.common.exception.JeecgBootException;
 import org.jeecg.common.util.FillRuleUtil;
 import org.jeecg.modules.wms.dto.WmsDistributionDto;
 import org.jeecg.modules.wms.entity.WmsDistribution;
@@ -14,6 +17,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -62,5 +66,23 @@ public class WmsDistributionServiceImpl extends ServiceImpl<WmsDistributionMappe
             wrapper.notIn("id",detailIds);
         }
         detailService.remove(wrapper);
+    }
+
+    @Override
+    public IPage<WmsDistribution> pageList(Page<WmsDistribution> page, String inputValue, String startTime, String endTime) {
+        return baseMapper.pageList(page,inputValue,startTime,endTime);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateStatus(String id, String status) {
+        WmsDistribution wmsDistribution = baseMapper.selectById(id);
+        if (status.equals(wmsDistribution.getSstatus())){
+            throw new JeecgBootException("已更改请勿重复更改！");
+        }
+        WmsDistribution wmsDistribution1 = new WmsDistribution();
+        wmsDistribution1.setId(id);
+        wmsDistribution1.setSstatus(status);
+        baseMapper.updateById(wmsDistribution1);
     }
 }
