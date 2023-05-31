@@ -145,7 +145,7 @@
                 :wrapperCol="wrapperCol"
                 prop="sumMoney"
               >
-                <a-input v-model="model.sumMoney" placeholder="请输入总运费（费用合计）"></a-input>
+                <a-input v-model="model.sumMoney = zDemandNum" placeholder="请输入总运费（费用合计）"></a-input>
               </a-form-model-item>
             </a-col>
 
@@ -415,6 +415,13 @@ export default {
   computed: {
     formDisabled() {
       return this.disabled
+    },
+     zDemandNum() {
+      if (isNaN(Number(this.model.spotPayment) +Number(this.model.prepay) + Number(this.model.withdrawal))) {
+        return ''
+      } else {
+        return (Number(this.model.spotPayment) + Number(this.model.prepay) + Number(this.model.withdrawal)).toFixed(2)
+      }
     },
   },
   created() {

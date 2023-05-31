@@ -70,8 +70,8 @@ public class WmsConsigneeController extends JeecgController<WmsConsignee, IWmsCo
 								   @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
 								   HttpServletRequest req) {
 		QueryWrapper<WmsConsignee> queryWrapper = QueryGenerator.initQueryWrapper(wmsConsignee, req.getParameterMap());
-		LoginUser sysUser = (LoginUser) SecurityUtils.getSubject().getPrincipal();
-		queryWrapper.eq("sys_org_code",sysUser.getOrgCode());
+//		LoginUser sysUser = (LoginUser) SecurityUtils.getSubject().getPrincipal();
+//		queryWrapper.eq("sys_org_code",sysUser.getOrgCode());
 		Page<WmsConsignee> page = new Page<WmsConsignee>(pageNo, pageSize);
 		IPage<WmsConsignee> pageList = wmsConsigneeService.page(page, queryWrapper);
 		return Result.OK(pageList);
