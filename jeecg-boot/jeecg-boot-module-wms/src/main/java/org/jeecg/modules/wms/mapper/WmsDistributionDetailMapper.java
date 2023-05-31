@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 import org.jeecg.modules.wms.entity.WmsDistributionDetail;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.jeecg.modules.wms.vo.WmsDistributionDetailVo;
 
 /**
  * @Description: 配送单明细表
@@ -16,7 +17,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface WmsDistributionDetailMapper extends BaseMapper<WmsDistributionDetail> {
 
-    IPage<WmsDistributionDetail> getCargoList(@Param("page") Page<WmsDistributionDetail> page,
-                                              @Param("carNo") String carNo,
-                                              @Param("status") String status);
+    IPage<WmsDistributionDetailVo> getCargoList(@Param("page") Page<WmsDistributionDetailVo> page,
+                                                @Param("carNo") String carNo,
+                                                @Param("status") String status);
 }

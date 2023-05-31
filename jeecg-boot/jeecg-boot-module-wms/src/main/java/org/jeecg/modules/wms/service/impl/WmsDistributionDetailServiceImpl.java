@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.jeecg.modules.wms.entity.WmsDistributionDetail;
 import org.jeecg.modules.wms.mapper.WmsDistributionDetailMapper;
 import org.jeecg.modules.wms.service.IWmsDistributionDetailService;
+import org.jeecg.modules.wms.vo.WmsDistributionDetailVo;
 import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -19,7 +20,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 public class WmsDistributionDetailServiceImpl extends ServiceImpl<WmsDistributionDetailMapper, WmsDistributionDetail> implements IWmsDistributionDetailService {
 
     @Override
-    public IPage<WmsDistributionDetail> getCargoList(Page<WmsDistributionDetail> page, String carNo, String status) {
+    public IPage<WmsDistributionDetailVo> getCargoList(Page<WmsDistributionDetailVo> page, String carNo, String status) {
         return baseMapper.getCargoList(page,carNo,status);
     }
 }

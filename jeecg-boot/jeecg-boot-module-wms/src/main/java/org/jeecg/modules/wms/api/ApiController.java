@@ -13,6 +13,8 @@ import org.jeecg.common.util.RestUtil;
 import org.jeecg.modules.wms.entity.WmsDistribution;
 import org.jeecg.modules.wms.entity.WmsDistributionDetail;
 import org.jeecg.modules.wms.service.IWmsDistributionDetailService;
+import org.jeecg.modules.wms.service.IWmsDistributionService;
+import org.jeecg.modules.wms.vo.WmsDistributionDetailVo;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,6 +31,8 @@ public class ApiController {
 
     @Resource
     private IWmsDistributionDetailService detailService;
+    @Resource
+    private IWmsDistributionService distributionService;
 
     @AutoLog(value = "Api-获取监控Token")
     @ApiOperation(value="Api-获取监控Token", notes="Api-获取监控Token")
@@ -48,10 +52,19 @@ public class ApiController {
                                   @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
                                   @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
                                        HttpServletRequest req) {
-        Page<WmsDistributionDetail> page = new Page<WmsDistributionDetail>(pageNo, pageSize);
-        IPage<WmsDistributionDetail> pageList =  detailService.getCargoList(page,carNo,status);
+        Page<WmsDistributionDetailVo> page = new Page<WmsDistributionDetailVo>(pageNo, pageSize);
+        IPage<WmsDistributionDetailVo> pageList =  detailService.getCargoList(page,carNo,status);
         return Result.OK(pageList);
     }
+//    @AutoLog(value = "Api-修改运单状态")
+//    @ApiOperation(value="Api-修改运单状态", notes="Api-修改运单状态")
+//    @GetMapping(value = "/updateStatus ")
+//    public Result<?> updateStatus(@RequestParam(name = "code",required = true) String code,
+//                                  @RequestParam(name = "status",required = true) String status,
+//                                  HttpServletRequest req) {
+//        distributionService;
+//        return Result.OK(pageList);
+//    }
 
 
 }
