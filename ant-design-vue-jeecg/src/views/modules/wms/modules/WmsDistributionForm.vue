@@ -145,12 +145,12 @@
                 :wrapperCol="wrapperCol"
                 prop="sumMoney"
               >
-                <a-input v-model="model.sumMoney = zDemandNum" placeholder="请输入总运费（费用合计）"></a-input>
+                <a-input disabled v-model="model.sumMoney = zDemandNum" placeholder="请输入总运费（费用合计）"></a-input>
               </a-form-model-item>
             </a-col>
 
             <a-col :span="8">
-              <a-form-model-item label="重量" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="weight">
+              <a-form-model-item label="重量(kg)" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="weight">
                 <a-input-number v-model="model.weight" placeholder="请输入重量" style="width: 100%" />
               </a-form-model-item>
             </a-col>
@@ -262,10 +262,13 @@
                   <a-input v-model="record.packaging" />
                 </span>
                 <span slot="number" slot-scope="text, record">
-                  <a-input v-model="record.number" />
+                  <a-input-number v-model="record.number" />
                 </span>
                 <span slot="quantity" slot-scope="text, record">
-                  <a-input v-model="record.quantity" />
+                  <a-input-number v-model="record.quantity" />
+                </span>
+                <span slot="freight" slot-scope="text, record">
+                  <a-input-number v-model="record.freight" />
                 </span>
                 <span slot="remark" slot-scope="text, record">
                   <a-input v-model="record.remark" />
@@ -338,7 +341,7 @@ export default {
         consigneeId_dictText: { required: true, message: '请选择收货人！' },
         carId_dictText: { required: true, message: '请选择车辆！' },
         transferIs: { required: true, message: '请选择是否中转！' },
-        carIdTransfer_dictText: { required: true, message: '请选择中转车辆!' },
+        // carIdTransfer_dictText: { required: true, message: '请选择中转车辆!' },
         // code: { required: true, message: '请输入输单号!' },
         consignorIphone: { required: true, message: '请输入发货人电话!' },
         originatingStation: { required: true, message: '请输入起运站!' },
@@ -387,11 +390,18 @@ export default {
           scopedSlots: { customRender: 'number' },
         },
         {
-          title: '重量',
+          title: '重量(kg)',
           align: 'center',
           width: 100,
           dataIndex: 'quantity',
           scopedSlots: { customRender: 'quantity' },
+        },
+        {
+          title: '运费',
+          align: 'center',
+          width: 100,
+          dataIndex: 'freight',
+          scopedSlots: { customRender: 'freight' },
         },
         {
           title: '备注',
@@ -416,12 +426,26 @@ export default {
     formDisabled() {
       return this.disabled
     },
+    hasItems() {
+      return this.details && this.details.length > 0 // 判断items是否为空
+    },
      zDemandNum() {
-      if (isNaN(Number(this.model.spotPayment) +Number(this.model.prepay) + Number(this.model.withdrawal))) {
-        return ''
+        if (this.hasItems) {
+        var bb = []
+        for (var i in this.details.map(row => row.freight)) {
+          if (this.details.map(row => row.freight)[i]) {
+            bb.push(this.details.map(row => row.freight)[i])
+          }
+        }
+        return bb.reduce((acc, cur) => parseFloat(cur) + acc, 0)
       } else {
-        return (Number(this.model.spotPayment) + Number(this.model.prepay) + Number(this.model.withdrawal)).toFixed(2)
+        return 0 // 如果items为空，返回0
       }
+      // if (isNaN(Number(this.model.spotPayment) +Number(this.model.prepay) + Number(this.model.withdrawal))) {
+      //   return ''
+      // } else {
+      //   return (Number(this.model.spotPayment) + Number(this.model.prepay) + Number(this.model.withdrawal)).toFixed(2)
+      // }
     },
   },
   created() {

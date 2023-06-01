@@ -3,21 +3,27 @@
 <mapper namespace="org.jeecg.modules.wms.mapper.WmsDistributionDetailMapper">
 
     <select id="getCargoList" resultType="org.jeecg.modules.wms.vo.WmsDistributionDetailVo">
-        select wd.code,wd.consignor_id,wd.consignee_id,wd.consignee_iphone,
-               wd.sstatus,wd.arrival_station,wdd.goods_name,
-               wdd.number,wdd.quantity,wdd.freight
-               from wms_distribution_detail wdd
-        join wms_distribution wd on wd.id = wdd.distribution_id and wd.del_flag = '0'
+        select wd.* from wms_distribution wd
         left join wms_car wc on wc.id = wd.car_id and wc.del_flag = '0'
         left join wms_car wc2 on wc2.id = wd.car_id_transfer and wc2.del_flag = '0'
-        where wdd.del_flag = '0'
+        where wd.del_flag = '0'
         <if test="carNo != null and carNo != ''">
-           and ((wc.license_plate_number = #{carNo})or(wc2.license_plate_number = #{carNo})or
-            (wd.consignor_iphone = #{carNo})or(wd.consignee_iphone = #{carNo}))
+           and ((wc.license_plate_number = #{carNo})or(wc2.license_plate_number = #{carNo}))
         </if>
         <if test="status != null and status != ''">
             and find_in_set(wd.sstatus,#{status})>0
         </if>
-        order by wd.billdate,wdd.id  desc
+        order by wd.billdate desc
+    </select>
+    <select id="getCargoListByIphone" resultType="org.jeecg.modules.wms.vo.WmsDistributionDetailVo">
+        select * from wms_distribution
+        where del_flag = '0'
+        <if test="iphone != null and iphone != ''">
+            and ((consignee_iphone = #{iphone})or(consignor_iphone = #{iphone}))
+        </if>
+        <if test="status != null and status != ''">
+            and find_in_set(sstatus,#{status})>0
+        </if>
+        order by billdate desc
     </select>
 </mapper>

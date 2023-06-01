@@ -19,7 +19,7 @@
             </a-form-model-item>
           </a-col>
           <a-col :span="24">
-            <a-form-model-item label="重量" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="weight">
+            <a-form-model-item label="重量（kg）" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="weight">
               <a-input type="number"  v-model="model.weight" placeholder="请输入重量"></a-input>
             </a-form-model-item>
           </a-col>

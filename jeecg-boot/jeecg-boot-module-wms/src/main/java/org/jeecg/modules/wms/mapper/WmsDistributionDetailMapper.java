@@ -20,4 +20,8 @@ public interface WmsDistributionDetailMapper extends BaseMapper<WmsDistributionD
     IPage<WmsDistributionDetailVo> getCargoList(@Param("page") Page<WmsDistributionDetailVo> page,
                                                 @Param("carNo") String carNo,
                                                 @Param("status") String status);
+
+    IPage<WmsDistributionDetailVo> getCargoListByIphone(@Param("page") Page<WmsDistributionDetailVo> page,
+                                                        @Param("iphone") String iphone,
+                                                        @Param("status") String status);
 }

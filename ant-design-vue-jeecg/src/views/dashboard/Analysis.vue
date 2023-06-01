@@ -1,41 +1,33 @@
 <template>
-  <div>
-    <index-chart v-if="indexStyle==1"></index-chart>
-    <index-bdc v-if="indexStyle==2"></index-bdc>
-    <index-task v-if="indexStyle==3"></index-task>
-    <div style="width: 100%;text-align: right;margin-top: 20px">
-      请选择首页样式：
-      <a-radio-group v-model="indexStyle">
-        <a-radio :value="1">统计图表</a-radio>
-        <a-radio :value="2">统计图表2</a-radio>
-        <a-radio :value="3">任务表格</a-radio>
-      </a-radio-group>
-    </div>
+  <div class="home-index">
+    <img src="@/assets/qs.png" alt="#" />
   </div>
 </template>
-
 <script>
-  import IndexChart from './IndexChart'
-  import IndexTask from "./IndexTask"
-  import IndexBdc from './IndexBdc'
-
+  import moment from 'moment'
+  import 'moment/locale/zh-cn'
+  moment.locale('zh-cn')
   export default {
-    name: "Analysis",
-    components: {
-      IndexChart,
-      IndexTask,
-      IndexBdc
-    },
+    name: 'Analysis',
+    mixins: {},
     data() {
       return {
-        indexStyle:1
       }
     },
     created() {
-
     },
     methods: {
-
+     
     }
   }
 </script>
+<style lang="less" scoped>
+// @import '~@assets/less/common.less';
+div img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: fill;
+}
+</style>

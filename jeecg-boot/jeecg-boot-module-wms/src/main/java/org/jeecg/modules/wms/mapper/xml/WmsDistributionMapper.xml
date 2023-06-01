@@ -22,4 +22,7 @@
         </if>
         order by wd.billdate desc
     </select>
+    <select id="selectByCode" resultType="org.jeecg.modules.wms.entity.WmsDistribution">
+        select * from wms_distribution where del_flag = '0' and code = #{code}
+    </select>
 </mapper>

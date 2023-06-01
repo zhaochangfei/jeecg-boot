@@ -144,7 +144,7 @@ export default {
       pcStoreList: [],
       key: '',
       url: {
-        list: '/wms/wmsConsignor/list',
+        list: '/wms/wmsConsignee/list',
       },
       craftOrderTree: [],
       selectedKeys: [],

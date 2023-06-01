@@ -2,6 +2,7 @@ package org.jeecg.modules.wms.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang3.StringUtils;
@@ -84,5 +85,19 @@ public class WmsDistributionServiceImpl extends ServiceImpl<WmsDistributionMappe
         wmsDistribution1.setId(id);
         wmsDistribution1.setSstatus(status);
         baseMapper.updateById(wmsDistribution1);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateStatusByCode(String code, String status) {
+        WmsDistribution wmsDistribution = baseMapper.selectByCode(code);
+        UpdateWrapper<WmsDistribution> wrapper = new UpdateWrapper<>();
+        wrapper.eq("code",status);
+        wrapper.set("sstatus",status);
+        //送达  给客户和货主分别发短信
+        if ("2".equals(status)){
+          //待写
+        }
+        this.update(wrapper);
     }
 }

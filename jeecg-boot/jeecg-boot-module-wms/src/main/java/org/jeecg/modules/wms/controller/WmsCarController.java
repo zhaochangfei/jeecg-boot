@@ -69,9 +69,10 @@ public class WmsCarController extends JeecgController<WmsCar, IWmsCarService> {
 								   @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
 								   @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
 								   HttpServletRequest req) {
-		QueryWrapper<WmsCar> queryWrapper = QueryGenerator.initQueryWrapper(wmsCar, req.getParameterMap());
+		QueryWrapper<WmsCar> queryWrapper = QueryGenerator.initQueryWrapper(wmsCar, null);
 //		LoginUser sysUser = (LoginUser) SecurityUtils.getSubject().getPrincipal();
 //		queryWrapper.eq("sys_org_code",sysUser.getOrgCode());
+		queryWrapper.orderByDesc("create_time");
 		Page<WmsCar> page = new Page<WmsCar>(pageNo, pageSize);
 		IPage<WmsCar> pageList = wmsCarService.page(page, queryWrapper);
 		return Result.OK(pageList);

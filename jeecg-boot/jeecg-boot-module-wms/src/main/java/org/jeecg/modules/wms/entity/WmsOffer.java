@@ -83,9 +83,22 @@ public class WmsOffer implements Serializable {
 	/**同意忽略状态 0待处理 1同意 2忽略*/
 	@Excel(name = "同意忽略状态 0待处理 1同意 2忽略", width = 15)
     @ApiModelProperty(value = "同意忽略状态 0待处理 1同意 2忽略")
+    @Dict(dicCode = "offer_sstatus")
     private java.lang.String sstatus;
 	/**备注*/
 	@Excel(name = "备注", width = 15)
     @ApiModelProperty(value = "备注")
     private java.lang.String remark;
+    /**配送单ID*/
+    @Excel(name = "配送单ID", width = 15)
+    @ApiModelProperty(value = "配送单ID")
+    private java.lang.String distributionId;
+    /**配送单编号*/
+    @Excel(name = "配送单编号", width = 15)
+    @ApiModelProperty(value = "配送单编号")
+    private java.lang.String distributionCode;
+    /**配送单中转Id*/
+    @Excel(name = "配送单中转Id", width = 15)
+    @ApiModelProperty(value = "配送单中转Id")
+    private java.lang.String distributionTransferId;
 }

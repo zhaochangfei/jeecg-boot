@@ -9,12 +9,23 @@
               <j-input placeholder="请输入姓名" v-model="queryParam.name"></j-input>
             </a-form-item>
           </a-col>
+          <a-col :xl="5" :lg="5" :md="6" :sm="24">
+            <a-form-item label="是否受理">
+              <j-dict-select-tag
+                type="list"
+                v-model="queryParam.sstatus"
+                dictCode="information_sstatus"
+                placeholder="是否受理"
+              />
+            </a-form-item>
+          </a-col>
           <a-col :xl="8" :lg="9" :md="10" :sm="24">
             <span style="" class="table-page-search-submitButtons">
               <a-button type="primary" @click="searchQuery" icon="search">查询</a-button>
               <a-button type="primary" @click="searchReset" icon="reload" style="margin-left: 8px">重置</a-button>
             </span>
-          </a-col> </a-row>
+          </a-col>
+        </a-row>
       </a-form>
     </div>
     <!-- 查询区域-END -->
@@ -66,7 +77,6 @@
         :dataSource="dataSource"
         :pagination="ipagination"
         :loading="loading"
-        :rowSelection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }"
         class="j-table-force-nowrap"
         @change="handleTableChange"
       >
@@ -155,7 +165,7 @@ export default {
           dataIndex: 'goods',
         },
         {
-          title: '重量',
+          title: '重量（kg）',
           align: 'center',
           dataIndex: 'weight',
         },

@@ -49,7 +49,7 @@ import org.jeecg.common.aspect.annotation.AutoLog;
 public class WmsOfferController extends JeecgController<WmsOffer, IWmsOfferService> {
 	@Autowired
 	private IWmsOfferService wmsOfferService;
-	
+
 	/**
 	 * 分页列表查询
 	 *
@@ -66,12 +66,13 @@ public class WmsOfferController extends JeecgController<WmsOffer, IWmsOfferServi
 								   @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
 								   @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
 								   HttpServletRequest req) {
-		QueryWrapper<WmsOffer> queryWrapper = QueryGenerator.initQueryWrapper(wmsOffer, req.getParameterMap());
+		QueryWrapper<WmsOffer> queryWrapper = QueryGenerator.initQueryWrapper(wmsOffer, null);
 		Page<WmsOffer> page = new Page<WmsOffer>(pageNo, pageSize);
+		queryWrapper.orderByDesc("create_time");
 		IPage<WmsOffer> pageList = wmsOfferService.page(page, queryWrapper);
 		return Result.OK(pageList);
 	}
-	
+
 	/**
 	 *   添加
 	 *
@@ -85,7 +86,7 @@ public class WmsOfferController extends JeecgController<WmsOffer, IWmsOfferServi
 		wmsOfferService.save(wmsOffer);
 		return Result.OK("添加成功！");
 	}
-	
+
 	/**
 	 *  编辑
 	 *
@@ -99,7 +100,7 @@ public class WmsOfferController extends JeecgController<WmsOffer, IWmsOfferServi
 		wmsOfferService.updateById(wmsOffer);
 		return Result.OK("编辑成功!");
 	}
-	
+
 	/**
 	 *   通过id删除
 	 *
@@ -113,7 +114,7 @@ public class WmsOfferController extends JeecgController<WmsOffer, IWmsOfferServi
 		wmsOfferService.removeById(id);
 		return Result.OK("删除成功!");
 	}
-	
+
 	/**
 	 *  批量删除
 	 *
@@ -127,7 +128,7 @@ public class WmsOfferController extends JeecgController<WmsOffer, IWmsOfferServi
 		this.wmsOfferService.removeByIds(Arrays.asList(ids.split(",")));
 		return Result.OK("批量删除成功!");
 	}
-	
+
 	/**
 	 * 通过id查询
 	 *

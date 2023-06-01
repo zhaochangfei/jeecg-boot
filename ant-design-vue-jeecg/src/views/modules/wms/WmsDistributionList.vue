@@ -169,7 +169,7 @@ export default {
           dataIndex: 'consigneeId_dictText',
         },
         {
-          title: '总运费',
+          title: '总运费（元）',
           align: 'center',
           dataIndex: 'sumMoney',
         },
@@ -189,7 +189,7 @@ export default {
           dataIndex: 'piece',
         },
         {
-          title: '重量',
+          title: '重量（kg）',
           align: 'center',
           dataIndex: 'weight',
         },

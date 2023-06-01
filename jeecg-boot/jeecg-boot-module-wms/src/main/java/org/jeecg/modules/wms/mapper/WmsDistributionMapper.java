@@ -20,4 +20,6 @@ public interface WmsDistributionMapper extends BaseMapper<WmsDistribution> {
                                     @Param("inputValue") String inputValue,
                                     @Param("startTime") String startTime,
                                     @Param("endTime") String endTime);
+
+    WmsDistribution selectByCode(String code);
 }

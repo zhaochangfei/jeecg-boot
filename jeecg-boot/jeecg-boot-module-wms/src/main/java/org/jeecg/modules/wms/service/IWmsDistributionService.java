@@ -19,4 +19,6 @@ public interface IWmsDistributionService extends IService<WmsDistribution> {
     IPage<WmsDistribution> pageList(Page<WmsDistribution> page, String inputValue, String startTime, String endTime);
 
     void updateStatus(String id, String status);
+
+    void updateStatusByCode(String code, String status);
 }

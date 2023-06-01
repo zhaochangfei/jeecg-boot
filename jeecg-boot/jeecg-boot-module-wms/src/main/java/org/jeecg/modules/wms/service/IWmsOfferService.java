@@ -11,4 +11,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IWmsOfferService extends IService<WmsOffer> {
 
+    void updateOfferById(String id, String sstatus);
+
+    void recallOfferById(String id);
 }

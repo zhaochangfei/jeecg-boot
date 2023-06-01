@@ -75,9 +75,9 @@ public class WmsDistribution implements Serializable {
     @ApiModelProperty(value = "起运站")
     private java.lang.String originatingStation;
 	/**发货人id*/
-	@Excel(name = "发货人", width = 15,dicCode = "id",dicText = "name",dictTable = "wms_consignor")
+	@Excel(name = "发货人", width = 15,dicCode = "id",dicText = "name",dictTable = "wms_consignee")
     @ApiModelProperty(value = "发货人id")
-    @Dict(dicCode = "id",dicText = "name",dictTable = "wms_consignor")
+    @Dict(dicCode = "id",dicText = "name",dictTable = "wms_consignee")
     private java.lang.String consignorId;
 	/**发货人身份证号*/
 //	@Excel(name = "发货人身份证号", width = 15)

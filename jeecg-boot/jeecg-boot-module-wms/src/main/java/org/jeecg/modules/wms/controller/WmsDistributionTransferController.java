@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.common.util.oConvertUtils;
-import org.jeecg.modules.wms.entity.WmsInformation;
-import org.jeecg.modules.wms.service.IWmsInformationService;
+import org.jeecg.modules.wms.entity.WmsDistributionTransfer;
+import org.jeecg.modules.wms.service.IWmsDistributionTransferService;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -37,146 +37,123 @@ import io.swagger.annotations.ApiOperation;
 import org.jeecg.common.aspect.annotation.AutoLog;
 
  /**
- * @Description: 信息录入表
+ * @Description: 配送单中转表
  * @Author: jeecg-boot
- * @Date:   2023-05-18
+ * @Date:   2023-06-01
  * @Version: V1.0
  */
-@Api(tags="信息录入表")
+@Api(tags="配送单中转表")
 @RestController
-@RequestMapping("/wms/wmsInformation")
+@RequestMapping("/wms/wmsDistributionTransfer")
 @Slf4j
-public class WmsInformationController extends JeecgController<WmsInformation, IWmsInformationService> {
+public class WmsDistributionTransferController extends JeecgController<WmsDistributionTransfer, IWmsDistributionTransferService> {
 	@Autowired
-	private IWmsInformationService wmsInformationService;
-
+	private IWmsDistributionTransferService wmsDistributionTransferService;
+	
 	/**
 	 * 分页列表查询
 	 *
-	 * @param wmsInformation
+	 * @param wmsDistributionTransfer
 	 * @param pageNo
 	 * @param pageSize
 	 * @param req
 	 * @return
 	 */
-	@AutoLog(value = "信息录入表-分页列表查询")
-	@ApiOperation(value="信息录入表-分页列表查询", notes="信息录入表-分页列表查询")
+	@AutoLog(value = "配送单中转表-分页列表查询")
+	@ApiOperation(value="配送单中转表-分页列表查询", notes="配送单中转表-分页列表查询")
 	@GetMapping(value = "/list")
-	public Result<?> queryPageList(WmsInformation wmsInformation,
+	public Result<?> queryPageList(WmsDistributionTransfer wmsDistributionTransfer,
 								   @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
 								   @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
 								   HttpServletRequest req) {
-		QueryWrapper<WmsInformation> queryWrapper = QueryGenerator.initQueryWrapper(wmsInformation,null);
-		Page<WmsInformation> page = new Page<WmsInformation>(pageNo, pageSize);
-		queryWrapper.orderByDesc("create_time");
-		IPage<WmsInformation> pageList = wmsInformationService.page(page, queryWrapper);
+		QueryWrapper<WmsDistributionTransfer> queryWrapper = QueryGenerator.initQueryWrapper(wmsDistributionTransfer, req.getParameterMap());
+		Page<WmsDistributionTransfer> page = new Page<WmsDistributionTransfer>(pageNo, pageSize);
+		IPage<WmsDistributionTransfer> pageList = wmsDistributionTransferService.page(page, queryWrapper);
 		return Result.OK(pageList);
 	}
-
+	
 	/**
 	 *   添加
 	 *
-	 * @param wmsInformation
+	 * @param wmsDistributionTransfer
 	 * @return
 	 */
-	@AutoLog(value = "信息录入表-添加")
-	@ApiOperation(value="信息录入表-添加", notes="信息录入表-添加")
+	@AutoLog(value = "配送单中转表-添加")
+	@ApiOperation(value="配送单中转表-添加", notes="配送单中转表-添加")
 	@PostMapping(value = "/add")
-	public Result<?> add(@RequestBody WmsInformation wmsInformation) {
-		wmsInformationService.save(wmsInformation);
+	public Result<?> add(@RequestBody WmsDistributionTransfer wmsDistributionTransfer) {
+		wmsDistributionTransferService.save(wmsDistributionTransfer);
 		return Result.OK("添加成功！");
 	}
-
+	
 	/**
 	 *  编辑
 	 *
-	 * @param wmsInformation
+	 * @param wmsDistributionTransfer
 	 * @return
 	 */
-	@AutoLog(value = "信息录入表-编辑")
-	@ApiOperation(value="信息录入表-编辑", notes="信息录入表-编辑")
+	@AutoLog(value = "配送单中转表-编辑")
+	@ApiOperation(value="配送单中转表-编辑", notes="配送单中转表-编辑")
 	@PutMapping(value = "/edit")
-	public Result<?> edit(@RequestBody WmsInformation wmsInformation) {
-		wmsInformationService.updateById(wmsInformation);
+	public Result<?> edit(@RequestBody WmsDistributionTransfer wmsDistributionTransfer) {
+		wmsDistributionTransferService.updateById(wmsDistributionTransfer);
 		return Result.OK("编辑成功!");
 	}
-
+	
 	/**
 	 *   通过id删除
 	 *
 	 * @param id
 	 * @return
 	 */
-	@AutoLog(value = "信息录入表-通过id删除")
-	@ApiOperation(value="信息录入表-通过id删除", notes="信息录入表-通过id删除")
+	@AutoLog(value = "配送单中转表-通过id删除")
+	@ApiOperation(value="配送单中转表-通过id删除", notes="配送单中转表-通过id删除")
 	@DeleteMapping(value = "/delete")
 	public Result<?> delete(@RequestParam(name="id",required=true) String id) {
-		wmsInformationService.removeById(id);
+		wmsDistributionTransferService.removeById(id);
 		return Result.OK("删除成功!");
 	}
-
+	
 	/**
 	 *  批量删除
 	 *
 	 * @param ids
 	 * @return
 	 */
-	@AutoLog(value = "信息录入表-批量删除")
-	@ApiOperation(value="信息录入表-批量删除", notes="信息录入表-批量删除")
+	@AutoLog(value = "配送单中转表-批量删除")
+	@ApiOperation(value="配送单中转表-批量删除", notes="配送单中转表-批量删除")
 	@DeleteMapping(value = "/deleteBatch")
 	public Result<?> deleteBatch(@RequestParam(name="ids",required=true) String ids) {
-		this.wmsInformationService.removeByIds(Arrays.asList(ids.split(",")));
+		this.wmsDistributionTransferService.removeByIds(Arrays.asList(ids.split(",")));
 		return Result.OK("批量删除成功!");
 	}
-
+	
 	/**
 	 * 通过id查询
 	 *
 	 * @param id
 	 * @return
 	 */
-	@AutoLog(value = "信息录入表-通过id查询")
-	@ApiOperation(value="信息录入表-通过id查询", notes="信息录入表-通过id查询")
+	@AutoLog(value = "配送单中转表-通过id查询")
+	@ApiOperation(value="配送单中转表-通过id查询", notes="配送单中转表-通过id查询")
 	@GetMapping(value = "/queryById")
 	public Result<?> queryById(@RequestParam(name="id",required=true) String id) {
-		WmsInformation wmsInformation = wmsInformationService.getById(id);
-		if(wmsInformation==null) {
+		WmsDistributionTransfer wmsDistributionTransfer = wmsDistributionTransferService.getById(id);
+		if(wmsDistributionTransfer==null) {
 			return Result.error("未找到对应数据");
 		}
-		return Result.OK(wmsInformation);
+		return Result.OK(wmsDistributionTransfer);
 	}
-
-	 /**
-	  * 通过id受理
-	  *
-	  * @param id
-	  * @return
-	  */
-	 @AutoLog(value = "信息录入表-通过id受理")
-	 @ApiOperation(value="信息录入表-通过id受理", notes="信息录入表-通过id受理")
-	 @GetMapping(value = "/ ")
-	 public Result<?> changeStatusById(@RequestParam(name="id",required=true) String id) {
-		 WmsInformation wmsInformation = wmsInformationService.getById(id);
-		 if ("1".equals(wmsInformation.getSstatus())){
-			 return Result.error("已受理请勿重复受理！");
-		 }else {
-			 WmsInformation information = new WmsInformation();
-			 information.setId(id);
-			 information.setSstatus("1");
-			 wmsInformationService.updateById(information);
-		 }
-		 return Result.OK("受理成功！");
-	 }
 
     /**
     * 导出excel
     *
     * @param request
-    * @param wmsInformation
+    * @param wmsDistributionTransfer
     */
     @RequestMapping(value = "/exportXls")
-    public ModelAndView exportXls(HttpServletRequest request, WmsInformation wmsInformation) {
-        return super.exportXls(request, wmsInformation, WmsInformation.class, "信息录入表");
+    public ModelAndView exportXls(HttpServletRequest request, WmsDistributionTransfer wmsDistributionTransfer) {
+        return super.exportXls(request, wmsDistributionTransfer, WmsDistributionTransfer.class, "配送单中转表");
     }
 
     /**
@@ -188,7 +165,7 @@ public class WmsInformationController extends JeecgController<WmsInformation, IW
     */
     @RequestMapping(value = "/importExcel", method = RequestMethod.POST)
     public Result<?> importExcel(HttpServletRequest request, HttpServletResponse response) {
-        return super.importExcel(request, response, WmsInformation.class);
+        return super.importExcel(request, response, WmsDistributionTransfer.class);
     }
 
 }
