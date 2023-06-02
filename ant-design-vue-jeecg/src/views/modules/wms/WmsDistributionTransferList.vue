@@ -149,7 +149,12 @@
           {
             title:'车辆要求',
             align:"center",
-            dataIndex: 'require'
+            dataIndex: 'requires'
+          },
+          {
+            title:'报价状态',
+            align:"center",
+            dataIndex: 'sstatus_dictText'
           },
           {
             title:'备注',
