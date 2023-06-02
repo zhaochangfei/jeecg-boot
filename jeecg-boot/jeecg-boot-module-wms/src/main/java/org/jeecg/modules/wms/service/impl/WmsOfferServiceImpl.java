@@ -1,9 +1,15 @@
 package org.jeecg.modules.wms.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
+import com.aliyuncs.exceptions.ClientException;
 import org.jeecg.common.exception.JeecgBootException;
+import org.jeecg.common.util.DySmsEnum;
+import org.jeecg.common.util.DySmsHelper;
+import org.jeecg.modules.wms.entity.WmsConsignee;
 import org.jeecg.modules.wms.entity.WmsDistribution;
 import org.jeecg.modules.wms.entity.WmsDistributionTransfer;
 import org.jeecg.modules.wms.entity.WmsOffer;
+import org.jeecg.modules.wms.mapper.WmsConsigneeMapper;
 import org.jeecg.modules.wms.mapper.WmsDistributionMapper;
 import org.jeecg.modules.wms.mapper.WmsDistributionTransferMapper;
 import org.jeecg.modules.wms.mapper.WmsOfferMapper;
@@ -11,6 +17,7 @@ import org.jeecg.modules.wms.service.IWmsOfferService;
 import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -28,8 +35,11 @@ public class WmsOfferServiceImpl extends ServiceImpl<WmsOfferMapper, WmsOffer> i
     private WmsDistributionMapper distributionMapper;
     @Resource
     private WmsDistributionTransferMapper distributionTransferMapper;
+    @Resource
+    private WmsConsigneeMapper consigneeMapper;
     @Override
-    public void updateOfferById(String id, String sstatus) {
+    @Transactional(rollbackFor = Exception.class)
+    public void updateOfferById(String id, String sstatus) throws ClientException {
         WmsOffer wmsOffer = baseMapper.selectById(id);
         if (sstatus.equals(wmsOffer.getSstatus())){
             throw new JeecgBootException("请勿重复操作！请刷新列表后在试！");
@@ -50,6 +60,29 @@ public class WmsOfferServiceImpl extends ServiceImpl<WmsOfferMapper, WmsOffer> i
             wmsDistributionTransfer.setId(wmsOffer.getDistributionTransferId());
             wmsDistributionTransfer.setSstatus("1");
             distributionTransferMapper.updateById(wmsDistributionTransfer);
+            //给货主/客户各发送一条信息
+            //1 查询 配送单信息
+            WmsDistribution wmsDistribution1 = distributionMapper.selectById(wmsOffer.getDistributionId());
+            //2 查询 中转单信息
+            WmsDistributionTransfer wmsDistributionTransfer1 = distributionTransferMapper.selectById(wmsOffer.getDistributionTransferId());
+            //3 给货主发中转短信
+            String mobile = wmsDistribution1.getConsignorIphone();
+            WmsConsignee wmsConsignor = consigneeMapper.selectById(wmsDistribution1.getConsignorId());
+            JSONObject obj = new JSONObject();
+            obj.put("name", wmsConsignor.getName());
+            obj.put("code", wmsDistribution1.getCode());
+            obj.put("location", wmsDistributionTransfer1.getTransit());
+            //中转模板
+            DySmsHelper.sendSms(mobile, obj, DySmsEnum.QS_ZZ_CODE);
+            //3 给客户发中转短信
+            String mobile1 = wmsDistribution1.getConsigneeIphone();
+            WmsConsignee wmsConsignee = consigneeMapper.selectById(wmsDistribution1.getConsigneeId());
+            JSONObject obj1 = new JSONObject();
+            obj1.put("name", wmsConsignee.getName());
+            obj1.put("code", wmsDistribution1.getCode());
+            obj1.put("location", wmsDistributionTransfer1.getTransit());
+            //中转模板
+            DySmsHelper.sendSms(mobile1, obj1, DySmsEnum.QS_ZZ_CODE);
         }
         WmsOffer wmsOffer1 = new WmsOffer();
         wmsOffer1.setId(id);

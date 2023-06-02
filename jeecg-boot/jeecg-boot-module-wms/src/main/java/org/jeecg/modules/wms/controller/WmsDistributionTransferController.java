@@ -49,7 +49,7 @@ import org.jeecg.common.aspect.annotation.AutoLog;
 public class WmsDistributionTransferController extends JeecgController<WmsDistributionTransfer, IWmsDistributionTransferService> {
 	@Autowired
 	private IWmsDistributionTransferService wmsDistributionTransferService;
-	
+
 	/**
 	 * 分页列表查询
 	 *
@@ -66,12 +66,13 @@ public class WmsDistributionTransferController extends JeecgController<WmsDistri
 								   @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
 								   @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
 								   HttpServletRequest req) {
-		QueryWrapper<WmsDistributionTransfer> queryWrapper = QueryGenerator.initQueryWrapper(wmsDistributionTransfer, req.getParameterMap());
+		QueryWrapper<WmsDistributionTransfer> queryWrapper = QueryGenerator.initQueryWrapper(wmsDistributionTransfer, null);
 		Page<WmsDistributionTransfer> page = new Page<WmsDistributionTransfer>(pageNo, pageSize);
+		queryWrapper.orderByDesc("create_time");
 		IPage<WmsDistributionTransfer> pageList = wmsDistributionTransferService.page(page, queryWrapper);
 		return Result.OK(pageList);
 	}
-	
+
 	/**
 	 *   添加
 	 *
@@ -85,7 +86,7 @@ public class WmsDistributionTransferController extends JeecgController<WmsDistri
 		wmsDistributionTransferService.save(wmsDistributionTransfer);
 		return Result.OK("添加成功！");
 	}
-	
+
 	/**
 	 *  编辑
 	 *
@@ -99,7 +100,7 @@ public class WmsDistributionTransferController extends JeecgController<WmsDistri
 		wmsDistributionTransferService.updateById(wmsDistributionTransfer);
 		return Result.OK("编辑成功!");
 	}
-	
+
 	/**
 	 *   通过id删除
 	 *
@@ -113,7 +114,7 @@ public class WmsDistributionTransferController extends JeecgController<WmsDistri
 		wmsDistributionTransferService.removeById(id);
 		return Result.OK("删除成功!");
 	}
-	
+
 	/**
 	 *  批量删除
 	 *
@@ -127,7 +128,7 @@ public class WmsDistributionTransferController extends JeecgController<WmsDistri
 		this.wmsDistributionTransferService.removeByIds(Arrays.asList(ids.split(",")));
 		return Result.OK("批量删除成功!");
 	}
-	
+
 	/**
 	 * 通过id查询
 	 *

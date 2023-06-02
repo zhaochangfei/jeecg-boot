@@ -3,8 +3,14 @@ package org.jeecg.common.util;
 import org.apache.commons.lang3.StringUtils;
 
 public enum DySmsEnum {
-	
+
 	LOGIN_TEMPLATE_CODE("SMS_175435174","JEECG","code"),
+
+	QS_SH_CODE("SMS_460995581","新疆强盛冷链","code"),
+
+	QS_ZZ_CODE("SMS_461085529","新疆强盛冷链","code"),
+
+	QS_FH_CODE("SMS_461035547","新疆强盛冷链","code"),
 	FORGET_PASSWORD_TEMPLATE_CODE("SMS_175435174","JEECG","code"),
 	REGISTER_TEMPLATE_CODE("SMS_175430166","JEECG","code"),
 	/**会议通知*/
@@ -24,29 +30,29 @@ public enum DySmsEnum {
 	 * 短信模板必需的数据名称，多个key以逗号分隔，此处配置作为校验
 	 */
 	private String keys;
-	
+
 	private DySmsEnum(String templateCode,String signName,String keys) {
 		this.templateCode = templateCode;
 		this.signName = signName;
 		this.keys = keys;
 	}
-	
+
 	public String getTemplateCode() {
 		return templateCode;
 	}
-	
+
 	public void setTemplateCode(String templateCode) {
 		this.templateCode = templateCode;
 	}
-	
+
 	public String getSignName() {
 		return signName;
 	}
-	
+
 	public void setSignName(String signName) {
 		this.signName = signName;
 	}
-	
+
 	public String getKeys() {
 		return keys;
 	}

@@ -1,5 +1,6 @@
 package org.jeecg.modules.wms.service;
 
+import com.aliyuncs.exceptions.ClientException;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.jeecg.modules.wms.dto.WmsDistributionDto;
@@ -18,7 +19,7 @@ public interface IWmsDistributionService extends IService<WmsDistribution> {
 
     IPage<WmsDistribution> pageList(Page<WmsDistribution> page, String inputValue, String startTime, String endTime);
 
-    void updateStatus(String id, String status);
+    void updateStatus(String id, String status) throws ClientException;
 
-    void updateStatusByCode(String code, String status);
+    void updateStatusByCode(String code, String status) throws ClientException;
 }

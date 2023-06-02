@@ -1,5 +1,6 @@
 package org.jeecg.modules.wms.service;
 
+import com.aliyuncs.exceptions.ClientException;
 import org.jeecg.modules.wms.entity.WmsOffer;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -11,7 +12,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IWmsOfferService extends IService<WmsOffer> {
 
-    void updateOfferById(String id, String sstatus);
+    void updateOfferById(String id, String sstatus) throws ClientException;
 
     void recallOfferById(String id);
 }

@@ -6,6 +6,7 @@ import java.util.Date;
 import java.math.BigDecimal;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -57,6 +58,7 @@ public class WmsDistributionTransfer implements Serializable {
 	/**逻辑删除标记*/
 	@Excel(name = "逻辑删除标记", width = 15)
     @ApiModelProperty(value = "逻辑删除标记")
+    @TableLogic
     private String delFlag;
 	/**配送单Id*/
 	@Excel(name = "配送单Id", width = 15)
@@ -73,7 +75,7 @@ public class WmsDistributionTransfer implements Serializable {
 	/**车辆要求*/
 	@Excel(name = "车辆要求", width = 15)
     @ApiModelProperty(value = "车辆要求")
-    private String require;
+    private String requires;
 	/**备注*/
 	@Excel(name = "备注", width = 15)
     @ApiModelProperty(value = "备注")
@@ -81,5 +83,6 @@ public class WmsDistributionTransfer implements Serializable {
     /**状态*/
     @Excel(name = "状态", width = 15)
     @ApiModelProperty(value = "状态 0 开启  1关闭")
+    @Dict(dicCode = "transfer_status")
     private String sstatus;
 }

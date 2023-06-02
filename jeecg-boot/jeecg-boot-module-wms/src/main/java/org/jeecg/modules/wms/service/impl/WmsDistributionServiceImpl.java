@@ -1,17 +1,24 @@
 package org.jeecg.modules.wms.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.aliyuncs.exceptions.ClientException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang3.StringUtils;
+import org.jeecg.common.constant.CommonConstant;
 import org.jeecg.common.exception.JeecgBootException;
+import org.jeecg.common.util.DySmsEnum;
+import org.jeecg.common.util.DySmsHelper;
 import org.jeecg.common.util.FillRuleUtil;
 import org.jeecg.modules.wms.dto.WmsDistributionDto;
+import org.jeecg.modules.wms.entity.WmsConsignee;
 import org.jeecg.modules.wms.entity.WmsDistribution;
 import org.jeecg.modules.wms.entity.WmsDistributionDetail;
+import org.jeecg.modules.wms.mapper.WmsConsigneeMapper;
 import org.jeecg.modules.wms.mapper.WmsDistributionMapper;
+import org.jeecg.modules.wms.service.IWmsConsigneeService;
 import org.jeecg.modules.wms.service.IWmsDistributionDetailService;
 import org.jeecg.modules.wms.service.IWmsDistributionService;
 import org.springframework.beans.BeanUtils;
@@ -35,6 +42,8 @@ public class WmsDistributionServiceImpl extends ServiceImpl<WmsDistributionMappe
 
     @Resource
     private IWmsDistributionDetailService detailService;
+    @Resource
+    private WmsConsigneeMapper consigneeMapper;
 
     @Override
     public void addOrEdit(WmsDistributionDto wmsDistributionDto) {
@@ -42,7 +51,7 @@ public class WmsDistributionServiceImpl extends ServiceImpl<WmsDistributionMappe
         BeanUtils.copyProperties(wmsDistributionDto,wmsDistribution);
         //新增配送单
         if (StringUtils.isEmpty(wmsDistribution.getId())){
-            wmsDistribution.setCode(FillRuleUtil.executeRule("code_rule", JSONObject.parseObject("{\"prefix\":\"" + "FH" + "\"}")).toString());
+            wmsDistribution.setCode(FillRuleUtil.executeRule("code_rule", JSONObject.parseObject("{\"prefix\":\"" + "QS" + "\"}")).toString());
         }else {
             wmsDistribution.setCreateTime(null);
         }
@@ -76,7 +85,7 @@ public class WmsDistributionServiceImpl extends ServiceImpl<WmsDistributionMappe
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateStatus(String id, String status) {
+    public void updateStatus(String id, String status) throws ClientException {
         WmsDistribution wmsDistribution = baseMapper.selectById(id);
         if (status.equals(wmsDistribution.getSstatus())){
             throw new JeecgBootException("已更改请勿重复更改！");
@@ -84,20 +93,46 @@ public class WmsDistributionServiceImpl extends ServiceImpl<WmsDistributionMappe
         WmsDistribution wmsDistribution1 = new WmsDistribution();
         wmsDistribution1.setId(id);
         wmsDistribution1.setSstatus(status);
+        if ("1".equals(status)) {
+            //给货主发短信
+            String mobile1 = wmsDistribution.getConsignorIphone();
+            WmsConsignee wmsConsignor = consigneeMapper.selectById(wmsDistribution.getConsignorId());
+            JSONObject obj1 = new JSONObject();
+            obj1.put("name", wmsConsignor.getName());
+            obj1.put("code", wmsDistribution.getCode());
+            obj1.put("location", wmsDistribution.getOriginatingStation());
+            //发货模板
+            DySmsHelper.sendSms(mobile1, obj1, DySmsEnum.QS_FH_CODE);
+            //给收货人发短信
+            String mobile = wmsDistribution.getConsigneeIphone();
+            WmsConsignee wmsConsignee = consigneeMapper.selectById(wmsDistribution.getConsigneeId());
+            JSONObject obj = new JSONObject();
+            obj.put("name", wmsConsignee.getName());
+            obj.put("code", wmsDistribution.getCode());
+            obj.put("location", wmsDistribution.getOriginatingStation());
+            //发货模板
+            DySmsHelper.sendSms(mobile, obj, DySmsEnum.QS_FH_CODE);
+        }
         baseMapper.updateById(wmsDistribution1);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateStatusByCode(String code, String status) {
+    public void updateStatusByCode(String code, String status) throws ClientException {
         WmsDistribution wmsDistribution = baseMapper.selectByCode(code);
-        UpdateWrapper<WmsDistribution> wrapper = new UpdateWrapper<>();
-        wrapper.eq("code",status);
-        wrapper.set("sstatus",status);
-        //送达  给客户和货主分别发短信
-        if ("2".equals(status)){
-          //待写
+        WmsDistribution wmsDistribution1 = new WmsDistribution();
+        wmsDistribution1.setId(wmsDistribution.getId());
+        wmsDistribution1.setSstatus(status);
+        //送达  给货主发短信
+        if ("2".equals(status)) {
+            WmsConsignee wmsConsignor = consigneeMapper.selectById(wmsDistribution.getConsignorId());
+            String mobile = wmsDistribution.getConsignorIphone();
+            JSONObject obj = new JSONObject();
+            obj.put("name", wmsConsignor.getName());
+            obj.put("code",wmsDistribution.getCode() );
+            //收货模板
+            DySmsHelper.sendSms(mobile, obj, DySmsEnum.QS_SH_CODE);
         }
-        this.update(wrapper);
+        baseMapper.updateById(wmsDistribution1);
     }
 }
