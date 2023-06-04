@@ -22,9 +22,9 @@ public class WmsDistributionDetailVo {
     @ApiModelProperty(value = "收货地")
     private java.lang.String arrivalStation;
     @ApiModelProperty(value = "件数")
-    private java.lang.String number;
+    private java.lang.String piece;
     @ApiModelProperty(value = "重量")
-    private java.lang.String quantity;
+    private java.lang.String weight;
     @ApiModelProperty(value = "配送单状态")
     @Dict(dicCode = "di_sstatus")
     private java.lang.String sstatus;
@@ -34,6 +34,9 @@ public class WmsDistributionDetailVo {
     private java.math.BigDecimal otherExpenses;
     @ApiModelProperty(value = "应收合计")
     private java.math.BigDecimal receivable;
+
+    @ApiModelProperty(value = "是否中转")
+    private java.lang.String transferIs;
 
     @ApiModelProperty(value = "货物明细")
     private List<WmsDistributionDetail> details;

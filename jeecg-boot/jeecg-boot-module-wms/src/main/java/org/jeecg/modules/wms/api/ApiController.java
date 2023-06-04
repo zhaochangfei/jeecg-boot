@@ -8,6 +8,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import me.zhyd.oauth.log.Log;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
 import org.jeecg.common.util.RestUtil;
@@ -21,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
-@RequestMapping("/ms/api")
+@RequestMapping("/wms/api")
 @Slf4j
 public class ApiController {
 
@@ -42,6 +43,7 @@ public class ApiController {
     @ApiOperation(value="Api-获取监控Token", notes="Api-获取监控Token")
     @GetMapping(value = "/getMonitoringToken")
     public Result<String> getMonitoringToken(HttpServletRequest req) {
+        Log.error("进入getMonitoringToken");
         String Url = "http://202.100.168.28:8080/StandardApiAction_login.action?account=qsll&password=qsll123";
         JSONObject post = RestUtil.post(Url);
         String jsession = post.get("jsession").toString();
@@ -50,7 +52,7 @@ public class ApiController {
 
     @AutoLog(value = "Api-通过车牌号获取货物清单")
     @ApiOperation(value="Api-通过车牌号获取货物清单", notes="Api-通过车牌号获取货物清单")
-    @GetMapping(value = "/getCargoListByCarNo ")
+    @GetMapping(value = "/getCargoListByCarNo")
     public Result<IPage<WmsDistributionDetailVo>> getCargoList(@RequestParam(name = "carNo",required = true) String carNo,
                                   @RequestParam(name = "status",required = false) String status,
                                   @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
@@ -62,7 +64,7 @@ public class ApiController {
     }
     @AutoLog(value = "Api-通过收货人/发货人手机号获取货物清单")
     @ApiOperation(value="Api-通过收货人/发货人手机号获取货物清单", notes="Api-通过收货人/发货人手机号获取货物清单")
-    @GetMapping(value = "/getCargoListByIphone ")
+    @GetMapping(value = "/getCargoListByIphone")
     public Result<IPage<WmsDistributionDetailVo>> getCargoListByIphone(@RequestParam(name = "iphone",required = true) String iphone,
                                                                @RequestParam(name = "status",required = false) String status,
                                                                @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
@@ -74,7 +76,7 @@ public class ApiController {
     }
     @AutoLog(value = "Api-通过单号修改运单状态")
     @ApiOperation(value="Api-通过单号修改运单状态", notes="Api-通过单号修改运单状态")
-    @GetMapping(value = "/updateStatus ")
+    @GetMapping(value = "/updateStatus")
     public Result<?> updateStatus(@RequestParam(name = "code",required = true) String code,
                                   @RequestParam(name = "status",required = true) String status,
                                   HttpServletRequest req) {
@@ -108,7 +110,7 @@ public class ApiController {
 
     @AutoLog(value = "Api-通过配送单号获取报价集合")
     @ApiOperation(value="Api-通过配送单号获取报价集合", notes="Api-通过配送单号获取报价集合")
-    @GetMapping(value = "/getOfferList ")
+    @GetMapping(value = "/getOfferList")
     public Result<List<WmsOffer>> getOfferList(@RequestParam(name = "distributionCode",required = true) String distributionCode,
                                   HttpServletRequest req) {
         QueryWrapper<WmsOffer> wrapper = new QueryWrapper<>();
