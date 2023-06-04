@@ -54,8 +54,9 @@ public class WmsAppUserServiceImpl extends ServiceImpl<WmsAppUserMapper, WmsAppU
             wmsCar.setRsqas(wmsAppUser.getRsqas());
             wmsCar.setDrivingLicence(wmsAppUser.getDrivingLicence());
             carMapper.insert(wmsCar);
+            wmsAppUser.setPublicId(wmsCar.getId());
         }
-        if ("0".equals(wmsAppUser.getType())){
+        if ("1".equals(wmsAppUser.getType())){
             //客户
             WmsConsignee wmsConsignee = new WmsConsignee();
             wmsConsignee.setName(wmsAppUser.getDriver());
@@ -64,6 +65,7 @@ public class WmsAppUserServiceImpl extends ServiceImpl<WmsAppUserMapper, WmsAppU
             wmsConsignee.setAddress(wmsAppUser.getAddress());
             wmsConsignee.setCity(wmsAppUser.getCity());
             consigneeMapper.insert(wmsConsignee);
+            wmsAppUser.setPublicId(wmsConsignee.getId());
         }
         baseMapper.insert(wmsAppUser);
     }
