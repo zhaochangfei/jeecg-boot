@@ -8,7 +8,7 @@ public enum DySmsEnum {
 
 	QS_SH_CODE("SMS_460995581","新疆强盛冷链","code"),
 
-	QS_ZZ_CODE("SMS_461085529","新疆强盛冷链","code"),
+	QS_ZZ_CODE("SMS_461050585","新疆强盛冷链","code"),
 
 	QS_FH_CODE("SMS_461035547","新疆强盛冷链","code"),
 	FORGET_PASSWORD_TEMPLATE_CODE("SMS_175435174","JEECG","code"),
