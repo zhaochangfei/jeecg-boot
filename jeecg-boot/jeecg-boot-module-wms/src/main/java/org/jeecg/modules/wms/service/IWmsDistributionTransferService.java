@@ -1,7 +1,10 @@
 package org.jeecg.modules.wms.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.jeecg.modules.wms.entity.WmsDistributionTransfer;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.jeecg.modules.wms.vo.WmsDistributionTransferVo;
 
 /**
  * @Description: 配送单中转表
@@ -11,4 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IWmsDistributionTransferService extends IService<WmsDistributionTransfer> {
 
+    IPage<WmsDistributionTransferVo> getDistributionTransferList(Page<WmsDistributionTransferVo> page, String transit, String arrivalStation);
 }

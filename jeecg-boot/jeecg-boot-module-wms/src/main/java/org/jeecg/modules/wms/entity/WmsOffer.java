@@ -101,4 +101,8 @@ public class WmsOffer implements Serializable {
     @Excel(name = "配送单中转Id", width = 15)
     @ApiModelProperty(value = "配送单中转Id")
     private java.lang.String distributionTransferId;
+    /**运输时间*/
+    @Excel(name = "运输时间", width = 15)
+    @ApiModelProperty(value = "运输时间")
+    private java.lang.String transitTime;
 }

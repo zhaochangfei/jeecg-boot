@@ -46,6 +46,7 @@ public class WmsDistributionServiceImpl extends ServiceImpl<WmsDistributionMappe
     private WmsConsigneeMapper consigneeMapper;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void addOrEdit(WmsDistributionDto wmsDistributionDto) {
         WmsDistribution wmsDistribution = new WmsDistribution();
         BeanUtils.copyProperties(wmsDistributionDto,wmsDistribution);

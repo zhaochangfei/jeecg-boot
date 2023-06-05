@@ -4,17 +4,19 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import me.zhyd.oauth.log.Log;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
 import org.jeecg.common.util.RestUtil;
-import org.jeecg.modules.wms.entity.*;
+import org.jeecg.modules.wms.entity.WmsAppUser;
+import org.jeecg.modules.wms.entity.WmsDistributionTransfer;
+import org.jeecg.modules.wms.entity.WmsInformation;
+import org.jeecg.modules.wms.entity.WmsOffer;
 import org.jeecg.modules.wms.service.*;
 import org.jeecg.modules.wms.vo.WmsDistributionDetailVo;
+import org.jeecg.modules.wms.vo.WmsDistributionTransferVo;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -173,6 +175,52 @@ public class ApiController {
     public Result<?> add(@RequestBody WmsInformation wmsInformation) {
         informationService.save(wmsInformation);
         return Result.OK("添加成功！");
+    }
+    /**
+     *   添加
+     *
+     * @param wmsOffer
+     * @return
+     */
+    @AutoLog(value = "Api-新增报价")
+    @ApiOperation(value="Api-新增报价", notes="Api-新增报价")
+    @PostMapping(value = "/offerAdd")
+    public Result<?> offerAdd(@RequestBody WmsOffer wmsOffer) {
+        offerService.save(wmsOffer);
+        return Result.OK("添加成功！");
+    }
+
+    @AutoLog(value = "Api-待中转开启报价的运单列表")
+    @ApiOperation(value="Api-待中转开启报价的运单列表", notes="Api-待中转开启报价的运单列表")
+    @GetMapping(value = "/getDistributionTransferList")
+    public Result<IPage<WmsDistributionTransferVo>> getDistributionTransferList(@RequestParam(name = "transit",required = false) String transit,
+                                                                            @RequestParam(name = "arrivalStation",required = false) String arrivalStation,
+                                                                            @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
+                                                                            @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
+                                                                            HttpServletRequest req) {
+        Page<WmsDistributionTransferVo> page = new Page<WmsDistributionTransferVo>(pageNo, pageSize);
+        IPage<WmsDistributionTransferVo> pageList =  distributionTransferService.getDistributionTransferList(page,transit,arrivalStation);
+        return Result.OK(pageList);
+    }
+
+    @AutoLog(value = "Api-中转司机查看自己报价列表")
+    @ApiOperation(value="Api-中转司机查看自己报价列表", notes="Api-中转司机查看自己报价列表")
+    @GetMapping(value = "/getOfferListById")
+    public Result<IPage<WmsOffer>> getOfferListById(@RequestParam(name = "consignorId",required = true) String consignorId,
+                                                    @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
+                                                    @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
+                                          HttpServletRequest req) {
+        try {
+            Page<WmsOffer> page = new Page<WmsOffer>(pageNo, pageSize);
+            QueryWrapper<WmsOffer> wrapper = new QueryWrapper<>();
+            wrapper.eq("consignor_id",consignorId);
+            wrapper.orderByDesc("create_time");
+            IPage<WmsOffer> iPage = offerService.page(page, wrapper);
+            return Result.OK("成功！",iPage);
+        }catch (Exception e){
+            e.printStackTrace();
+            return Result.error(e.getMessage(),null);
+        }
     }
 
 
