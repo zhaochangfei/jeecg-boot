@@ -2,18 +2,14 @@ package org.jeecg.modules.wms.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.aliyuncs.exceptions.ClientException;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.jeecg.common.exception.JeecgBootException;
 import org.jeecg.common.util.DySmsEnum;
 import org.jeecg.common.util.DySmsHelper;
-import org.jeecg.modules.wms.entity.WmsConsignee;
-import org.jeecg.modules.wms.entity.WmsDistribution;
-import org.jeecg.modules.wms.entity.WmsDistributionTransfer;
-import org.jeecg.modules.wms.entity.WmsOffer;
-import org.jeecg.modules.wms.mapper.WmsConsigneeMapper;
-import org.jeecg.modules.wms.mapper.WmsDistributionMapper;
-import org.jeecg.modules.wms.mapper.WmsDistributionTransferMapper;
-import org.jeecg.modules.wms.mapper.WmsOfferMapper;
+import org.jeecg.modules.wms.entity.*;
+import org.jeecg.modules.wms.mapper.*;
 import org.jeecg.modules.wms.service.IWmsOfferService;
+import org.jeecg.modules.wms.vo.WmsOfferVo;
 import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -21,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * @Description: 报价表
@@ -37,10 +34,19 @@ public class WmsOfferServiceImpl extends ServiceImpl<WmsOfferMapper, WmsOffer> i
     private WmsDistributionTransferMapper distributionTransferMapper;
     @Resource
     private WmsConsigneeMapper consigneeMapper;
+    @Resource
+    private WmsDistributionDetailMapper wmsDistributionDetailMapper;
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateOfferById(String id, String sstatus) throws ClientException {
         WmsOffer wmsOffer = baseMapper.selectById(id);
+        QueryWrapper<WmsOffer> wrapper = new QueryWrapper<>();
+        wrapper.eq("distribution_id",wmsOffer.getDistributionId());
+        wrapper.eq("sstatus","1");
+        List<WmsOffer> wmsOffers = baseMapper.selectList(wrapper);
+        if (wmsOffers.size()>0){
+            throw new JeecgBootException("该配送单已存在同意单据请勿多次同意不同单据！");
+        }
         if (sstatus.equals(wmsOffer.getSstatus())){
             throw new JeecgBootException("请勿重复操作！请刷新列表后在试！");
         }
@@ -116,5 +122,19 @@ public class WmsOfferServiceImpl extends ServiceImpl<WmsOfferMapper, WmsOffer> i
         wmsOffer1.setId(id);
         wmsOffer1.setSstatus("0");
         baseMapper.updateById(wmsOffer1);
+    }
+
+    @Override
+    public List<WmsOfferVo> getOfferList(String distributionCode) {
+        List<WmsOfferVo> offerList = baseMapper.getOfferList(distributionCode);
+        if (offerList.size()>0){
+            offerList.forEach(wmsOfferVo -> {
+                QueryWrapper<WmsDistributionDetail> wrapper = new QueryWrapper<>();
+                wrapper.eq("distribution_id",wmsOfferVo.getDistributionId());
+                List<WmsDistributionDetail> wmsDistributionDetails = wmsDistributionDetailMapper.selectList(wrapper);
+                wmsOfferVo.setDetails(wmsDistributionDetails);
+            });
+        }
+        return offerList;
     }
 }

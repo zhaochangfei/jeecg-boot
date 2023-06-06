@@ -136,4 +136,9 @@ public class WmsDistributionServiceImpl extends ServiceImpl<WmsDistributionMappe
         }
         baseMapper.updateById(wmsDistribution1);
     }
+
+    @Override
+    public WmsDistribution selectByCode(String code) {
+        return baseMapper.selectByCode(code);
+    }
 }

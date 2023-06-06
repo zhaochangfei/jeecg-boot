@@ -10,13 +10,11 @@ import me.zhyd.oauth.log.Log;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
 import org.jeecg.common.util.RestUtil;
-import org.jeecg.modules.wms.entity.WmsAppUser;
-import org.jeecg.modules.wms.entity.WmsDistributionTransfer;
-import org.jeecg.modules.wms.entity.WmsInformation;
-import org.jeecg.modules.wms.entity.WmsOffer;
+import org.jeecg.modules.wms.entity.*;
 import org.jeecg.modules.wms.service.*;
 import org.jeecg.modules.wms.vo.WmsDistributionDetailVo;
 import org.jeecg.modules.wms.vo.WmsDistributionTransferVo;
+import org.jeecg.modules.wms.vo.WmsOfferVo;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -63,6 +61,14 @@ public class ApiController {
         Page<WmsDistributionDetailVo> page = new Page<WmsDistributionDetailVo>(pageNo, pageSize);
         IPage<WmsDistributionDetailVo> pageList =  detailService.getCargoList(page,carNo,status);
         return Result.OK(pageList);
+    }
+    @AutoLog(value = "Api-通过配送单号查询详情")
+    @ApiOperation(value="Api-通过配送单号查询详情", notes="Api-通过配送单号查询详情")
+    @GetMapping(value = "/getWmsDistributionByCode")
+    public Result<WmsDistribution> getWmsDistributionByCode(@RequestParam(name = "code",required = true) String code,
+                                                                   HttpServletRequest req) {
+        WmsDistribution wmsDistribution = distributionService.selectByCode(code);
+        return Result.OK(wmsDistribution);
     }
     @AutoLog(value = "Api-通过收货人/发货人手机号获取货物清单")
     @ApiOperation(value="Api-通过收货人/发货人手机号获取货物清单", notes="Api-通过收货人/发货人手机号获取货物清单")
@@ -113,11 +119,9 @@ public class ApiController {
     @AutoLog(value = "Api-通过配送单号获取报价集合")
     @ApiOperation(value="Api-通过配送单号获取报价集合", notes="Api-通过配送单号获取报价集合")
     @GetMapping(value = "/getOfferList")
-    public Result<List<WmsOffer>> getOfferList(@RequestParam(name = "distributionCode",required = true) String distributionCode,
-                                  HttpServletRequest req) {
-        QueryWrapper<WmsOffer> wrapper = new QueryWrapper<>();
-        wrapper.eq("distribution_code",distributionCode);
-        List<WmsOffer> offers =   offerService.list(wrapper);
+    public Result<List<WmsOfferVo>> getOfferList(@RequestParam(name = "distributionCode",required = true) String distributionCode,
+                                                 HttpServletRequest req) {
+        List<WmsOfferVo> offers =  offerService.getOfferList(distributionCode);
         return Result.OK(offers);
     }
 
@@ -216,6 +220,25 @@ public class ApiController {
             wrapper.eq("consignor_id",consignorId);
             wrapper.orderByDesc("create_time");
             IPage<WmsOffer> iPage = offerService.page(page, wrapper);
+            return Result.OK("成功！",iPage);
+        }catch (Exception e){
+            e.printStackTrace();
+            return Result.error(e.getMessage(),null);
+        }
+    }
+    @AutoLog(value = "Api-根据客户手机号查询客户录入信息列表")
+    @ApiOperation(value="Api-根据客户手机号查询客户录入信息列表", notes="Api-根据客户手机号查询客户录入信息列表")
+    @GetMapping(value = "/getWmsInformationListByIphone")
+    public Result<IPage<WmsInformation>> getWmsInformationListByIphone(@RequestParam(name = "iphone",required = true) String iphone,
+                                                    @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
+                                                    @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
+                                                    HttpServletRequest req) {
+        try {
+            Page<WmsInformation> page = new Page<WmsInformation>(pageNo, pageSize);
+            QueryWrapper<WmsInformation> wrapper = new QueryWrapper<>();
+            wrapper.eq("iphone",iphone);
+            wrapper.orderByDesc("create_time");
+            IPage<WmsInformation> iPage = informationService.page(page, wrapper);
             return Result.OK("成功！",iPage);
         }catch (Exception e){
             e.printStackTrace();

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.jeecg.modules.wms.mapper.WmsDistributionDetailMapper">
 
-    <select id="getCargoList" resultType="org.jeecg.modules.wms.vo.WmsDistributionDetailVo">
+     <select id="getCargoList" resultType="org.jeecg.modules.wms.vo.WmsDistributionDetailVo">
         select wd.* from wms_distribution wd
         left join wms_car wc on wc.id = wd.car_id and wc.del_flag = '0'
         left join wms_car wc2 on wc2.id = wd.car_id_transfer and wc2.del_flag = '0'

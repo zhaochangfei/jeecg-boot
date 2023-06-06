@@ -22,4 +22,6 @@ public interface IWmsDistributionService extends IService<WmsDistribution> {
     void updateStatus(String id, String status) throws ClientException;
 
     void updateStatusByCode(String code, String status) throws ClientException;
+
+    WmsDistribution selectByCode(String code);
 }

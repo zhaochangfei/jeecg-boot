@@ -2,4 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.jeecg.modules.wms.mapper.WmsOfferMapper">
 
+    <select id="getOfferList" resultType="org.jeecg.modules.wms.vo.WmsOfferVo">
+        select wo.*,wd.weight,wd.piece,wdt.transit,wd.arrival_station from wms_offer wo
+        join wms_distribution wd on wo.distribution_id = wd.id and wd.del_flag = '0'
+        join wms_distribution_transfer wdt on wdt.id = wo.distribution_transfer_id and wdt.del_flag = '0'
+        where wo.del_flag = '0' and wo.distribution_code = #{distributionCode}
+        order by wo.create_time desc
+    </select>
 </mapper>

@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.jeecg.modules.wms.entity.WmsOffer;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.jeecg.modules.wms.vo.WmsOfferVo;
 
 /**
  * @Description: 报价表
@@ -14,4 +15,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface WmsOfferMapper extends BaseMapper<WmsOffer> {
 
+    List<WmsOfferVo> getOfferList(String distributionCode);
 }
