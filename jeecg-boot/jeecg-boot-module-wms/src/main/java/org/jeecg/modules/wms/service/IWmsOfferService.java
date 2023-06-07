@@ -1,6 +1,8 @@
 package org.jeecg.modules.wms.service;
 
 import com.aliyuncs.exceptions.ClientException;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.jeecg.modules.wms.entity.WmsOffer;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.jeecg.modules.wms.vo.WmsOfferVo;
@@ -20,4 +22,6 @@ public interface IWmsOfferService extends IService<WmsOffer> {
     void recallOfferById(String id);
 
     List<WmsOfferVo> getOfferList(String distributionCode);
+
+    IPage<WmsOfferVo> pageList(Page<WmsOfferVo> page, String consignorId);
 }

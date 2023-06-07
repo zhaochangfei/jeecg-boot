@@ -210,16 +210,13 @@ public class ApiController {
     @AutoLog(value = "Api-中转司机查看自己报价列表")
     @ApiOperation(value="Api-中转司机查看自己报价列表", notes="Api-中转司机查看自己报价列表")
     @GetMapping(value = "/getOfferListById")
-    public Result<IPage<WmsOffer>> getOfferListById(@RequestParam(name = "consignorId",required = true) String consignorId,
+    public Result<IPage<WmsOfferVo>> getOfferListById(@RequestParam(name = "consignorId",required = true) String consignorId,
                                                     @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
                                                     @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
                                           HttpServletRequest req) {
         try {
-            Page<WmsOffer> page = new Page<WmsOffer>(pageNo, pageSize);
-            QueryWrapper<WmsOffer> wrapper = new QueryWrapper<>();
-            wrapper.eq("consignor_id",consignorId);
-            wrapper.orderByDesc("create_time");
-            IPage<WmsOffer> iPage = offerService.page(page, wrapper);
+            Page<WmsOfferVo> page = new Page<WmsOfferVo>(pageNo, pageSize);
+            IPage<WmsOfferVo> iPage = offerService.pageList(page, consignorId);
             return Result.OK("成功！",iPage);
         }catch (Exception e){
             e.printStackTrace();

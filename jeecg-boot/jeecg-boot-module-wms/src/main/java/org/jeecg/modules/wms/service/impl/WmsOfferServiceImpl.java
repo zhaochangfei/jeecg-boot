@@ -3,6 +3,8 @@ package org.jeecg.modules.wms.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.aliyuncs.exceptions.ClientException;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.jeecg.common.exception.JeecgBootException;
 import org.jeecg.common.util.DySmsEnum;
 import org.jeecg.common.util.DySmsHelper;
@@ -136,5 +138,21 @@ public class WmsOfferServiceImpl extends ServiceImpl<WmsOfferMapper, WmsOffer> i
             });
         }
         return offerList;
+    }
+
+    @Override
+    public IPage<WmsOfferVo> pageList(Page<WmsOfferVo> page, String consignorId) {
+        IPage<WmsOfferVo> wmsOfferVoIPage = baseMapper.pageList(page, consignorId);
+        List<WmsOfferVo> offerList = wmsOfferVoIPage.getRecords();
+        if (offerList.size()>0){
+            offerList.forEach(wmsOfferVo -> {
+                QueryWrapper<WmsDistributionDetail> wrapper = new QueryWrapper<>();
+                wrapper.eq("distribution_id",wmsOfferVo.getDistributionId());
+                List<WmsDistributionDetail> wmsDistributionDetails = wmsDistributionDetailMapper.selectList(wrapper);
+                wmsOfferVo.setDetails(wmsDistributionDetails);
+            });
+        }
+        wmsOfferVoIPage.setRecords(offerList);
+        return wmsOfferVoIPage;
     }
 }
