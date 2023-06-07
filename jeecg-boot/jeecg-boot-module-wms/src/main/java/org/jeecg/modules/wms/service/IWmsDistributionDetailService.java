@@ -14,7 +14,7 @@ import org.jeecg.modules.wms.vo.WmsDistributionDetailVo;
  */
 public interface IWmsDistributionDetailService extends IService<WmsDistributionDetail> {
 
-    IPage<WmsDistributionDetailVo> getCargoList(Page<WmsDistributionDetailVo> page, String carNo, String status);
+    IPage<WmsDistributionDetailVo> getCargoList(Page<WmsDistributionDetailVo> page, String carNo, String status,String transferCarNo);
 
-    IPage<WmsDistributionDetailVo> getCargoListByIphone(Page<WmsDistributionDetailVo> page, String iphone, String status);
+    IPage<WmsDistributionDetailVo> getCargoListByIphone(Page<WmsDistributionDetailVo> page, String iphone, String status,String consigneeIphone);
 }

@@ -8,7 +8,10 @@
         left join wms_car wc2 on wc2.id = wd.car_id_transfer and wc2.del_flag = '0'
         where wd.del_flag = '0'
         <if test="carNo != null and carNo != ''">
-           and ((wc.license_plate_number = #{carNo})or(wc2.license_plate_number = #{carNo}))
+           and wc.license_plate_number = #{carNo}
+        </if>
+        <if test="transferCarNo != null and transferCarNo != ''">
+            and wc2.license_plate_number = #{transferCarNo}
         </if>
         <if test="status != null and status != ''">
             and find_in_set(wd.sstatus,#{status})>0
@@ -19,7 +22,10 @@
         select * from wms_distribution
         where del_flag = '0'
         <if test="iphone != null and iphone != ''">
-            and ((consignee_iphone = #{iphone})or(consignor_iphone = #{iphone}))
+            and consignor_iphone = #{iphone}
+        </if>
+        <if test="consigneeIphone != null and consigneeIphone != ''">
+            and consignee_iphone = #{consigneeIphone}
         </if>
         <if test="status != null and status != ''">
             and find_in_set(sstatus,#{status})>0

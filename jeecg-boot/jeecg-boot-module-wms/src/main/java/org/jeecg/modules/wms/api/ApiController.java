@@ -38,6 +38,8 @@ public class ApiController {
     private IWmsAppUserService appUserService;
     @Resource
     private IWmsInformationService informationService;
+    @Resource
+    private IWmsAppVersionsService appVersionsService;
 
     @AutoLog(value = "Api-获取监控Token")
     @ApiOperation(value="Api-获取监控Token", notes="Api-获取监控Token")
@@ -53,13 +55,14 @@ public class ApiController {
     @AutoLog(value = "Api-通过车牌号获取货物清单")
     @ApiOperation(value="Api-通过车牌号获取货物清单", notes="Api-通过车牌号获取货物清单")
     @GetMapping(value = "/getCargoListByCarNo")
-    public Result<IPage<WmsDistributionDetailVo>> getCargoList(@RequestParam(name = "carNo",required = true) String carNo,
+    public Result<IPage<WmsDistributionDetailVo>> getCargoList(@RequestParam(name = "carNo",required = false) String carNo,
+                                                               @RequestParam(name = "transferCarNo",required = false) String transferCarNo,
                                   @RequestParam(name = "status",required = false) String status,
                                   @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
                                   @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
                                        HttpServletRequest req) {
         Page<WmsDistributionDetailVo> page = new Page<WmsDistributionDetailVo>(pageNo, pageSize);
-        IPage<WmsDistributionDetailVo> pageList =  detailService.getCargoList(page,carNo,status);
+        IPage<WmsDistributionDetailVo> pageList =  detailService.getCargoList(page,carNo,status,transferCarNo);
         return Result.OK(pageList);
     }
     @AutoLog(value = "Api-通过配送单号查询详情")
@@ -73,13 +76,14 @@ public class ApiController {
     @AutoLog(value = "Api-通过收货人/发货人手机号获取货物清单")
     @ApiOperation(value="Api-通过收货人/发货人手机号获取货物清单", notes="Api-通过收货人/发货人手机号获取货物清单")
     @GetMapping(value = "/getCargoListByIphone")
-    public Result<IPage<WmsDistributionDetailVo>> getCargoListByIphone(@RequestParam(name = "iphone",required = true) String iphone,
+    public Result<IPage<WmsDistributionDetailVo>> getCargoListByIphone(@RequestParam(name = "iphone",required = false) String iphone,
+                                                               @RequestParam(name = "consigneeIphone",required = false) String consigneeIphone,
                                                                @RequestParam(name = "status",required = false) String status,
                                                                @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
                                                                @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
                                                                HttpServletRequest req) {
         Page<WmsDistributionDetailVo> page = new Page<WmsDistributionDetailVo>(pageNo, pageSize);
-        IPage<WmsDistributionDetailVo> pageList =  detailService.getCargoListByIphone(page,iphone,status);
+        IPage<WmsDistributionDetailVo> pageList =  detailService.getCargoListByIphone(page,iphone,status,consigneeIphone);
         return Result.OK(pageList);
     }
     @AutoLog(value = "Api-通过单号修改运单状态")
@@ -242,6 +246,22 @@ public class ApiController {
             return Result.error(e.getMessage(),null);
         }
     }
+    @AutoLog(value = "Api-通过包名查询App版本信息")
+    @ApiOperation(value="Api-通过包名查询App版本信息", notes="Api-通过包名查询App版本信息")
+    @GetMapping(value = "/findAppVersionByname")
+    public Result<WmsAppVersions> findAppVersionByname(@RequestParam(name = "name",required = true) String name,
+                                  HttpServletRequest req) {
+        try {
+            QueryWrapper<WmsAppVersions> wrapper = new QueryWrapper<>();
+            wrapper.eq("name",name);
+            WmsAppVersions one = appVersionsService.getOne(wrapper);
+            return Result.OK(one);
+        }catch (Exception e){
+            e.printStackTrace();
+            return Result.error(e.getMessage(),null);
+        }
+    }
+
 
 
 }

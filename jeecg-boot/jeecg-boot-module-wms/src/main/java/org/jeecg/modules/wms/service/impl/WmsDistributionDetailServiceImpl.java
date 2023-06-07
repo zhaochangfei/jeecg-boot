@@ -24,8 +24,8 @@ import java.util.List;
 public class WmsDistributionDetailServiceImpl extends ServiceImpl<WmsDistributionDetailMapper, WmsDistributionDetail> implements IWmsDistributionDetailService {
 
     @Override
-    public IPage<WmsDistributionDetailVo> getCargoList(Page<WmsDistributionDetailVo> page, String carNo, String status) {
-        IPage<WmsDistributionDetailVo> cargoList = baseMapper.getCargoList(page, carNo, status);
+    public IPage<WmsDistributionDetailVo> getCargoList(Page<WmsDistributionDetailVo> page, String carNo, String status,String transferCarNo) {
+        IPage<WmsDistributionDetailVo> cargoList = baseMapper.getCargoList(page, carNo, status,transferCarNo);
         List<WmsDistributionDetailVo> records = cargoList.getRecords();
         if (records != null && records.size()>0){
             records.forEach(record ->{
@@ -40,8 +40,8 @@ public class WmsDistributionDetailServiceImpl extends ServiceImpl<WmsDistributio
     }
 
     @Override
-    public IPage<WmsDistributionDetailVo> getCargoListByIphone(Page<WmsDistributionDetailVo> page, String iphone, String status) {
-        IPage<WmsDistributionDetailVo> cargoList = baseMapper.getCargoListByIphone(page, iphone, status);
+    public IPage<WmsDistributionDetailVo> getCargoListByIphone(Page<WmsDistributionDetailVo> page, String iphone, String status,String consigneeIphone) {
+        IPage<WmsDistributionDetailVo> cargoList = baseMapper.getCargoListByIphone(page, iphone, status,consigneeIphone);
         List<WmsDistributionDetailVo> records = cargoList.getRecords();
         if (records != null && records.size()>0){
             records.forEach(record ->{
