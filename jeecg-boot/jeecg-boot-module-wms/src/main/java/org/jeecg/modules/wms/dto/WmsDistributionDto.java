@@ -15,6 +15,9 @@ public class WmsDistributionDto extends WmsDistribution {
     /**收货人名字*/
     @ApiModelProperty(value = "收货人名字")
     private java.lang.String consigneeName;
+    /**大车车牌号*/
+    @ApiModelProperty(value = "大车车牌号")
+    private java.lang.String licensePlateNumber;
 
     @ApiModelProperty(value = "发货明细")
     private List<WmsDistributionDetail> details;

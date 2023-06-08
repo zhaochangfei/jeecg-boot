@@ -13,9 +13,11 @@ import org.jeecg.common.util.DySmsEnum;
 import org.jeecg.common.util.DySmsHelper;
 import org.jeecg.common.util.FillRuleUtil;
 import org.jeecg.modules.wms.dto.WmsDistributionDto;
+import org.jeecg.modules.wms.entity.WmsCar;
 import org.jeecg.modules.wms.entity.WmsConsignee;
 import org.jeecg.modules.wms.entity.WmsDistribution;
 import org.jeecg.modules.wms.entity.WmsDistributionDetail;
+import org.jeecg.modules.wms.mapper.WmsCarMapper;
 import org.jeecg.modules.wms.mapper.WmsConsigneeMapper;
 import org.jeecg.modules.wms.mapper.WmsDistributionMapper;
 import org.jeecg.modules.wms.service.IWmsConsigneeService;
@@ -44,6 +46,8 @@ public class WmsDistributionServiceImpl extends ServiceImpl<WmsDistributionMappe
     private IWmsDistributionDetailService detailService;
     @Resource
     private WmsConsigneeMapper consigneeMapper;
+    @Resource
+    private WmsCarMapper carMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -143,10 +147,18 @@ public class WmsDistributionServiceImpl extends ServiceImpl<WmsDistributionMappe
         WmsDistributionDto wmsDistributionDto = new WmsDistributionDto();
         if (wmsDistribution != null){
             BeanUtils.copyProperties(wmsDistribution,wmsDistributionDto);
+            //查询收货人姓名
             if (StringUtils.isNotEmpty(wmsDistribution.getConsigneeId())){
                 WmsConsignee wmsConsignee = consigneeMapper.selectById(wmsDistribution.getConsigneeId());
                 if (wmsConsignee!= null){
                     wmsDistributionDto.setConsigneeName(wmsConsignee.getName());
+                }
+            }
+            //查询大车车牌号
+            if (StringUtils.isNotEmpty(wmsDistribution.getCarId())){
+                WmsCar car = carMapper.selectById(wmsDistribution.getCarId());
+                if (car!= null){
+                    wmsDistributionDto.setLicensePlateNumber(car.getLicensePlateNumber());
                 }
             }
             QueryWrapper<WmsDistributionDetail> wrapper = new QueryWrapper<>();
