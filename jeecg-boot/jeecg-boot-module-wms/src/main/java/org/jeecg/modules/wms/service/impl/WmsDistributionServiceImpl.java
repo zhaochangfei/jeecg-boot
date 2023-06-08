@@ -138,7 +138,22 @@ public class WmsDistributionServiceImpl extends ServiceImpl<WmsDistributionMappe
     }
 
     @Override
-    public WmsDistribution selectByCode(String code) {
-        return baseMapper.selectByCode(code);
+    public WmsDistributionDto selectByCode(String code) {
+        WmsDistribution wmsDistribution = baseMapper.selectByCode(code);
+        WmsDistributionDto wmsDistributionDto = new WmsDistributionDto();
+        if (wmsDistribution != null){
+            BeanUtils.copyProperties(wmsDistribution,wmsDistributionDto);
+            if (StringUtils.isNotEmpty(wmsDistribution.getConsigneeId())){
+                WmsConsignee wmsConsignee = consigneeMapper.selectById(wmsDistribution.getConsigneeId());
+                if (wmsConsignee!= null){
+                    wmsDistributionDto.setConsigneeName(wmsConsignee.getName());
+                }
+            }
+            QueryWrapper<WmsDistributionDetail> wrapper = new QueryWrapper<>();
+            wrapper.eq("distribution_id",wmsDistribution.getId());
+            List<WmsDistributionDetail> wmsDistributionDetails = detailService.list(wrapper);
+            wmsDistributionDto.setDetails(wmsDistributionDetails);
+        }
+        return  wmsDistributionDto;
     }
 }

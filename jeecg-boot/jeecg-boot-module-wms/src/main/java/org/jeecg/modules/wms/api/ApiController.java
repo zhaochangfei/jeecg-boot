@@ -10,6 +10,7 @@ import me.zhyd.oauth.log.Log;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
 import org.jeecg.common.util.RestUtil;
+import org.jeecg.modules.wms.dto.WmsDistributionDto;
 import org.jeecg.modules.wms.entity.*;
 import org.jeecg.modules.wms.service.*;
 import org.jeecg.modules.wms.vo.WmsDistributionDetailVo;
@@ -68,9 +69,9 @@ public class ApiController {
     @AutoLog(value = "Api-通过配送单号查询详情")
     @ApiOperation(value="Api-通过配送单号查询详情", notes="Api-通过配送单号查询详情")
     @GetMapping(value = "/getWmsDistributionByCode")
-    public Result<WmsDistribution> getWmsDistributionByCode(@RequestParam(name = "code",required = true) String code,
-                                                                   HttpServletRequest req) {
-        WmsDistribution wmsDistribution = distributionService.selectByCode(code);
+    public Result<WmsDistributionDto> getWmsDistributionByCode(@RequestParam(name = "code",required = true) String code,
+                                                               HttpServletRequest req) {
+        WmsDistributionDto wmsDistribution = distributionService.selectByCode(code);
         return Result.OK(wmsDistribution);
     }
     @AutoLog(value = "Api-通过收货人/发货人手机号获取货物清单")
