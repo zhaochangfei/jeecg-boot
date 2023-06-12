@@ -17,7 +17,8 @@
         .input-container .el-button {
             margin-left: 10px;
         }
-        .tip{
+
+        .tip {
             color: red;
         }
     </style>
@@ -51,6 +52,7 @@
             <div v-if="responseData.result.sstatus === '1'">
                 <p>司机：{{ responseData.result.carDriver }}</p>
                 <p>车上电话：{{ responseData.result.carIphone }}</p>
+                <p v-if="responseLocationData">车辆位置：{{responseLocationData.result}}</p>
                 <br>
                 <p class="tip">更多详情请关注公众号，如有问题可联系客服</p>
             </div>
@@ -59,10 +61,10 @@
                 <br>
                 <p class="tip">更多详情请关注公众号，如有问题可联系客服</p>
             </div>
-            <div v-else-if="responseData.result.sstatus === '2'">
+            <div v-else-if="responseData.result.sstatus === '3'">
                 <p>司机：{{ responseData.result.carDriver }}</p>
                 <p>车上电话：{{ responseData.result.carIphone }}</p>
-                <p>货物已到达中转站</p>
+                <p v-if="responseLocationData">车辆位置：{{responseLocationData.result}}</p>
                 <br>
                 <p class="tip">更多详情请关注公众号，如有问题可联系客服</p>
             </div>
@@ -81,7 +83,6 @@
     </div>
     <div v-else>
         <el-loading-spinner v-if="loading"></el-loading-spinner>
-        <div v-else>Loading...</div>
     </div>
 </div>
 
@@ -96,11 +97,7 @@
             responseData: null,
             responseLocationData: null,
             showData: false,
-            loading: false
-        },
-        mounted() {
-            this.fetchData();
-            this.getLocation();
+            loading: false,
         },
         methods: {
             fetchData() {
@@ -111,8 +108,7 @@
                 }).then(response => {
                     this.responseData = response.data;
                     this.showData = true
-                    // if (this.responseData.result.sstatus === 1 || this.responseData.result.sstatus === 3)
-                    //     this.getLocation(this.responseData.result.licensePlateNumber)
+                    this.getLocation(this.responseData.result.licensePlateNumber)
                     console.log(this.responseData)
                 }).catch(error => {
                     console.error("获取订单失败");
@@ -121,13 +117,13 @@
             },
 
             getLocation(carNo) {
-                axios.get('https://api.e6yun.com/public/v4/MONITOR/api/vehicleMonitor/getVehicleInfo', {
+                axios.get('/jeecg-boot/wms/api/getDrivingPosition', {
                     params: {
                         carNo: carNo
                     }
                 }).then(response => {
-                    this.responseData = response.data;
-                    console.log(this.responseData)
+                    this.responseLocationData = response.data;
+                    console.log(this.responseLocationData)
                 }).catch(error => {
                     console.error("获取位置失败");
                 });
