@@ -4,15 +4,16 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.gson.JsonArray;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import me.zhyd.oauth.log.Log;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
 import org.jeecg.common.util.RestUtil;
 import org.jeecg.modules.wms.dto.WmsDistributionDto;
 import org.jeecg.modules.wms.entity.*;
 import org.jeecg.modules.wms.service.*;
+import org.jeecg.modules.wms.util.MD5Utils;
 import org.jeecg.modules.wms.vo.WmsDistributionDetailVo;
 import org.jeecg.modules.wms.vo.WmsDistributionTransferVo;
 import org.jeecg.modules.wms.vo.WmsOfferVo;
@@ -20,6 +21,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 @RestController
@@ -42,15 +47,36 @@ public class ApiController {
     @Resource
     private IWmsAppVersionsService appVersionsService;
 
-    @AutoLog(value = "Api-获取监控Token")
-    @ApiOperation(value="Api-获取监控Token", notes="Api-获取监控Token")
-    @GetMapping(value = "/getMonitoringToken")
-    public Result<String> getMonitoringToken(HttpServletRequest req) {
-        Log.error("进入getMonitoringToken");
-        String Url = "http://202.100.168.28:8080/StandardApiAction_login.action?account=qsll&password=qsll123";
-        JSONObject post = RestUtil.post(Url);
-        String jsession = post.get("jsession").toString();
-        return Result.OK(jsession);
+    @AutoLog(value = "Api-根据车牌号获取行车位置")
+    @ApiOperation(value="Api-根据车牌号获取行车位置", notes="Api-根据车牌号获取行车位置")
+    @GetMapping(value = "/getDrivingPosition")
+    public Result<String> getMonitoringToken(@RequestParam(name = "carNo",required = true) String carNo,
+                                             HttpServletRequest req) {
+
+        String appkey="d6c7c508-3e51-483f-ba41-193e7b22fccc";
+        String appsecret= "6b96ee9d-0ca9-41b9-aee1-37c02a80b20b";
+        String format= "json";
+        String method="GetVehcileInfo";
+        String sessionId="";
+        String timestamp=LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        String vehicleNo= carNo;
+        String contactStr = appsecret + "appkey" + appkey + "format" + format  + "method" +method + "sessionId" + sessionId + "timestamp" + timestamp + "vehicleNo" +vehicleNo + appsecret;
+        String sign = MD5Utils.getMD5UpperString(contactStr);
+
+        String Url = "https://api.e6yun.com/public/v4/MONITOR/api/vehicleMonitor/getVehicleInfo?"+
+                "method=GetVehcileInfo" +
+                "&timestamp=" +timestamp+
+                "&format=json" +
+                "&vehicleNo=" +carNo+
+                "&sessionId=" +
+                "&appkey=" +appkey+
+                "&sign="+sign;
+        JSONObject object = RestUtil.get(Url);
+        ArrayList<LinkedHashMap> data = (ArrayList<LinkedHashMap>) object.get("data");
+        String placeName = data.get(0).get("placeName").toString();
+        String roadName = data.get(0).get("roadName").toString();
+
+        return Result.OK(placeName+roadName);
     }
 
     @AutoLog(value = "Api-通过车牌号获取货物清单")
