@@ -113,6 +113,7 @@ public class ShiroConfig {
 
         //开放Api接口放行
 //        filterChainDefinitionMap.put("/wms/api/**", "anon");
+        filterChainDefinitionMap.put("/wms/api/getDrivingPosition", "anon"); //易流云开放查询接口
         filterChainDefinitionMap.put("/wms/api/getWmsDistributionByCode", "anon");
         filterChainDefinitionMap.put("/wms/wmsAppUser/add", "anon"); //app注册
         filterChainDefinitionMap.put("/wms/wmsAppUser/checkOnlyUser", "anon"); //app查验账号是否存在

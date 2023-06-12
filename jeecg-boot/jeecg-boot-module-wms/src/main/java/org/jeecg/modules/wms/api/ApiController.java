@@ -50,7 +50,7 @@ public class ApiController {
     @AutoLog(value = "Api-根据车牌号获取行车位置")
     @ApiOperation(value="Api-根据车牌号获取行车位置", notes="Api-根据车牌号获取行车位置")
     @GetMapping(value = "/getDrivingPosition")
-    public Result<String> getMonitoringToken(@RequestParam(name = "carNo",required = true) String carNo,
+    public Result<String> getDrivingPosition(@RequestParam(name = "carNo",required = true) String carNo,
                                              HttpServletRequest req) {
 
         String appkey="d6c7c508-3e51-483f-ba41-193e7b22fccc";
