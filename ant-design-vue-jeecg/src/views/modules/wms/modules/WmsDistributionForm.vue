@@ -27,14 +27,13 @@
                 label="发货人"
                 :labelCol="labelCol"
                 :wrapperCol="wrapperCol"
-                prop="consignorId_dictText"
+                prop="consignorName"
               >
                 <a-input-group compact>
                   <a-button @click="showConsignor" icon="dash"></a-button>
                   <a-input
                     style="width: 290px"
-                    v-model="model.consignorId_dictText"
-                    onfocus="this.blur()"
+                    v-model="model.consignorName"
                     placeholder="请选择"
                     allow-clear
                   />
@@ -63,14 +62,13 @@
                 label="收货人"
                 :labelCol="labelCol"
                 :wrapperCol="wrapperCol"
-                prop="consigneeId_dictText"
+                prop="consigneeName"
               >
                 <a-input-group compact>
                   <a-button @click="showConsignee" icon="dash"></a-button>
                   <a-input
                     style="width: 290px"
-                    v-model="model.consigneeId_dictText"
-                    onfocus="this.blur()"
+                    v-model="model.consigneeName"
                     placeholder="请选择"
                     allow-clear
                   />
@@ -458,6 +456,8 @@ export default {
     },
     edit(record) {
       this.model = Object.assign({}, record)
+      this.model.consigneeName = record.consigneeId_dictText
+      this.model.consignorName = record.consignorId_dictText
       queryWmsDistributionDetails({ distributionId: record.id,pageSize:1000 }).then(res => {
             if (res.result) {
               this.details = res.result.records
@@ -475,7 +475,7 @@ export default {
     //发货人员回调接口
     wmsConsignorUp(data) {
       if (data) {
-        this.$set(this.model, 'consignorId_dictText', data[0].name)
+        this.$set(this.model, 'consignorName', data[0].name)
         this.$set(this.model, 'consignorId', data[0].id)
         this.$set(this.model, 'consignorIdcard', data[0].idcard)
         this.$set(this.model, 'consignorIphone', data[0].iphone)
@@ -491,7 +491,7 @@ export default {
     //收货人员回调接口
     wmsConsigneeUp(data) {
       if (data) {
-        this.$set(this.model, 'consigneeId_dictText', data[0].name)
+        this.$set(this.model, 'consigneeName', data[0].name)
         this.$set(this.model, 'consigneeId', data[0].id)
         this.$set(this.model, 'consigneeIdcard', data[0].idcard)
         this.$set(this.model, 'consigneeIphone', data[0].iphone)

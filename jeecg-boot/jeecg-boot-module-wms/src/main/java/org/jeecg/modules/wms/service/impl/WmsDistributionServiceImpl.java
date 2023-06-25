@@ -54,6 +54,10 @@ public class WmsDistributionServiceImpl extends ServiceImpl<WmsDistributionMappe
     public void addOrEdit(WmsDistributionDto wmsDistributionDto) {
         WmsDistribution wmsDistribution = new WmsDistribution();
         BeanUtils.copyProperties(wmsDistributionDto,wmsDistribution);
+        String norId = findOrAddConsignee(wmsDistributionDto.getConsignorName(), wmsDistributionDto.getConsignorIphone());
+        wmsDistribution.setConsignorId(norId);
+        String neeId = findOrAddConsignee(wmsDistributionDto.getConsigneeName(), wmsDistributionDto.getConsigneeIphone());
+        wmsDistribution.setConsigneeId(neeId);
         //新增配送单
         if (StringUtils.isEmpty(wmsDistribution.getId())){
             wmsDistribution.setCode(FillRuleUtil.executeRule("code_rule", JSONObject.parseObject("{\"prefix\":\"" + "QS" + "\"}")).toString());
@@ -167,5 +171,20 @@ public class WmsDistributionServiceImpl extends ServiceImpl<WmsDistributionMappe
             wmsDistributionDto.setDetails(wmsDistributionDetails);
         }
         return  wmsDistributionDto;
+    }
+    public String findOrAddConsignee(String name,String phone){
+        //查询是否存在该客户
+        QueryWrapper<WmsConsignee> wrapper = new QueryWrapper<>();
+        wrapper.eq("name",name);
+        WmsConsignee wmsConsignee1 = consigneeMapper.selectOne(wrapper);
+        if (wmsConsignee1==null){
+            //不存在则新增一个
+            WmsConsignee wmsConsignee = new WmsConsignee();
+            wmsConsignee.setName(name);
+            wmsConsignee.setIphone(phone);
+            consigneeMapper.insert(wmsConsignee);
+            return wmsConsignee.getId();
+        }
+        return wmsConsignee1.getId();
     }
 }
