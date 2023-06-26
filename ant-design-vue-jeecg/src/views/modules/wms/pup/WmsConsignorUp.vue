@@ -21,6 +21,11 @@
                       <j-input placeholder="请输入发货人名称" v-model="queryParam.name"></j-input>
                     </a-form-item>
                   </a-col>
+                  <a-col :span="5">
+                    <a-form-item label="发货人电话">
+                      <j-input placeholder="请输入发货人电话" v-model="queryParam.iphone"></j-input>
+                    </a-form-item>
+                  </a-col>
  
                   <a-col :span="4">
                     <span style="float: left; margin-top: -3px" class="table-page-search-submitButtons">
