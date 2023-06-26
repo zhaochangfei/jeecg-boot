@@ -97,7 +97,7 @@ public class WmsDistributionController extends JeecgController<WmsDistribution, 
 			return Result.OK("添加成功！");
 		}catch (Exception e){
 			e.printStackTrace();
-			return Result.error("添加失败！");
+			return Result.error(e.getMessage());
 		}
 
 	}

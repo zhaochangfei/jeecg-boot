@@ -54,10 +54,15 @@ public class WmsDistributionServiceImpl extends ServiceImpl<WmsDistributionMappe
     public void addOrEdit(WmsDistributionDto wmsDistributionDto) {
         WmsDistribution wmsDistribution = new WmsDistribution();
         BeanUtils.copyProperties(wmsDistributionDto,wmsDistribution);
-        String norId = findOrAddConsignee(wmsDistributionDto.getConsignorName(), wmsDistributionDto.getConsignorIphone());
-        wmsDistribution.setConsignorId(norId);
-        String neeId = findOrAddConsignee(wmsDistributionDto.getConsigneeName(), wmsDistributionDto.getConsigneeIphone());
-        wmsDistribution.setConsigneeId(neeId);
+        if (StringUtils.isEmpty(wmsDistribution.getConsignorId())){
+            String norId = findOrAddConsignee(wmsDistributionDto.getConsignorName(), wmsDistributionDto.getConsignorIphone());
+            wmsDistribution.setConsignorId(norId);
+        }
+        if (StringUtils.isEmpty(wmsDistribution.getConsigneeId())){
+            String neeId = findOrAddConsignee(wmsDistributionDto.getConsigneeName(), wmsDistributionDto.getConsigneeIphone());
+            wmsDistribution.setConsigneeId(neeId);
+        }
+
         //新增配送单
         if (StringUtils.isEmpty(wmsDistribution.getId())){
             wmsDistribution.setCode(FillRuleUtil.executeRule("code_rule", JSONObject.parseObject("{\"prefix\":\"" + "QS" + "\"}")).toString());
@@ -172,12 +177,17 @@ public class WmsDistributionServiceImpl extends ServiceImpl<WmsDistributionMappe
         }
         return  wmsDistributionDto;
     }
+    @Transactional(rollbackFor = Exception.class)
     public String findOrAddConsignee(String name,String phone){
         //查询是否存在该客户
         QueryWrapper<WmsConsignee> wrapper = new QueryWrapper<>();
         wrapper.eq("name",name);
-        WmsConsignee wmsConsignee1 = consigneeMapper.selectOne(wrapper);
-        if (wmsConsignee1==null){
+        wrapper.eq("iphone",phone);
+        List<WmsConsignee> wmsConsignees = consigneeMapper.selectList(wrapper);
+        if (wmsConsignees.size()>1){
+            throw new JeecgBootException("您输入的名字："+name+" 存在多个请点击左边按钮进行选择！");
+        }
+        if (wmsConsignees==null||wmsConsignees.size()==0){
             //不存在则新增一个
             WmsConsignee wmsConsignee = new WmsConsignee();
             wmsConsignee.setName(name);
@@ -185,6 +195,6 @@ public class WmsDistributionServiceImpl extends ServiceImpl<WmsDistributionMappe
             consigneeMapper.insert(wmsConsignee);
             return wmsConsignee.getId();
         }
-        return wmsConsignee1.getId();
+        return wmsConsignees.get(0).getId();
     }
 }
