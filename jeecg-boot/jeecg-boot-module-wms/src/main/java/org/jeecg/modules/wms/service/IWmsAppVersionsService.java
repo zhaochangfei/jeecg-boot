@@ -1,8 +1,14 @@
 package org.jeecg.modules.wms.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import org.jeecg.modules.wms.entity.WmsAppVersions;
+import com.baomidou.mybatisplus.extension.service.IService;
 
-public interface IWmsAppVersionsService extends IService<WmsAppVersions>{
+/**
+ * @Description: wms_app_versions
+ * @Author: jeecg-boot
+ * @Date:   2023-06-07
+ * @Version: V1.0
+ */
+public interface IWmsAppVersionsService extends IService<WmsAppVersions> {
 
 }

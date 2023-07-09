@@ -177,6 +177,17 @@ public class WmsDistributionServiceImpl extends ServiceImpl<WmsDistributionMappe
         }
         return  wmsDistributionDto;
     }
+
+    @Override
+    public IPage<WmsDistribution> deriveList(Page<WmsDistribution> page, String inputValue, String startTime, String endTime,String carIphone) {
+        return baseMapper.deriveList(page,inputValue,startTime,endTime,carIphone);
+    }
+
+    @Override
+    public IPage<WmsDistribution> consigneeList(Page<WmsDistribution> page, String inputValue, String startTime, String endTime,String consigneeIphone) {
+        return baseMapper.consigneeList(page,inputValue,startTime,endTime,consigneeIphone);
+    }
+
     @Transactional(rollbackFor = Exception.class)
     public String findOrAddConsignee(String name,String phone){
         //查询是否存在该客户

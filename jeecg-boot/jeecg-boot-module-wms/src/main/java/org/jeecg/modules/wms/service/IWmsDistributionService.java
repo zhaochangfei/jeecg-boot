@@ -24,4 +24,8 @@ public interface IWmsDistributionService extends IService<WmsDistribution> {
     void updateStatusByCode(String code, String status) throws ClientException;
 
     WmsDistributionDto selectByCode(String code);
+
+    IPage<WmsDistribution> deriveList(Page<WmsDistribution> page, String inputValue, String startTime, String endTime,String carIphone);
+
+    IPage<WmsDistribution> consigneeList(Page<WmsDistribution> page, String inputValue, String startTime, String endTime,String consigneeIphone);
 }

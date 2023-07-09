@@ -208,4 +208,41 @@ public class WmsDistributionController extends JeecgController<WmsDistribution, 
         return super.importExcel(request, response, WmsDistribution.class);
     }
 
+	 @AutoLog(value = "配送单-车辆报表分页列表查询")
+	 @ApiOperation(value="配送单-分页列表查询", notes="配送单-分页列表查询")
+	 @GetMapping(value = "/deriveList")
+	 public Result<IPage<WmsDistribution>> deriveList(WmsDistribution wmsDistribution,
+									@RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
+									@RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
+									@RequestParam(name="inputValue", required = false) String inputValue,
+									@RequestParam(name="carIphone", required = false) String carIphone,
+									@RequestParam(name="startTime", required = false) String startTime,
+									@RequestParam(name="endTime", required = false) String endTime,
+									HttpServletRequest req) {
+//		QueryWrapper<WmsDistribution> queryWrapper = QueryGenerator.initQueryWrapper(wmsDistribution, req.getParameterMap());
+		 Page<WmsDistribution> page = new Page<WmsDistribution>(pageNo, pageSize);
+//		LoginUser sysUser = (LoginUser) SecurityUtils.getSubject().getPrincipal();
+//		queryWrapper.eq("sys_org_code",);
+		 IPage<WmsDistribution> pageList = wmsDistributionService.deriveList(page,inputValue,startTime,endTime,carIphone);
+		 return Result.OK(pageList);
+	 }
+	 @AutoLog(value = "配送单-收货人报表分页列表查询")
+	 @ApiOperation(value="配送单-收货人报表分页列表查询", notes="配送单-收货人报表分页列表查询")
+	 @GetMapping(value = "/consigneeList")
+	 public Result<IPage<WmsDistribution>> consigneeList(WmsDistribution wmsDistribution,
+													  @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
+													  @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
+													  @RequestParam(name="inputValue", required = false) String inputValue,
+													  @RequestParam(name="consigneeIphone", required = false) String consigneeIphone,
+													  @RequestParam(name="startTime", required = false) String startTime,
+													  @RequestParam(name="endTime", required = false) String endTime,
+													  HttpServletRequest req) {
+//		QueryWrapper<WmsDistribution> queryWrapper = QueryGenerator.initQueryWrapper(wmsDistribution, req.getParameterMap());
+		 Page<WmsDistribution> page = new Page<WmsDistribution>(pageNo, pageSize);
+//		LoginUser sysUser = (LoginUser) SecurityUtils.getSubject().getPrincipal();
+//		queryWrapper.eq("sys_org_code",);
+		 IPage<WmsDistribution> pageList = wmsDistributionService.consigneeList(page,inputValue,startTime,endTime,consigneeIphone);
+		 return Result.OK(pageList);
+	 }
+
 }

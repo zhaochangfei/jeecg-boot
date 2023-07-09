@@ -22,4 +22,16 @@ public interface WmsDistributionMapper extends BaseMapper<WmsDistribution> {
                                     @Param("endTime") String endTime);
 
     WmsDistribution selectByCode(String code);
+
+    IPage<WmsDistribution> deriveList(@Param("page") Page<WmsDistribution> page,
+                                      @Param("inputValue") String inputValue,
+                                      @Param("startTime") String startTime,
+                                      @Param("endTime") String endTime,
+                                      @Param("carIphone") String carIphone);
+
+    IPage<WmsDistribution> consigneeList(@Param("page") Page<WmsDistribution> page,
+                                         @Param("inputValue") String inputValue,
+                                         @Param("startTime") String startTime,
+                                         @Param("endTime") String endTime,
+                                         @Param("consigneeIphone") String consigneeIphone);
 }
