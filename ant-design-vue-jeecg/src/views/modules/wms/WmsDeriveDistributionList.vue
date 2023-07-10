@@ -56,42 +56,20 @@
         <a style="margin-left: 24px" @click="onClearSelected">清空</a>
       </div> -->
 
-      <a-table
+      <j-vxe-table
         ref="table"
-        size="middle"
         :scroll="{ x: true }"
         bordered
         rowKey="id"
+        row-number
+        keep-source
         :columns="columns"
         :dataSource="dataSource"
         :pagination="ipagination"
         :loading="loading"
-        :rowSelection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }"
-        class="j-table-force-nowrap"
-        @change="handleTableChange"
+        @pageChange="handlePageChange"
       >
-        <template slot="htmlSlot" slot-scope="text">
-          <div v-html="text"></div>
-        </template>
-        <template slot="imgSlot" slot-scope="text">
-          <span v-if="!text" style="font-size: 12px; font-style: italic">无图片</span>
-          <img
-            v-else
-            :src="getImgView(text)"
-            height="25px"
-            alt=""
-            style="max-width: 80px; font-size: 12px; font-style: italic"
-          />
-        </template>
-        <template slot="fileSlot" slot-scope="text">
-          <span v-if="!text" style="font-size: 12px; font-style: italic">无文件</span>
-          <a-button v-else :ghost="true" type="primary" icon="download" size="small" @click="downloadFile(text)">
-            下载
-          </a-button>
-        </template>
-
-        
-      </a-table>
+      </j-vxe-table>
     </div>
 
     <wms-distribution-modal ref="modalForm" @ok="modalFormOk"></wms-distribution-modal>
@@ -116,25 +94,25 @@ export default {
       description: '司机配送单管理页面',
       // 表头
       columns: [
-        {
-          title: '序号',
-          dataIndex: '',
-          key: 'rowIndex',
-          width: 60,
-          align: 'center',
-          customRender: function (t, r, index) {
-            return parseInt(index) + 1
-          },
-        },
+        // {
+        //   title: '序号',
+        //   dataIndex: '',
+        //   key: 'rowIndex',
+        //   width: 60,
+        //   align: 'center',
+        //   customRender: function (t, r, index) {
+        //     return parseInt(index) + 1
+        //   },
+        // },
         {
           title: '单号',
           align: 'center',
-          dataIndex: 'code',
+          key: 'code',
         },
         {
           title: '单据日期',
           align: 'center',
-          dataIndex: 'billdate',
+          key: 'billdate',
           customRender: function (text) {
             return !text ? '' : text.length > 10 ? text.substr(0, 10) : text
           },
@@ -142,53 +120,51 @@ export default {
         {
           title: '状态',
           align: 'center',
-          dataIndex: 'sstatus_dictText',
+          key: 'sstatus_dictText',
         },
         {
           title: '起运站',
           align: 'center',
-          dataIndex: 'originatingStation',
+          key: 'originatingStation',
         },
         {
           title: '发货人',
           align: 'center',
-          dataIndex: 'consignorId_dictText',
+          key: 'consignorId_dictText',
         },
         {
           title: '到达站',
           align: 'center',
-          dataIndex: 'arrivalStation',
+          key: 'arrivalStation',
         },
         {
           title: '收货人',
           align: 'center',
-          dataIndex: 'consigneeId_dictText',
+          key: 'consigneeId_dictText',
         },
         {
           title: '总运费（元）',
           align: 'center',
-          dataIndex: 'sumMoney',
-        },
-        {
-          title: '经办人',
-          align: 'center',
-          dataIndex: 'operator',
+          key: 'sumMoney',
+          statistics: ['sum'],
         },
         {
           title: '车辆',
           align: 'center',
-          dataIndex: 'carId_dictText',
+          key: 'carId_dictText',
         },
-        // {
-        //   title: '件数',
-        //   align: 'center',
-        //   dataIndex: 'piece',
-        // },
-        // {
-        //   title: '重量（kg）',
-        //   align: 'center',
-        //   dataIndex: 'weight',
-        // },
+        {
+          title: '件数',
+          align: 'center',
+          key: 'piece',
+          statistics: ['sum'],
+        },
+        {
+          title: '重量（kg）',
+          align: 'center',
+          key: 'weight',
+          statistics: ['sum'],
+        },
         // {
         //   title: '运输类型',
         //   align: 'center',
@@ -289,9 +265,21 @@ export default {
       fieldList.push({ type: 'string', value: 'publicCode', text: '关联单号' })
       this.superFieldList = fieldList
     },
+    // 当分页参数变化时触发的事件
+      handlePageChange(event) {
+        // 重新赋值
+        this.ipagination.current = event.current
+        this.ipagination.pageSize = event.pageSize
+        // 查询数据
+       this.loadData();
+      },
   },
 }
 </script>
 <style scoped>
+.ant-table-footer {
+     padding: 0px 0px;
+
+}
 @import '~@assets/less/common.less';
 </style>

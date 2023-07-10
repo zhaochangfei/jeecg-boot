@@ -56,50 +56,20 @@
         <a style="margin-left: 24px" @click="onClearSelected">清空</a>
       </div> -->
 
-      <a-table
+      <j-vxe-table
         ref="table"
-        size="middle"
         :scroll="{ x: true }"
         bordered
         rowKey="id"
+        row-number
+        keep-source
         :columns="columns"
         :dataSource="dataSource"
         :pagination="ipagination"
         :loading="loading"
-        class="j-table-force-nowrap"
-        @change="handleTableChange"
+        @pageChange="handlePageChange"
       >
-        <template slot="htmlSlot" slot-scope="text">
-          <div v-html="text"></div>
-        </template>
-        <template slot="imgSlot" slot-scope="text">
-          <span v-if="!text" style="font-size: 12px; font-style: italic">无图片</span>
-          <img
-            v-else
-            :src="getImgView(text)"
-            height="25px"
-            alt=""
-            style="max-width: 80px; font-size: 12px; font-style: italic"
-          />
-        </template>
-        <template slot="fileSlot" slot-scope="text">
-          <span v-if="!text" style="font-size: 12px; font-style: italic">无文件</span>
-          <a-button v-else :ghost="true" type="primary" icon="download" size="small" @click="downloadFile(text)">
-            下载
-          </a-button>
-        </template>
-
-        <!-- <span slot="action" slot-scope="text, record">
-          <a v-show="record.sstatus == 0" @click="handleEdit(record)">编辑</a>
-          <a-divider v-show="record.sstatus == 0" type="vertical" />
-          <a v-show="record.sstatus == 0" @click="handleStatus(record)">发货</a>
-          <a-divider v-show="record.sstatus == 0" type="vertical" />
-          <a v-show="record.sstatus != 0" @click="handleDetail(record)">详情</a>
-          <a-popconfirm title="确定删除吗?" @confirm="() => handleDelete(record.id)">
-            <a v-show="record.sstatus == 0">删除</a>
-          </a-popconfirm>
-        </span> -->
-      </a-table>
+      </j-vxe-table>
     </div>
 
     <wms-distribution-modal ref="modalForm" @ok="modalFormOk"></wms-distribution-modal>
@@ -126,25 +96,25 @@ export default {
       description: '收货人配送单管理页面',
       // 表头
       columns: [
-        {
-          title: '序号',
-          dataIndex: 'rowIndex',
-          key: 'rowIndex',
-          width: 60,
-          align: 'center',
-          customRender: function (text, r, index) {
-            return (text !== '合计') ? parseInt(index) + 1 : text
-          },
-        },
+        // {
+        //   title: '序号',
+        //   dataIndex: 'rowIndex',
+        //   key: 'rowIndex',
+        //   width: 60,
+        //   align: 'center',
+        //   customRender: function (text, r, index) {
+        //     return text !== '合计' ? parseInt(index) + 1 : text
+        //   },
+        // },
         {
           title: '单号',
           align: 'center',
-          dataIndex: 'code',
+          key: 'code',
         },
         {
           title: '单据日期',
           align: 'center',
-          dataIndex: 'billdate',
+          key: 'billdate',
           customRender: function (text) {
             return !text ? '' : text.length > 10 ? text.substr(0, 10) : text
           },
@@ -152,53 +122,56 @@ export default {
         {
           title: '状态',
           align: 'center',
-          dataIndex: 'sstatus_dictText',
+          key: 'sstatus_dictText',
         },
         {
           title: '起运站',
           align: 'center',
-          dataIndex: 'originatingStation',
+          key: 'originatingStation',
         },
         {
           title: '发货人',
           align: 'center',
-          dataIndex: 'consignorId_dictText',
+          key: 'consignorId_dictText',
         },
         {
           title: '到达站',
           align: 'center',
-          dataIndex: 'arrivalStation',
+          key: 'arrivalStation',
         },
         {
           title: '收货人',
           align: 'center',
-          dataIndex: 'consigneeId_dictText',
+          key: 'consigneeId_dictText',
         },
         {
           title: '总运费（元）',
           align: 'center',
-          dataIndex: 'sumMoney',
+          key: 'sumMoney',
+          statistics: ['sum'],
         },
-        {
-          title: '经办人',
-          align: 'center',
-          dataIndex: 'operator',
-        },
+        // {
+        //   title: '经办人',
+        //   align: 'center',
+        //   key: 'operator',
+        // },
         {
           title: '车辆',
           align: 'center',
-          dataIndex: 'carId_dictText',
+          key: 'carId_dictText',
         },
-        // {
-        //   title: '件数',
-        //   align: 'center',
-        //   dataIndex: 'piece',
-        // },
-        // {
-        //   title: '重量（kg）',
-        //   align: 'center',
-        //   dataIndex: 'weight',
-        // },
+        {
+          title: '件数',
+          align: 'center',
+          key: 'piece',
+          statistics: ['sum'],
+        },
+        {
+          title: '重量（kg）',
+          align: 'center',
+          key: 'weight',
+          statistics: ['sum'],
+        },
         // {
         //   title: '运输类型',
         //   align: 'center',
@@ -242,11 +215,6 @@ export default {
     importExcelUrl: function () {
       return `${window._CONFIG['domianURL']}/${this.url.importExcelUrl}`
     },
-  },
-  mounted() {
-    console.log('data',this.dataSource);
-    this.newDataSource = this.dataSource
-    this.dataHandling(this.ipagination.pagination - 1)
   },
   methods: {
     //发货
@@ -304,62 +272,21 @@ export default {
       fieldList.push({ type: 'string', value: 'publicCode', text: '关联单号' })
       this.superFieldList = fieldList
     },
-
-    dataHandling(num) {
-      debugger
-      this.newArr = []
-      let arrLength = this.newDataSource.length // 数组长度;
-      let index = 0
-      //因为num是9，
-      //所以我们以9条数据为一组，将数据放入新的数组
-      for (let i = 0; i < arrLength; i++) {
-        if (i % num === 0 && i !== 0) {
-          this.newArr.push(this.newDataSource.slice(index, i))
-          index = i
-        }
-        if (i + 1 === arrLength) {
-          this.newArr.push(this.newDataSource.slice(index, i + 1))
-        }
-      }
-      var arrs = this.newArr
-      //将已经分为9条一组的数组进行遍历
-      for (let i = 0; i < arrs.length; i++) {
-        let arr = arrs[i]
-        //这里创建一个数组
-        let newArr = {} //用于存放计算后的第10条数据
-        newArr.name = '-' //不需要合计额字段(根据需求修改)
-        newArr.updateTime = '-' //不需要合计额字段
-        newArr.rowIndex = '合计' //这里是第10条合计的名字
-        var level = 0 //需要合计的字段(根据需求修改)
-        var point = 0 //需要合计的字段
-        //拿到数组中对应下表的9条数据，进行遍历
-        //然后对需要合计的字段进行重复相加，得到合计的数据
-        for (let j = 0; j < arr.length; j++) {
-          level += arr[j].level
-          point += arr[j].point
-        }
-        newArr.level = level
-        newArr.point = point
-        arrs[i].push(newArr) //把第10条合计的数据放入数组
-      }
-      //把已经合计好的数据放入数组中
-      var newDataSource = []
-      for (let i = 0; i < arrs.length; i++) {
-        let arr = arrs[i]
-        for (var j in arr) {
-          newDataSource.push(arr[j])
-        }
-      }
-      console.log(this.dataSource)
-      //合计后重新给到dataSource
-      //就得到了每页10条，包含合计的数据
-      //合计完成啦
-      this.dataSource = Object.values(newDataSource)
-      console.log(this.dataSource)
-    },
+    // 当分页参数变化时触发的事件
+      handlePageChange(event) {
+        // 重新赋值
+        this.ipagination.current = event.current
+        this.ipagination.pageSize = event.pageSize
+        // 查询数据
+       this.loadData();
+      },
   },
 }
 </script>
 <style scoped>
+ .ant-table-footer {
+     padding: 0px 0px;
+
+}
 @import '~@assets/less/common.less';
 </style>
