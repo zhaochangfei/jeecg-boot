@@ -45,7 +45,7 @@
     </select>
     <select id="consigneeList" resultType="org.jeecg.modules.wms.entity.WmsDistribution">
         select wd.* from wms_distribution wd
-        left join wms_consignee wc2 on wc2.id = wd.consignee_id and wc2.del_flag = '0'
+        left join wms_consignee wc2 on wc2.id = wd.consignor_id and wc2.del_flag = '0'
         where wd.del_flag = '0' and wd.sstatus != '0'
         <if test="inputValue!= null and inputValue != ''">
             and wc2.name like concat('%',#{inputValue},'%')

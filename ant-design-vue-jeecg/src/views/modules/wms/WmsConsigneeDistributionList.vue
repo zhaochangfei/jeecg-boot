@@ -5,13 +5,22 @@
       <a-form layout="inline" @keyup.enter.native="searchQuery">
         <a-row :gutter="24">
           <a-col :xl="5" :lg="5" :md="6" :sm="24">
-            <a-form-item label="收货人">
-              <a-input placeholder="请输入收货人" v-model="queryParam.inputValue"></a-input>
+            <a-form-item label="发货人">
+              <a-input placeholder="请输入发货人" v-model="queryParam.inputValue"></a-input>
+              <!-- <j-search-select-tag
+                placeholder="请做出你的选择"
+                v-model="queryParam.inputValue"
+                dict="wms_consignee,name,name and del_flag = '0'"
+                :pageSize="6"
+                :async="true"
+                mode="multiple"
+              >
+              </j-search-select-tag> -->
             </a-form-item>
           </a-col>
           <a-col :xl="5" :lg="5" :md="6" :sm="24">
-            <a-form-item label="收货人手机号">
-              <a-input placeholder="请输入收货人手机号" v-model="queryParam.consigneeIphone"></a-input>
+            <a-form-item label="发货人手机号">
+              <a-input placeholder="请输入发货人手机号" v-model="queryParam.consigneeIphone"></a-input>
             </a-form-item>
           </a-col>
           <a-col :xl="8" :lg="11" :md="5" :sm="24">
@@ -82,12 +91,14 @@ import { httpAction, getAction } from '@/api/manage'
 import { mixinDevice } from '@/utils/mixin'
 import { JeecgListMixin } from '@/mixins/JeecgListMixin'
 import WmsDistributionModal from './modules/WmsDistributionModal'
+import JSearchSelectTag from '../../../components/dict/JSearchSelectTag.vue'
 
 export default {
   name: 'WmsConsigneeDistributionList',
   mixins: [JeecgListMixin, mixinDevice],
   components: {
     WmsDistributionModal,
+    JSearchSelectTag,
   },
   data() {
     return {
@@ -273,20 +284,19 @@ export default {
       this.superFieldList = fieldList
     },
     // 当分页参数变化时触发的事件
-      handlePageChange(event) {
-        // 重新赋值
-        this.ipagination.current = event.current
-        this.ipagination.pageSize = event.pageSize
-        // 查询数据
-       this.loadData();
-      },
+    handlePageChange(event) {
+      // 重新赋值
+      this.ipagination.current = event.current
+      this.ipagination.pageSize = event.pageSize
+      // 查询数据
+      this.loadData()
+    },
   },
 }
 </script>
 <style scoped>
- .ant-table-footer {
-     padding: 0px 0px;
-
+.ant-table-footer {
+  padding: 0px 0px;
 }
 @import '~@assets/less/common.less';
 </style>
