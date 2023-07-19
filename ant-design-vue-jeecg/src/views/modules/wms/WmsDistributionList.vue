@@ -90,6 +90,8 @@
           <a-divider v-show="record.sstatus == 0" type="vertical" />
           <a v-show="record.sstatus == 0" @click="handleStatus(record)">发货</a>
           <a-divider v-show="record.sstatus == 0" type="vertical" />
+          <a @click="handlePrint(record)">打印</a>
+          <a-divider type="vertical" />
           <a v-show="record.sstatus != 0" @click="handleDetail(record)">详情</a>
           <a-popconfirm title="确定删除吗?" @confirm="() => handleDelete(record.id)">
             <a v-show="record.sstatus == 0">删除</a>
@@ -99,6 +101,7 @@
     </div>
 
     <wms-distribution-modal ref="modalForm" @ok="modalFormOk"></wms-distribution-modal>
+    <wms-trans-order-modal ref='printForm'></wms-trans-order-modal>
   </a-card>
 </template>
 
@@ -108,11 +111,13 @@ import { httpAction, getAction } from '@/api/manage'
 import { mixinDevice } from '@/utils/mixin'
 import { JeecgListMixin } from '@/mixins/JeecgListMixin'
 import WmsDistributionModal from './modules/WmsDistributionModal'
+import WmsTransOrderModal from '@views/modules/wms/modules/WmsTransOrderModal.vue'
 
 export default {
   name: 'WmsDistributionList',
   mixins: [JeecgListMixin, mixinDevice],
   components: {
+    WmsTransOrderModal,
     WmsDistributionModal,
   },
   data() {
