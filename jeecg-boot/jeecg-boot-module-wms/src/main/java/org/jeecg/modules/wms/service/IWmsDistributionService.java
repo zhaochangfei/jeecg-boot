@@ -17,7 +17,7 @@ public interface IWmsDistributionService extends IService<WmsDistribution> {
 
     void addOrEdit(WmsDistributionDto wmsDistributionDto);
 
-    IPage<WmsDistribution> pageList(Page<WmsDistribution> page, String inputValue, String startTime, String endTime);
+    IPage<WmsDistribution> pageList(Page<WmsDistribution> page, String inputValue, String startTime, String endTime,String sysCode);
 
     void updateStatus(String id, String status) throws ClientException;
 

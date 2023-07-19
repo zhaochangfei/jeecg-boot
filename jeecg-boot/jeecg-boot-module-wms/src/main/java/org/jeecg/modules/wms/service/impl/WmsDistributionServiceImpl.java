@@ -7,8 +7,10 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.jeecg.common.constant.CommonConstant;
 import org.jeecg.common.exception.JeecgBootException;
+import org.jeecg.common.system.vo.LoginUser;
 import org.jeecg.common.util.DySmsEnum;
 import org.jeecg.common.util.DySmsHelper;
 import org.jeecg.common.util.FillRuleUtil;
@@ -93,8 +95,8 @@ public class WmsDistributionServiceImpl extends ServiceImpl<WmsDistributionMappe
     }
 
     @Override
-    public IPage<WmsDistribution> pageList(Page<WmsDistribution> page, String inputValue, String startTime, String endTime) {
-        return baseMapper.pageList(page,inputValue,startTime,endTime);
+    public IPage<WmsDistribution> pageList(Page<WmsDistribution> page, String inputValue, String startTime, String endTime,String sysCode) {
+        return baseMapper.pageList(page,inputValue,startTime,endTime,sysCode);
     }
 
     @Override
@@ -180,12 +182,14 @@ public class WmsDistributionServiceImpl extends ServiceImpl<WmsDistributionMappe
 
     @Override
     public IPage<WmsDistribution> deriveList(Page<WmsDistribution> page, String inputValue, String startTime, String endTime,String carIphone) {
-        return baseMapper.deriveList(page,inputValue,startTime,endTime,carIphone);
+        LoginUser sysUser = (LoginUser) SecurityUtils.getSubject().getPrincipal();
+        return baseMapper.deriveList(page,inputValue,startTime,endTime,carIphone,sysUser.getOrgCode());
     }
 
     @Override
     public IPage<WmsDistribution> consigneeList(Page<WmsDistribution> page, String inputValue, String startTime, String endTime,String consigneeIphone) {
-        return baseMapper.consigneeList(page,inputValue,startTime,endTime,consigneeIphone);
+        LoginUser sysUser = (LoginUser) SecurityUtils.getSubject().getPrincipal();
+        return baseMapper.consigneeList(page,inputValue,startTime,endTime,consigneeIphone,sysUser.getOrgCode());
     }
 
     @Transactional(rollbackFor = Exception.class)

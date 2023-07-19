@@ -14,6 +14,9 @@
              (wc3.license_plate_number like concat('%',#{inputValue},'%'))or(wd.originating_station like concat('%',#{inputValue},'%'))or
              (wd.arrival_station like concat('%',#{inputValue},'%')))
          </if>
+        <if test="sysCode!= null and sysCode != ''">
+            and wd.sys_org_code = #{sysCode}
+        </if>
         <if test="startTime!=null and startTime.trim() neq ''">
             AND date_format(wd.billdate,'%Y-%m-%d') &gt;= date_format(#{startTime},'%Y-%m-%d')
         </if>
@@ -26,11 +29,15 @@
         select * from wms_distribution where del_flag = '0' and code = #{code}
     </select>
     <select id="deriveList" resultType="org.jeecg.modules.wms.entity.WmsDistribution">
-        select wd.* from wms_distribution wd
+        select wd.billdate,wd.car_id,wd.car_iphone,wd.originating_station,sum(wd.sum_money) sumMoney,sum(wd.weight) weight,sum(wd.piece) piece
+        from wms_distribution wd
         left join wms_car wc3 on wc3.id = wd.car_id and wc3.del_flag = '0'
         where wd.del_flag = '0' and wd.sstatus != '0'
         <if test="inputValue!= null and inputValue != ''">
             and wc3.license_plate_number like concat('%',#{inputValue},'%')
+        </if>
+        <if test="sysCode!= null and sysCode != ''">
+            and wd.sys_org_code = #{sysCode}
         </if>
         <if test="carIphone!= null and carIphone != ''">
             and wd.car_iphone like concat('%',#{carIphone},'%')
@@ -41,6 +48,7 @@
         <if test="endTime!=null and endTime.trim() neq ''">
             AND date_format(wd.billdate,'%Y-%m-%d') &lt;= date_format(#{endTime},'%Y-%m-%d')
         </if>
+        group by wd.car_id,wd.billdate,wd.car_iphone,wd.originating_station
         order by wd.billdate desc
     </select>
     <select id="consigneeList" resultType="org.jeecg.modules.wms.entity.WmsDistribution">
@@ -49,6 +57,9 @@
         where wd.del_flag = '0' and wd.sstatus != '0'
         <if test="inputValue!= null and inputValue != ''">
             and wc2.name like concat('%',#{inputValue},'%')
+        </if>
+        <if test="sysCode!= null and sysCode != ''">
+            and wd.sys_org_code = #{sysCode}
         </if>
         <if test="consigneeIphone!= null and consigneeIphone != ''">
             and wd.consignee_iphone like concat('%',#{consigneeIphone},'%')

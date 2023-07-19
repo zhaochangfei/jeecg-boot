@@ -76,9 +76,9 @@ public class WmsDistributionController extends JeecgController<WmsDistribution, 
 								   HttpServletRequest req) {
 //		QueryWrapper<WmsDistribution> queryWrapper = QueryGenerator.initQueryWrapper(wmsDistribution, req.getParameterMap());
 		Page<WmsDistribution> page = new Page<WmsDistribution>(pageNo, pageSize);
-//		LoginUser sysUser = (LoginUser) SecurityUtils.getSubject().getPrincipal();
+		LoginUser sysUser = (LoginUser) SecurityUtils.getSubject().getPrincipal();
 //		queryWrapper.eq("sys_org_code",);
-		IPage<WmsDistribution> pageList = wmsDistributionService.pageList(page,inputValue,startTime,endTime);
+		IPage<WmsDistribution> pageList = wmsDistributionService.pageList(page,inputValue,startTime,endTime,sysUser.getOrgCode());
 		return Result.OK(pageList);
 	}
 
@@ -224,6 +224,21 @@ public class WmsDistributionController extends JeecgController<WmsDistribution, 
 //		LoginUser sysUser = (LoginUser) SecurityUtils.getSubject().getPrincipal();
 //		queryWrapper.eq("sys_org_code",);
 		 IPage<WmsDistribution> pageList = wmsDistributionService.deriveList(page,inputValue,startTime,endTime,carIphone);
+		 return Result.OK(pageList);
+	 }
+	 @AutoLog(value = "配送单-车辆报表明细分页列表查询")
+	 @ApiOperation(value="配送单-车辆报表明细分页列表查询", notes="配送单-车辆报表明细分页列表查询")
+	 @GetMapping(value = "/deriveDistributionList")
+	 public Result<IPage<WmsDistribution>> deriveDistributionList(WmsDistribution wmsDistribution,
+													  @RequestParam(name="pageNo", defaultValue="1") Integer pageNo,
+													  @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
+													  HttpServletRequest req) {
+		QueryWrapper<WmsDistribution> queryWrapper = QueryGenerator.initQueryWrapper(wmsDistribution, null);
+		 Page<WmsDistribution> page = new Page<WmsDistribution>(pageNo, pageSize);
+		 LoginUser sysUser = (LoginUser) SecurityUtils.getSubject().getPrincipal();
+		 queryWrapper.eq("sys_org_code",sysUser.getOrgCode());
+		 queryWrapper.orderByDesc("create_time");
+		 IPage<WmsDistribution> pageList = wmsDistributionService.page(page,queryWrapper);
 		 return Result.OK(pageList);
 	 }
 	 @AutoLog(value = "配送单-收货人报表分页列表查询")

@@ -69,10 +69,14 @@
         :loading="loading"
         @pageChange="handlePageChange"
       >
+        <template v-slot:action="props">
+          <a @click="showDistribution(props)">查看</a>
+        </template>
       </j-vxe-table>
     </div>
 
     <wms-distribution-modal ref="modalForm" @ok="modalFormOk"></wms-distribution-modal>
+    <distribution-pup v-if="distributionPup" ref="distributionPup" @distributionPup="rowBack"></distribution-pup>
   </a-card>
 </template>
 
@@ -82,12 +86,15 @@ import { httpAction, getAction } from '@/api/manage'
 import { mixinDevice } from '@/utils/mixin'
 import { JeecgListMixin } from '@/mixins/JeecgListMixin'
 import WmsDistributionModal from './modules/WmsDistributionModal'
+import DistributionPup from './pup/DistributionPup'
+import { JVXETypes } from '@/components/jeecg/JVxeTable'
 
 export default {
   name: 'WmsDeriveDistributionList',
   mixins: [JeecgListMixin, mixinDevice],
   components: {
     WmsDistributionModal,
+    DistributionPup,
   },
   data() {
     return {
@@ -104,11 +111,11 @@ export default {
         //     return parseInt(index) + 1
         //   },
         // },
-        {
-          title: '单号',
-          align: 'center',
-          key: 'code',
-        },
+        // {
+        //   title: '单号',
+        //   align: 'center',
+        //   key: 'code',
+        // },
         {
           title: '单据日期',
           align: 'center',
@@ -118,40 +125,40 @@ export default {
           },
         },
         {
-          title: '状态',
+          title: '车辆',
           align: 'center',
-          key: 'sstatus_dictText',
+          key: 'carId_dictText',
         },
+        // {
+        //   title: '状态',
+        //   align: 'center',
+        //   key: 'sstatus_dictText',
+        // },
         {
           title: '起运站',
           align: 'center',
           key: 'originatingStation',
         },
-        {
-          title: '发货人',
-          align: 'center',
-          key: 'consignorId_dictText',
-        },
-        {
-          title: '到达站',
-          align: 'center',
-          key: 'arrivalStation',
-        },
-        {
-          title: '收货人',
-          align: 'center',
-          key: 'consigneeId_dictText',
-        },
+        // {
+        //   title: '发货人',
+        //   align: 'center',
+        //   key: 'consignorId_dictText',
+        // },
+        // {
+        //   title: '到达站',
+        //   align: 'center',
+        //   key: 'arrivalStation',
+        // },
+        // {
+        //   title: '收货人',
+        //   align: 'center',
+        //   key: 'consigneeId_dictText',
+        // },
         {
           title: '总运费（元）',
           align: 'center',
           key: 'sumMoney',
           statistics: ['sum'],
-        },
-        {
-          title: '车辆',
-          align: 'center',
-          key: 'carId_dictText',
         },
         {
           title: '件数',
@@ -180,14 +187,19 @@ export default {
         //   align: 'center',
         //   dataIndex: 'remark',
         // },
-        // {
-        //   title: '操作',
-        //   dataIndex: 'action',
-        //   align: 'center',
-        //   fixed: 'right',
-        //   width: 147,
-        //   scopedSlots: { customRender: 'action' },
-        // },
+        {
+          title: '操作',
+          key: 'action',
+          width: '100px',
+          // 固定在右侧
+          fixed: 'right',
+          // 对齐方式为居中
+          align: 'center',
+          // 组件类型定义为【插槽】
+          type: JVXETypes.slot,
+          // slot 的名称，对应 v-slot 冒号后面和等号前面的内容
+          slotName: 'action',
+        },
       ],
       url: {
         list: '/wms/wmsDistribution/deriveList',
@@ -199,6 +211,7 @@ export default {
       },
       dictOptions: {},
       superFieldList: [],
+      distributionPup: false,
     }
   },
   created() {
@@ -210,11 +223,11 @@ export default {
     },
   },
   methods: {
-     //发货
+    //发货
     handleStatus(record) {
       this.loading = true
       const that = this
-      getAction(this.url.changeStatus, { id: record.id,status:1 })
+      getAction(this.url.changeStatus, { id: record.id, status: 1 })
         .then((res) => {
           if (res.success) {
             that.$message.success(res.message)
@@ -266,20 +279,28 @@ export default {
       this.superFieldList = fieldList
     },
     // 当分页参数变化时触发的事件
-      handlePageChange(event) {
-        // 重新赋值
-        this.ipagination.current = event.current
-        this.ipagination.pageSize = event.pageSize
-        // 查询数据
-       this.loadData();
-      },
+    handlePageChange(event) {
+      // 重新赋值
+      this.ipagination.current = event.current
+      this.ipagination.pageSize = event.pageSize
+      // 查询数据
+      this.loadData()
+    },
+    rowBack() {
+      this.distributionPup = false
+    },
+    showDistribution(record){
+      this.distributionPup = true
+      this.$nextTick(() => {
+        this.$refs.distributionPup.initpany(record.row)
+      })
+    }
   },
 }
 </script>
 <style scoped>
 .ant-table-footer {
-     padding: 0px 0px;
-
+  padding: 0px 0px;
 }
 @import '~@assets/less/common.less';
 </style>

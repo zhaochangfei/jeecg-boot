@@ -9,8 +9,11 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.shiro.SecurityUtils;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.system.query.QueryGenerator;
+import org.jeecg.common.system.vo.LoginUser;
 import org.jeecg.common.util.oConvertUtils;
 import org.jeecg.modules.wms.entity.WmsInformation;
 import org.jeecg.modules.wms.service.IWmsInformationService;
@@ -68,6 +71,8 @@ public class WmsInformationController extends JeecgController<WmsInformation, IW
 								   HttpServletRequest req) {
 		QueryWrapper<WmsInformation> queryWrapper = QueryGenerator.initQueryWrapper(wmsInformation,null);
 		Page<WmsInformation> page = new Page<WmsInformation>(pageNo, pageSize);
+		LoginUser sysUser = (LoginUser) SecurityUtils.getSubject().getPrincipal();
+		queryWrapper.eq("sys_org_code",sysUser.getOrgCode());
 		queryWrapper.orderByDesc("create_time");
 		IPage<WmsInformation> pageList = wmsInformationService.page(page, queryWrapper);
 		return Result.OK(pageList);

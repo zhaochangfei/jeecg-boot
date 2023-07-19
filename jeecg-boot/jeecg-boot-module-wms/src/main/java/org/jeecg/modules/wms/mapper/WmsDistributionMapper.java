@@ -19,7 +19,8 @@ public interface WmsDistributionMapper extends BaseMapper<WmsDistribution> {
     IPage<WmsDistribution> pageList(@Param("page") Page<WmsDistribution> page,
                                     @Param("inputValue") String inputValue,
                                     @Param("startTime") String startTime,
-                                    @Param("endTime") String endTime);
+                                    @Param("endTime") String endTime,
+                                    @Param("sysCode") String sysCode);
 
     WmsDistribution selectByCode(String code);
 
@@ -27,11 +28,13 @@ public interface WmsDistributionMapper extends BaseMapper<WmsDistribution> {
                                       @Param("inputValue") String inputValue,
                                       @Param("startTime") String startTime,
                                       @Param("endTime") String endTime,
-                                      @Param("carIphone") String carIphone);
+                                      @Param("carIphone") String carIphone,
+                                      @Param("sysCode") String sysCode);
 
     IPage<WmsDistribution> consigneeList(@Param("page") Page<WmsDistribution> page,
                                          @Param("inputValue") String inputValue,
                                          @Param("startTime") String startTime,
                                          @Param("endTime") String endTime,
-                                         @Param("consigneeIphone") String consigneeIphone);
+                                         @Param("consigneeIphone") String consigneeIphone,
+                                         @Param("sysCode") String sysCode);
 }
