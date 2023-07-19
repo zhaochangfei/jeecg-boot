@@ -8,15 +8,15 @@
         <p style='font-size: 30px;font-weight: 800'>新疆强盛冷链物流有限公司运单</p>
       </div>
       <a-row>
-        <a-col :span='5'>
+        <a-col :span='6'>
           <span>运单号:</span>
           <span style='margin-left: 10px'>{{ model.code }}</span>
         </a-col>
-        <a-col :span='5'>
+        <a-col :span='4'>
           <span>起运站:</span>
           <span style='margin-left: 10px'>{{ model.originatingStation }}</span>
         </a-col>
-        <a-col :span='5'>
+        <a-col :span='4'>
           <span>到达站:</span>
           <span style='margin-left: 10px'>{{ model.arrivalStation }}</span>
         </a-col>
@@ -24,7 +24,7 @@
           <span>车牌号:</span>
           <span style='margin-left: 10px'>{{ model.carId_dictText }}</span>
         </a-col>
-        <a-col :span='5' style='text-align: right'>
+        <a-col :span='6' style='text-align: right'>
           <span>托运日期:</span>
           <span v-model='model.billdate' style='margin-left: 10px'>{{ model.billdate }}</span>
         </a-col>
