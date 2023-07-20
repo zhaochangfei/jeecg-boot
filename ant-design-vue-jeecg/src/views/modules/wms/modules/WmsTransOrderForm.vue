@@ -5,33 +5,33 @@
     </div>
     <section ref='print' id='printContent' class='abcdefg'>
       <div style='text-align: center'>
-        <p style='font-size: 30px;font-weight: 800'>新疆强盛冷链物流有限公司运单</p>
+        <p style='color:#000;font-size: 30px;font-weight: 800'>新疆强盛冷链物流运单</p>
       </div>
       <a-row>
         <a-col :span='6'>
-          <span>运单号:</span>
-          <span style='margin-left: 10px'>{{ model.code }}</span>
+          <span>NO:</span>
+          <span>{{ model.code }}</span>
         </a-col>
         <a-col :span='4'>
-          <span>起运站:</span>
+          <span>发站:</span>
           <span style='margin-left: 10px'>{{ model.originatingStation }}</span>
         </a-col>
         <a-col :span='4'>
-          <span>到达站:</span>
+          <span>到站:</span>
           <span style='margin-left: 10px'>{{ model.arrivalStation }}</span>
         </a-col>
-        <a-col :span='4'>
-          <span>车牌号:</span>
-          <span style='margin-left: 10px'>{{ model.carId_dictText }}</span>
+        <a-col :span='5'>
+          <span>车辆:</span>
+          <span style='margin-left: 10px'>{{model.carId_dictText}}</span>
         </a-col>
-        <a-col :span='6' style='text-align: right'>
-          <span>托运日期:</span>
+        <a-col :span='5' style='text-align: right'>
+          <span>日期:</span>
           <span v-model='model.billdate' style='margin-left: 10px'>{{ model.billdate }}</span>
         </a-col>
       </a-row>
-      <a-row style='border: 1px solid #ccc'>
+      <a-row style='border: 1px solid #000'>
         <a-col :span='1'
-               style='border-width:0 1px 0 0; border-color: #ccc; border-style:solid; text-align: center'>
+               style='border-width:0 1px 0 0; border-color: #000; border-style:solid; text-align: center'>
           <div style='height: 30px; padding-top: 4px'>
             <span>发</span>
           </div>
@@ -44,25 +44,25 @@
         </a-col>
         <a-col :span='5' style='text-align: center'>
           <div
-            style='border-width:0 1px 1px 0; border-color: #ccc; border-style:solid; height: 45px; padding-top: 10px'>
+            style='border-width:0 1px 1px 0; border-color: #000; border-style:solid; height: 45px; padding-top: 10px'>
             <span>联系人</span>
           </div>
-          <div style='border-width:0 1px 0 0; border-color: #ccc; border-style:solid; height: 45px; padding-top: 10px'>
+          <div style='border-width:0 1px 0 0; border-color: #000; border-style:solid; height: 45px; padding-top: 10px'>
             <span>电话</span>
           </div>
         </a-col>
         <a-col :span='6' style='text-align: center'>
           <div
-            style='border-width:0 1px 1px 0; border-color: #ccc; border-style:solid; height: 45px; padding-top: 10px'>
+            style='border-width:0 1px 1px 0; border-color: #000; border-style:solid; height: 45px; padding-top: 10px'>
             <span>{{ model.consignorName }}</span>
           </div>
           <div
-            style='border-width:0 1px 0 0; border-color: #ccc; border-style:solid; height: 45px; padding-top: 10px'>
+            style='border-width:0 1px 0 0; border-color: #000; border-style:solid; height: 45px; padding-top: 10px'>
             <span>{{ model.consigneeIphone }}</span>
           </div>
         </a-col>
         <a-col :span='1'
-               style='border-width:0 1px 0 0; border-color: #ccc; border-style:solid; text-align: center;'>
+               style='border-width:0 1px 0 0; border-color: #000; border-style:solid; text-align: center;'>
           <div style='height: 30px; padding-top: 4px'>
             <span>收</span>
           </div>
@@ -75,171 +75,173 @@
         </a-col>
         <a-col :span='5' style='text-align: center;'>
           <div
-            style='border-width:0 1px 1px 0; border-color: #ccc; border-style:solid; height: 45px; padding-top: 10px'>
+            style='border-width:0 1px 1px 0; border-color: #000; border-style:solid; height: 45px; padding-top: 10px'>
             <span>联系人</span>
           </div>
-          <div style='border-width:0 1px 0 0; border-color: #ccc; border-style:solid; height: 45px; padding-top: 10px'>
+          <div style='border-width:0 1px 0 0; border-color: #000; border-style:solid; height: 45px; padding-top: 10px'>
             <span>电话</span>
           </div>
         </a-col>
         <a-col :span='6' style='text-align: center;'>
           <div
-            style='border-width:0 1px 1px 0; border-color: #ccc; border-style:solid; height: 45px; padding-top: 10px'>
+            style='border-width:0 1px 1px 0; border-color: #000; border-style:solid; height: 45px; padding-top: 10px'>
             <span>{{ model.consigneeName }}</span>
           </div>
-          <div style='border-width:0 1px 0 0; border-color: #ccc; border-style:solid; height: 45px; padding-top: 10px'>
+          <div style='border-width:0 1px 0 0; border-color: #000; border-style:solid; height: 45px; padding-top: 10px'>
             <span>{{ model.consigneeIphone }}</span>
           </div>
         </a-col>
       </a-row>
-      <a-row style='border-width:0 1px 1px 1px; border-color: #ccc; border-style:solid'>
+      <a-row style='border-width:0 1px 1px 1px; border-color: #000; border-style:solid'>
         <a-col :span='6'
-               style='border-width:0 1px 0 0; border-color: #ccc; border-style:solid; text-align: center; height: 30px'>
+               style='border-width:0 1px 0 0; border-color: #000; border-style:solid; text-align: center; height: 30px'>
           <span>货物名称</span>
         </a-col>
         <a-col :span='4'
-               style='border-width:0 1px 0 0; border-color: #ccc; border-style:solid; text-align: center; height: 30px'>
+               style='border-width:0 1px 0 0; border-color: #000; border-style:solid; text-align: center; height: 30px'>
           <span>包装</span>
         </a-col>
         <a-col :span='4'
-               style='border-width:0 1px 0 0; border-color: #ccc; border-style:solid; text-align: center; height: 30px'>
+               style='border-width:0 1px 0 0; border-color: #000; border-style:solid; text-align: center; height: 30px'>
           <span>数量</span>
         </a-col>
         <a-col :span='4'
-               style='border-width:0 1px 0 0; border-color: #ccc; border-style:solid; text-align: center; height: 30px'>
+               style='border-width:0 1px 0 0; border-color: #000; border-style:solid; text-align: center; height: 30px'>
           <span>重量(kg)</span>
         </a-col>
         <a-col :span='6' style='text-align: center; height: 30px'>
           <span>运费(元)</span>
         </a-col>
       </a-row>
-      <a-row style='border-width:0 1px 1px 1px; border-color: #ccc; border-style:solid'>
+      <a-row style='border-width:0 1px 1px 1px; border-color: #000; border-style:solid'>
         <a-col :span='6'
-               style='border-width:0 1px 0 0; border-color: #ccc; border-style:solid; text-align: center; height: 30px'>
+               style='border-width:0 1px 0 0; border-color: #000; border-style:solid; text-align: center; height: 30px'>
           <span v-if='details.length>0'>{{ details[0].goodsName }}</span>
         </a-col>
         <a-col :span='4'
-               style='border-width:0 1px 0 0; border-color: #ccc; border-style:solid; text-align: center; height: 30px'>
+               style='border-width:0 1px 0 0; border-color: #000; border-style:solid; text-align: center; height: 30px'>
           <span v-if='details.length>0'>{{ details[0].packaging }}</span>
         </a-col>
         <a-col :span='4'
-               style='border-width:0 1px 0 0; border-color: #ccc; border-style:solid; text-align: center; height: 30px'>
+               style='border-width:0 1px 0 0; border-color: #000; border-style:solid; text-align: center; height: 30px'>
           <span v-if='details.length>0'>{{ details[0].number }}</span>
         </a-col>
         <a-col :span='4'
-               style='border-width:0 1px 0 0; border-color: #ccc; border-style:solid; text-align: center; height: 30px'>
+               style='border-width:0 1px 0 0; border-color: #000; border-style:solid; text-align: center; height: 30px'>
           <span v-if='details.length>0'>{{ details[0].quantity }}</span>
         </a-col>
         <a-col :span='6' style='text-align: center; height: 30px'>
           <span v-if='details.length>0'>{{ details[0].freight }}</span>
         </a-col>
       </a-row>
-      <a-row style='border-width:0 1px 1px 1px; border-color: #ccc; border-style:solid'>
+      <a-row style='border-width:0 1px 1px 1px; border-color: #000; border-style:solid'>
         <a-col :span='6'
-               style='border-width:0 1px 0 0; border-color: #ccc; border-style:solid; text-align: center; height: 30px'>
+               style='border-width:0 1px 0 0; border-color: #000; border-style:solid; text-align: center; height: 30px'>
           <span v-if='details.length>1'>{{ details[1].goodsName }}</span>
         </a-col>
         <a-col :span='4'
-               style='border-width:0 1px 0 0; border-color: #ccc; border-style:solid; text-align: center; height: 30px'>
+               style='border-width:0 1px 0 0; border-color: #000; border-style:solid; text-align: center; height: 30px'>
           <span v-if='details.length>1'>{{ details[1].packaging }}</span>
         </a-col>
         <a-col :span='4'
-               style='border-width:0 1px 0 0; border-color: #ccc; border-style:solid; text-align: center; height: 30px'>
+               style='border-width:0 1px 0 0; border-color: #000; border-style:solid; text-align: center; height: 30px'>
           <span v-if='details.length>1'>{{ details[0].number }}</span>
         </a-col>
         <a-col :span='4'
-               style='border-width:0 1px 0 0; border-color: #ccc; border-style:solid; text-align: center; height: 30px'>
+               style='border-width:0 1px 0 0; border-color: #000; border-style:solid; text-align: center; height: 30px'>
           <span v-if='details.length>1'>{{ details[0].quantity }}</span>
         </a-col>
         <a-col :span='6' style='text-align: center; height: 30px'>
           <span v-if='details.length>1'>{{ details[0].freight }}</span>
         </a-col>
       </a-row>
-      <a-row style='border-width:0 1px 1px 1px; border-color: #ccc; border-style:solid'>
+      <a-row style='border-width:0 1px 1px 1px; border-color: #000; border-style:solid'>
         <a-col :span='4'
-               style='border-width:0 1px 0 0; border-color: #ccc; border-style:solid; text-align: center; height: 30px'>
+               style='border-width:0 1px 0 0; border-color: #000; border-style:solid; text-align: center; height: 30px'>
           <div style='display: inline-block; vertical-align: middle; text-align: center'>
             <span>现付</span>
           </div>
         </a-col>
         <a-col :span='4'
-               style='border-width:0 1px 0 0; border-color: #ccc; border-style:solid;  text-align: center; height: 30px'>
+               style='border-width:0 1px 0 0; border-color: #000; border-style:solid;  text-align: center; height: 30px'>
           <span>{{ model.spotPayment }}</span>
         </a-col>
         <a-col :span='4'
-               style='border-width:0 1px 0 0; border-color: #ccc; border-style:solid;  text-align: center; height: 30px'>
+               style='border-width:0 1px 0 0; border-color: #000; border-style:solid;  text-align: center; height: 30px'>
           <span>预付</span>
         </a-col>
         <a-col :span='4'
-               style='border-width:0 1px 0 0; border-color: #ccc; border-style:solid;  text-align: center; height: 30px'>
+               style='border-width:0 1px 0 0; border-color: #000; border-style:solid;  text-align: center; height: 30px'>
           <span>{{ model.prepay }}</span>
         </a-col>
         <a-col :span='4'
-               style='border-width:0 1px 0 0; border-color: #ccc; border-style:solid;  text-align: center; height: 30px'>
+               style='border-width:0 1px 0 0; border-color: #000; border-style:solid;  text-align: center; height: 30px'>
           <span>提付</span>
         </a-col>
         <a-col :span='4' style='text-align: center; height: 30px'>
           <span>{{ model.withdrawal }}</span>
         </a-col>
       </a-row>
-      <a-row style='border-width:0 1px 1px 1px; border-color: #ccc; border-style:solid'>
+      <a-row style='border-width:0 1px 1px 1px; border-color: #000; border-style:solid'>
         <a-col :span='4'
-               style='border-width:0 1px 0 0; border-color: #ccc; border-style:solid; text-align: center; height: 60px; padding-top: 18px'>
+               style='border-width:0 1px 0 0; border-color: #000; border-style:solid; text-align: center; height: 60px; padding-top: 18px'>
           <span>运费总金额</span>
         </a-col>
         <a-col :span='6'
-               style='border-width:0 1px 0 0; border-color: #ccc; border-style:solid; text-align: center; height: 60px; padding-top:18px '>
+               style='border-width:0 1px 0 0; border-color: #000; border-style:solid; text-align: center; height: 60px; padding-top:18px '>
           <span>{{ model.sumMoney }}</span>
         </a-col>
         <a-col :span='4'
-               style='border-width:0 1px 0 0; border-color: #ccc; border-style:solid; text-align: center; height: 60px; padding-top: 18px'>
+               style='border-width:0 1px 0 0; border-color: #000; border-style:solid; text-align: center; height: 60px; padding-top: 18px'>
           <span style='display: inline-block'>备注</span>
         </a-col>
         <a-col :span='10' style='height: 60px'>
           <div style='height: 60px; display: table-cell;vertical-align: middle;'>
-            <span style='padding-left: 20px; padding-right: 20px; display:inline-block;word-break: break-all;white-space: normal;'>{{ model.remark}}</span>
+            <span
+              style='padding-left: 20px; padding-right: 20px; display:inline-block;word-break: break-all;white-space: normal;'>{{ model.remark
+              }}</span>
           </div>
         </a-col>
       </a-row>
-      <a-row style='border-width:0 1px 1px 1px; border-color: #ccc; border-style:solid'>
+      <a-row style='border-width:0 1px 1px 1px; border-color: #000; border-style:solid'>
         <a-col :span='4'
-               style='border-width:0 1px 0 0; border-color: #ccc; border-style:solid; text-align: center; height: 30px'>
+               style='border-width:0 1px 0 0; border-color: #000; border-style:solid; text-align: center; height: 30px'>
           <span>司机:</span>
         </a-col>
         <a-col :span='4'
-               style='border-width:0 1px 0 0; border-color: #ccc; border-style:solid;  text-align: center; height: 30px'>
-          <span>{{model.carDriver}}</span>
+               style='border-width:0 1px 0 0; border-color: #000; border-style:solid;  text-align: center; height: 30px'>
+          <span>{{ model.carDriver }}</span>
         </a-col>
         <a-col :span='4'
-               style='border-width:0 1px 0 0; border-color: #ccc; border-style:solid;  text-align: center; height: 30px'>
+               style='border-width:0 1px 0 0; border-color: #000; border-style:solid;  text-align: center; height: 30px'>
           <span>车上电话:</span>
         </a-col>
         <a-col :span='4'
-               style='border-width:0 1px 0 0; border-color: #ccc; border-style:solid;  text-align: center; height: 30px'>
-          <span>{{model.carIphone}}</span>
+               style='border-width:0 1px 0 0; border-color: #000; border-style:solid;  text-align: center; height: 30px'>
+          <span>{{ model.carIphone }}</span>
         </a-col>
         <a-col :span='4'
-               style='border-width:0 1px 0 0; border-color: #ccc; border-style:solid;  text-align: center; height: 30px'>
+               style='border-width:0 1px 0 0; border-color: #000; border-style:solid;  text-align: center; height: 30px'>
           <span>托运人签字:</span>
         </a-col>
         <a-col :span='4' style='text-align: center; height: 30px'>
           <span></span>
         </a-col>
       </a-row>
-      <a-row style='border-width:0 1px 1px 1px; border-color: #ccc; border-style:solid'>
+      <a-row style='border-width:0 1px 1px 1px; border-color: #000; border-style:solid'>
         <a-col :span='4'
-               style='border-width:0 1px 0 0; border-color: #ccc; border-style:solid; text-align: center; height: 30px'>
+               style='border-width:0 1px 0 0; border-color: #000; border-style:solid; text-align: center; height: 30px'>
           <span>经办人:</span>
         </a-col>
         <a-col :span='4'
-               style='border-width:0 1px 0 0; border-color: #ccc; border-style:solid;  text-align: center; height: 30px'>
-          <span>{{model.operator}}</span>
+               style='border-width:0 1px 0 0; border-color: #000; border-style:solid;  text-align: center; height: 30px'>
+          <span>{{ model.operator }}</span>
         </a-col>
         <a-col :span='8'
-               style='border-width:0 1px 0 0; border-color: #ccc; border-style:solid;  text-align: center; height: 30px'>
+               style='border-width:0 1px 0 0; border-color: #000; border-style:solid;  text-align: center; height: 30px'>
         </a-col>
         <a-col :span='4'
-               style='border-width:0 1px 0 0; border-color: #ccc; border-style:solid;  text-align: center; height: 30px'>
+               style='border-width:0 1px 0 0; border-color: #000; border-style:solid;  text-align: center; height: 30px'>
           <span>收货人签字:</span>
         </a-col>
         <a-col :span='4' style='text-align: center; height: 30px'>
@@ -520,5 +522,8 @@ export default {
 </script>
 
 <style scoped>
-
+span {
+  color: black;
+  font-weight: bold;
+}
 </style>
