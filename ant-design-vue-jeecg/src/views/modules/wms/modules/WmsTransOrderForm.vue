@@ -84,10 +84,10 @@
         </a-col>
         <a-col :span='6' style='text-align: center;'>
           <div
-            style='border-width:0 1px 1px 0; border-color: #000; border-style:solid; height: 45px; padding-top: 10px'>
+            style='border-width:0 0 1px 0; border-color: #000; border-style:solid; height: 45px; padding-top: 10px'>
             <span>{{ model.consigneeName }}</span>
           </div>
-          <div style='border-width:0 1px 0 0; border-color: #000; border-style:solid; height: 45px; padding-top: 10px'>
+          <div style='height: 45px; padding-top: 10px'>
             <span>{{ model.consigneeIphone }}</span>
           </div>
         </a-col>
@@ -185,7 +185,7 @@
       <a-row style='border-width:0 1px 1px 1px; border-color: #000; border-style:solid'>
         <a-col :span='4'
                style='border-width:0 1px 0 0; border-color: #000; border-style:solid; text-align: center; height: 60px; padding-top: 18px'>
-          <span>运费总金额</span>
+          <span>运费总金额(元)</span>
         </a-col>
         <a-col :span='6'
                style='border-width:0 1px 0 0; border-color: #000; border-style:solid; text-align: center; height: 60px; padding-top:18px '>
@@ -526,4 +526,8 @@ span {
   color: black;
   font-weight: bold;
 }
+/*@page{*/
+/*  size:  auto;   !* auto is the initial value *!*/
+/*  margin: 3mm;  !* this affects the margin in the printer settings *!*/
+/*}*/
 </style>
