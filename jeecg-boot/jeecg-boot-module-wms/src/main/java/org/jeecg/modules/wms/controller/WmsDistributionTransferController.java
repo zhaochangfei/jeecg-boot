@@ -72,7 +72,7 @@ public class WmsDistributionTransferController extends JeecgController<WmsDistri
 		QueryWrapper<WmsDistributionTransfer> queryWrapper = QueryGenerator.initQueryWrapper(wmsDistributionTransfer, null);
 		Page<WmsDistributionTransfer> page = new Page<WmsDistributionTransfer>(pageNo, pageSize);
 		LoginUser sysUser = (LoginUser) SecurityUtils.getSubject().getPrincipal();
-		queryWrapper.eq("sys_org_code",sysUser.getOrgCode());
+		queryWrapper.likeRight("sys_org_code",sysUser.getOrgCode());
 		queryWrapper.orderByDesc("create_time");
 		IPage<WmsDistributionTransfer> pageList = wmsDistributionTransferService.page(page, queryWrapper);
 		return Result.OK(pageList);

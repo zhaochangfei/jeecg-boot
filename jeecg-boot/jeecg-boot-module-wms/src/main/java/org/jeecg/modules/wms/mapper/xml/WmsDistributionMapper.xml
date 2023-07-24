@@ -15,7 +15,7 @@
              (wd.arrival_station like concat('%',#{inputValue},'%')))
          </if>
         <if test="sysCode!= null and sysCode != ''">
-            and wd.sys_org_code = #{sysCode}
+            and wd.sys_org_code like concat(#{sysCode},'%')
         </if>
         <if test="startTime!=null and startTime.trim() neq ''">
             AND date_format(wd.billdate,'%Y-%m-%d') &gt;= date_format(#{startTime},'%Y-%m-%d')
@@ -37,7 +37,7 @@
             and wc3.license_plate_number like concat('%',#{inputValue},'%')
         </if>
         <if test="sysCode!= null and sysCode != ''">
-            and wd.sys_org_code = #{sysCode}
+            and wd.sys_org_code like concat(#{sysCode},'%')
         </if>
         <if test="carIphone!= null and carIphone != ''">
             and wd.car_iphone like concat('%',#{carIphone},'%')
@@ -59,7 +59,7 @@
             and wc2.name like concat('%',#{inputValue},'%')
         </if>
         <if test="sysCode!= null and sysCode != ''">
-            and wd.sys_org_code = #{sysCode}
+            and wd.sys_org_code like concat(#{sysCode},'%')
         </if>
         <if test="consigneeIphone!= null and consigneeIphone != ''">
             and wd.consignee_iphone like concat('%',#{consigneeIphone},'%')

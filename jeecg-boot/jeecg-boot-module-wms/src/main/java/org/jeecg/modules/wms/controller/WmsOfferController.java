@@ -72,7 +72,7 @@ public class WmsOfferController extends JeecgController<WmsOffer, IWmsOfferServi
 		QueryWrapper<WmsOffer> queryWrapper = QueryGenerator.initQueryWrapper(wmsOffer, null);
 		Page<WmsOffer> page = new Page<WmsOffer>(pageNo, pageSize);
 		LoginUser sysUser = (LoginUser) SecurityUtils.getSubject().getPrincipal();
-		queryWrapper.eq("sys_org_code",sysUser.getOrgCode());
+		queryWrapper.likeRight("sys_org_code",sysUser.getOrgCode());
 		queryWrapper.orderByDesc("create_time");
 		IPage<WmsOffer> pageList = wmsOfferService.page(page, queryWrapper);
 		return Result.OK(pageList);

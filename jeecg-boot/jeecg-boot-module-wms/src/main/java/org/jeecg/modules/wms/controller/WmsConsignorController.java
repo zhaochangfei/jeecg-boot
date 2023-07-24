@@ -71,7 +71,7 @@ public class WmsConsignorController extends JeecgController<WmsConsignor, IWmsCo
 								   HttpServletRequest req) {
 		QueryWrapper<WmsConsignor> queryWrapper = QueryGenerator.initQueryWrapper(wmsConsignor, req.getParameterMap());
 		LoginUser sysUser = (LoginUser) SecurityUtils.getSubject().getPrincipal();
-		queryWrapper.eq("sys_org_code",sysUser.getOrgCode());
+		queryWrapper.likeRight("sys_org_code",sysUser.getOrgCode());
 		Page<WmsConsignor> page = new Page<WmsConsignor>(pageNo, pageSize);
 		IPage<WmsConsignor> pageList = wmsConsignorService.page(page, queryWrapper);
 		return Result.OK(pageList);

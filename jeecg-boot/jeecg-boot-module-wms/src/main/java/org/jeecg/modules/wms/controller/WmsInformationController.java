@@ -72,7 +72,7 @@ public class WmsInformationController extends JeecgController<WmsInformation, IW
 		QueryWrapper<WmsInformation> queryWrapper = QueryGenerator.initQueryWrapper(wmsInformation,null);
 		Page<WmsInformation> page = new Page<WmsInformation>(pageNo, pageSize);
 		LoginUser sysUser = (LoginUser) SecurityUtils.getSubject().getPrincipal();
-		queryWrapper.eq("sys_org_code",sysUser.getOrgCode());
+		queryWrapper.likeRight("sys_org_code",sysUser.getOrgCode());
 		queryWrapper.orderByDesc("create_time");
 		IPage<WmsInformation> pageList = wmsInformationService.page(page, queryWrapper);
 		return Result.OK(pageList);
