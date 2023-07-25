@@ -66,7 +66,7 @@ public class WmsDistribution implements Serializable {
     @ApiModelProperty(value = "单据日期")
     private java.util.Date billdate;
     /**配送单状态*/
-    @Excel(name = "配送单状态", width = 15,dicCode = "di_sstatus")
+    @Excel(name = "状态", width = 15,dicCode = "di_sstatus")
     @ApiModelProperty(value = "配送单状态")
     @Dict(dicCode = "di_sstatus")
     private java.lang.String sstatus;
@@ -113,15 +113,15 @@ public class WmsDistribution implements Serializable {
     @ApiModelProperty(value = "提付")
     private java.math.BigDecimal withdrawal;
 	/**总运费（费用合计）*/
-	@Excel(name = "总运费", width = 15)
+	@Excel(name = "总运费(元)", width = 15)
     @ApiModelProperty(value = "总运费（费用合计）")
     private java.lang.String sumMoney;
 	/**经办人*/
-	@Excel(name = "经办人", width = 15)
+//	@Excel(name = "经办人", width = 15)
     @ApiModelProperty(value = "经办人")
     private java.lang.String operator;
-	/**车辆Id*/
-	@Excel(name = "车辆Id", width = 15,dicCode = "id",dicText = "license_plate_number",dictTable = "wms_car")
+	/**车辆*/
+	@Excel(name = "车辆", width = 15,dicCode = "id",dicText = "license_plate_number",dictTable = "wms_car")
     @ApiModelProperty(value = "车辆Id")
     @Dict(dicCode = "id",dicText = "license_plate_number",dictTable = "wms_car")
     private java.lang.String carId;
@@ -192,12 +192,12 @@ public class WmsDistribution implements Serializable {
     @ApiModelProperty(value = "应收合计")
     private java.math.BigDecimal receivable;
 	/**运输类型*/
-	@Excel(name = "运输类型", width = 15,dicCode = "di_type")
+//	@Excel(name = "运输类型", width = 15,dicCode = "di_type")
     @ApiModelProperty(value = "运输类型")
     @Dict(dicCode = "di_type")
     private java.lang.String type;
 	/**送货方式*/
-	@Excel(name = "送货方式", width = 15,dicCode = "shippingMethod")
+//	@Excel(name = "送货方式", width = 15,dicCode = "shippingMethod")
     @ApiModelProperty(value = "送货方式")
     @Dict(dicCode = "shippingMethod")
     private java.lang.String shippingMethod;

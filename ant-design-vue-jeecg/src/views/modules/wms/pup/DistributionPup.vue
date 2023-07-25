@@ -14,7 +14,7 @@
         <a-col :span="24">
           <a-card :bordered="false">
             <div class="table-operator">
-              <a-button type="primary" icon="download" @click="handleExportXls('配送单')">导出</a-button>
+              <a-button type="primary" icon="download" @click="handleExportXls('配送单')">导出</a-button> 
             </div>
             <!-- table区域-begin -->
             <div>
@@ -28,6 +28,7 @@
                 :dataSource="dataSource"
                 :pagination="ipagination"
                 :loading="loading"
+                :rowSelection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }"
                 class="j-table-force-nowrap"
                 @change="handleTableChange"
               >
@@ -140,7 +141,7 @@ export default {
       },
       url: {
         list: '/wms/wmsDistribution/deriveDistributionList',
-        importExcelUrl: 'wms/wmsDistribution/importExcel',
+        exportXlsUrl: '/wms/wmsDistribution/exportXls',
       },
       dictOptions: {},
       superFieldList: [],
